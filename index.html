@@ -117,21 +117,6 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
   50%{opacity:.55;transform:scale(.84)}
 }
 
-/* Таймери: інвертор / мережа */
-.charge-timers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.ctimer{
-  display:flex;flex-direction:column;gap:2px;min-width:0;
-  padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);opacity:.6;
-  transition:opacity .3s,background .3s,border-color .3s;
-}
-.ctimer .ct-label{font-size:10px;letter-spacing:.06em;font-weight:750;color:var(--dim);text-transform:uppercase}
-.ctimer b{font-size:17px;font-weight:720;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.ctimer small{font-size:10.5px;color:var(--dim);font-variant-numeric:tabular-nums}
-.ctimer.on{opacity:1}
-#invTimer.on{border-color:rgba(255,173,85,.35);background:rgba(255,173,85,.08)}
-#gridTimer.on{border-color:rgba(50,213,131,.35);background:rgba(50,213,131,.08)}
-
 /* Три головні картки */
 .hero{padding:12px}
 .metrics-top{
@@ -306,7 +291,6 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
   .collapsible-body{padding:0 12px 13px}
   .cg{gap:7px}
   .cell b{font-size:11px}
-  .ctimer b{font-size:15px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -336,18 +320,6 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
   <span class="charge-copy">
     <strong id="chargeIndicatorText">Стан заряджання невідомий</strong>
     <small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small>
-    <span class="charge-timers">
-      <span class="ctimer" id="invTimer">
-        <span class="ct-label">На інверторі</span>
-        <b id="invNow">—</b>
-        <small id="invTotal">за сесію 00:00:00</small>
-      </span>
-      <span class="ctimer" id="gridTimer">
-        <span class="ct-label">Від мережі</span>
-        <b id="gridNow">—</b>
-        <small id="gridTotal">за сесію 00:00:00</small>
-      </span>
-    </span>
   </span>
 </div>
 
@@ -554,7 +526,7 @@ let notifyBuffer=[],bleStage='не розпочато підключення',la
 const FULL_CAPACITY_AH=103.9;
 const DESIGN_CAPACITY_AH=100.0;
 
-/* ===== Історія, таймери, прогноз ===== */
+/* ===== Історія, прогноз ===== */
 const HIST_KEY='paceex_history_v1';
 const HIST_MAX_MS=7*24*3600*1000;      // зберігаємо 7 днів
 const HIST_MAX_POINTS=30000;
@@ -567,7 +539,6 @@ const ST_COLOR={charging:'#32d583',discharging:'#53c8f5',idle:'#8e8e93'};
 
 let hist=[],histSaved=0;
 let recent=[];
-let lastSource='none',srcSince=0,invMs=0,gridMs=0,lastTick=0;
 let fc=null;
 
 const stateOf=c=>c>0.5?'charging':c<-0.5?'discharging':'idle';
@@ -678,18 +649,6 @@ function setChargeIndicator(state,current=null,power=null){
   }
 }
 
-/* Таймери «на інверторі» / «від мережі» */
-function renderTimers(){
-  const now=Date.now();
-  const onInv=lastSource==='inv',onGrid=lastSource==='grid';
-  $('invTimer').classList.toggle('on',onInv);
-  $('gridTimer').classList.toggle('on',onGrid);
-  $('invNow').textContent=onInv?hms(now-srcSince):'—';
-  $('gridNow').textContent=onGrid?hms(now-srcSince):'—';
-  $('invTotal').textContent='за сесію '+hms(invMs);
-  $('gridTotal').textContent='за сесію '+hms(gridMs);
-}
-
 function renderCountdown(){
   if(!fc)return;
   const left=fc.endTs-Date.now();
@@ -700,25 +659,16 @@ function renderCountdown(){
 }
 
 function tick(){
-  const now=Date.now();
-  const dt=lastTick?Math.min(now-lastTick,120000):0;
-  lastTick=now;
-  if(server&&server.connected&&lastSource!=='none'){
-    if(lastSource==='inv')invMs+=dt;else gridMs+=dt;
-  }
-  renderTimers();
   renderCountdown();
 }
 
 function onLinkLost(){
-  lastSource='none';
   fc=null;
   recent=[];
   $('timeEstimate').textContent='—';
   $('estimateLabel').textContent='Орієнтовний час';
   $('estimateSummary').textContent='Орієнтовний час заряджання та розряджання';
   pill($('estimateMode'),'Очікування','');
-  renderTimers();
 }
 
 function crcModbus(bytes){
@@ -1177,17 +1127,12 @@ async function readData(){
       current,power
     );
 
-    // Джерело живлення: розряд = інвертор, інакше = мережа
-    const src=current<-.5?'inv':'grid';
-    if(src!==lastSource){lastSource=src;srcSince=Date.now();}
-
     // Короткий буфер струму для усереднення прогнозу
     const nowTs=Date.now();
     recent.push({t:nowTs,st:stateOf(current),cur:current});
     while(recent.length&&nowTs-recent[0].t>180000)recent.shift();
 
     pushHist(soc,current,voltage);
-    renderTimers();
 
     const remainingAh=FULL_CAPACITY_AH*Math.max(0,Math.min(100,soc))/100;
     $('remainingAh').innerHTML=
@@ -1374,7 +1319,6 @@ $('kv').innerHTML=
 /* Старт */
 loadHist();
 renderChart();
-renderTimers();
 setInterval(tick,1000);
 
 })();

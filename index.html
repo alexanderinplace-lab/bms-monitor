@@ -6,363 +6,277 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#06080d">
 <title>Батарея · PACEEX</title>
+
 <style>
-:root {
-  color-scheme: dark;
-  --bg: #06080d;
-  --ink: #f5f7fa;
-  --dim: rgba(235,240,255,.58);
-  --g: #ff375f;
-  --c: #a8ff35;
-  --o: #00d7ff;
-  --r: #ff453a;
-  box-sizing: border-box;
-  background: var(--bg);
+:root{
+  color-scheme:dark;
+  --bg:#06080d;
+  --ink:#f5f7fa;
+  --dim:rgba(235,240,255,.58);
+  --green:#32d583;
+  --blue:#53c8f5;
+  --orange:#ffad55;
+  --red:#ff453a;
+  box-sizing:border-box;
+  background:var(--bg);
 }
-*,*::before,*::after { box-sizing: inherit; }
-html { scroll-padding-top: env(safe-area-inset-top,0px); }
-body {
-  margin: 0;
-  min-height: 100vh;
-  color: var(--ink);
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100vh;color:var(--ink);
   background:
-    radial-gradient(60% 40% at 15% 5%,rgba(48,209,88,.32),transparent 70%),
-    radial-gradient(55% 40% at 95% 30%,rgba(100,210,255,.28),transparent 70%),
-    radial-gradient(60% 40% at 30% 85%,rgba(255,159,10,.13),transparent 70%),
+    radial-gradient(65% 40% at 10% 0%,rgba(50,213,131,.10),transparent 72%),
+    radial-gradient(55% 40% at 100% 20%,rgba(83,200,245,.08),transparent 72%),
     var(--bg);
-  font-family: -apple-system,"SF Pro Display","SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  padding-top: env(safe-area-inset-top,0px);
-  padding-bottom: env(safe-area-inset-bottom,0px);
+  font-family:-apple-system,"SF Pro Display","SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
 }
-.wrap {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 18px 16px 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.wrap{
+  max-width:480px;margin:0 auto;padding:18px 16px 40px;
+  display:flex;flex-direction:column;gap:14px;
 }
-.glass {
-  background:
-    radial-gradient(120% 70% at 15% -15%,rgba(255,255,255,.22),transparent 55%),
-    linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.035) 50%,rgba(255,255,255,.075));
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 28px;
-  box-shadow:
-    inset 0 1.5px 1px rgba(255,255,255,.38),
-    inset 0 -1px 1px rgba(255,255,255,.1),
-    0 20px 42px rgba(0,0,0,.34);
+.glass{
+  background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+  -webkit-backdrop-filter:blur(12px) saturate(130%);
+  backdrop-filter:blur(12px) saturate(130%);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:22px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 28px rgba(0,0,0,.2);
 }
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 4px 6px;
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px 6px}
+h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
+.sub{color:var(--dim);font-size:13px;margin-top:3px}
+.pill{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 11px;
+  border-radius:99px;font-size:12px;font-weight:650;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);white-space:nowrap;
 }
-h1 { font-size: 34px; font-weight: 700; letter-spacing: -.03em; margin: 0; }
-.sub { color: var(--dim); font-size: 13px; margin-top: 3px; }
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 11px;
-  border-radius: 99px;
-  font-size: 12px;
-  font-weight: 650;
-  background: linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
-  border: 1px solid rgba(255,255,255,.19);
-  white-space: nowrap;
-}
-.pill i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--dim);
-  flex: 0 0 auto;
-}
-.pill.ok i { background: var(--g); box-shadow: 0 0 8px var(--g); }
-.pill.warn i { background: var(--o); box-shadow: 0 0 8px var(--o); }
-.pill.err i { background: var(--r); box-shadow: 0 0 8px var(--r); }
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--dim);flex:0 0 auto}
+.pill.ok i{background:var(--green);box-shadow:0 0 8px var(--green)}
+.pill.warn i{background:var(--orange);box-shadow:0 0 8px var(--orange)}
+.pill.err i{background:var(--red);box-shadow:0 0 8px var(--red)}
 
-.actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn {
-  appearance: none;
-  -webkit-appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 17px;
-  border-radius: 99px;
-  font: inherit;
-  font-size: 14px;
-  font-weight: 650;
-  color: var(--ink);
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  background: linear-gradient(180deg,rgba(48,209,88,.28),rgba(48,209,88,.11));
-  border: 1px solid rgba(255,255,255,.16);
-  box-shadow: 0 5px 14px rgba(0,0,0,.18);
-  min-height: 44px;
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;
+  justify-content:center;padding:12px 17px;border-radius:99px;font:inherit;
+  font-size:14px;font-weight:650;color:var(--ink);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  background:linear-gradient(180deg,rgba(50,213,131,.30),rgba(50,213,131,.10));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 5px 14px rgba(0,0,0,.18);min-height:44px;
 }
-.btn.secondary {
-  background: linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.05));
-}
-.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn.secondary{background:rgba(255,255,255,.06)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
 
-.status {
-  padding: 10px 13px;
-  border-radius: 15px;
-  background: rgba(255,255,255,.055);
-  border: 1px solid rgba(255,255,255,.12);
-  font-size: 12px;
-  color: var(--dim);
-  overflow-wrap: anywhere;
+.status{
+  padding:10px 13px;border-radius:15px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.09);font-size:12px;color:var(--dim);
+  overflow-wrap:anywhere;
 }
-.status.ok { color: #a6f5b6; }
-.status.err { color: #ffaaa5; }
+.status.ok{color:#a6f5b6}
+.status.err{color:#ffaaa5}
 
-.charge-indicator {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: 20px;
-  background: rgba(255,255,255,.055);
-  border: 1px solid rgba(255,255,255,.14);
-  transition: background .25s,border-color .25s,box-shadow .25s;
+/* Індикатор стану батареї */
+.charge-indicator{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  border-radius:18px;background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.09);
+  transition:background .3s,border-color .3s,box-shadow .3s;
 }
-.charge-indicator .light {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: #8e8e93;
-  box-shadow: 0 0 0 4px rgba(142,142,147,.12);
-  flex: 0 0 auto;
+.charge-indicator .light{
+  width:12px;height:12px;border-radius:50%;background:#8e8e93;
+  box-shadow:0 0 0 4px rgba(142,142,147,.12);flex:0 0 auto;
 }
-.charge-indicator .charge-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
+.charge-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.charge-copy strong{font-size:13px;font-weight:750}
+.charge-copy small{font-size:12px;color:var(--dim)}
+.charge-indicator.charging{
+  background:rgba(50,213,131,.075);
+  border-color:rgba(50,213,131,.28);
+  box-shadow:0 0 18px rgba(50,213,131,.06);
 }
-.charge-indicator strong { font-size: 14px; font-weight: 750; }
-.charge-indicator small { font-size: 12px; color: var(--dim); }
-.charge-indicator.charging {
-  background: linear-gradient(110deg,rgba(48,209,88,.19),rgba(48,209,88,.055));
-  border-color: rgba(48,209,88,.55);
-  box-shadow: 0 0 22px rgba(48,209,88,.13),inset 0 0 18px rgba(48,209,88,.04);
+.charge-indicator.charging .light{
+  background:var(--green);
+  box-shadow:0 0 0 4px rgba(50,213,131,.12),0 0 12px rgba(50,213,131,.8);
+  animation:chargePulse 1.8s ease-in-out infinite;
 }
-.charge-indicator.charging .light {
-  background: #30d158;
-  box-shadow: 0 0 0 4px rgba(48,209,88,.14),0 0 14px rgba(48,209,88,.95);
-  animation: chargePulse 1.6s ease-in-out infinite;
+.charge-indicator.discharging{
+  background:rgba(255,173,85,.06);
+  border-color:rgba(255,173,85,.25);
 }
-.charge-indicator.discharging {
-  background: linear-gradient(110deg,rgba(255,159,10,.17),rgba(255,159,10,.045));
-  border-color: rgba(255,159,10,.45);
+.charge-indicator.discharging .light{
+  background:var(--orange);
+  box-shadow:0 0 0 4px rgba(255,173,85,.10),0 0 10px rgba(255,173,85,.65);
 }
-.charge-indicator.discharging .light {
-  background: #ff9f0a;
-  box-shadow: 0 0 0 4px rgba(255,159,10,.13),0 0 12px rgba(255,159,10,.75);
-}
-@keyframes chargePulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50% { opacity: .55; transform: scale(.82); }
+@keyframes chargePulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.55;transform:scale(.84)}
 }
 
-.hero { padding: 12px; }
-.rings { position: relative; width: min(100%,300px); aspect-ratio: 1; margin: 0 auto; }
-.rings svg { width: 100%; height: 100%; overflow: visible; }
-.trk { fill: none; stroke-width: 22; opacity: .18; filter: drop-shadow(0 0 5px currentColor); }
-.bar {
-  fill: none;
-  stroke-width: 22;
-  stroke-linecap: round;
-  transform: rotate(-90deg);
-  transform-origin: 130px 130px;
-  transition: stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1);
-  filter: drop-shadow(0 0 2px currentColor) drop-shadow(0 0 6px currentColor) drop-shadow(0 0 13px currentColor);
+/* Три головні картки */
+.hero{padding:12px}
+.metrics-top{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;
 }
-.legend {
-  display: grid;
-  grid-template-columns: repeat(3,minmax(0,1fr));
-  gap: 7px;
-  margin-top: 14px;
+.metric-card{
+  position:relative;min-width:0;min-height:124px;
+  padding:13px 10px 15px;border-radius:17px;overflow:hidden;
+  background:linear-gradient(155deg,rgba(255,255,255,.065),rgba(255,255,255,.018));
+  border:1px solid rgba(255,255,255,.07);
+  transition:background .3s,border-color .3s,box-shadow .3s;
 }
-.legend div { text-align: center; min-width: 0; }
-.legend em { font-style: normal; font-size: 11px; font-weight: 750; }
-.legend b {
-  display: block;
-  margin-top: 9px;
-  font-size: clamp(17px,5vw,24px);
-  font-weight: 740;
-  letter-spacing: -.045em;
-  overflow-wrap: anywhere;
+.metric-topline{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.metric-card em{
+  display:block;font-style:normal;font-size:10px;letter-spacing:.10em;
+  font-weight:750;color:var(--dim);
 }
-.legend small { font-size: .58em; color: var(--dim); margin-left: 2px; }
+.metric-icon{
+  width:23px;height:23px;flex:0 0 auto;
+  color:var(--dim);transition:color .3s,filter .3s,transform .3s;
+}
+.metric-card b{
+  display:block;margin-top:17px;font-size:clamp(17px,5vw,24px);
+  line-height:1.1;letter-spacing:-.045em;font-weight:740;
+  white-space:nowrap;overflow:visible;
+}
+.metric-card b small{font-size:.58em;color:var(--dim);font-weight:600;margin-left:2px}
+.metric-accent{
+  position:absolute;left:10px;right:10px;bottom:0;height:2px;
+  border-radius:3px 3px 0 0;opacity:.8;
+}
+.charge-card .metric-accent{background:var(--green)}
+.current-card .metric-accent{background:var(--blue)}
+.voltage-card .metric-accent{background:var(--blue)}
 
-h2 { font-size: 14px; font-weight: 650; color: var(--dim); margin: 6px 8px -4px; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
-.tile { padding: 15px; min-width: 0; }
-.tile span { font-size: 12px; color: var(--dim); }
-.tile b {
-  display: block;
-  font-size: 25px;
-  font-weight: 720;
-  letter-spacing: -.03em;
-  margin-top: 6px;
-  overflow-wrap: anywhere;
+/* Динамічні стани карток */
+.charge-card.charging{
+  background:linear-gradient(155deg,rgba(50,213,131,.13),rgba(50,213,131,.025));
+  border-color:rgba(50,213,131,.22);
 }
-.tile b small { font-size: 13px; color: var(--dim); font-weight: 600; margin-left: 3px; }
-.metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.metrics .tile { padding: 14px; }
-.metrics .tile b { font-size: 20px; }
+.charge-card.charging .metric-icon{
+  color:var(--green);
+  filter:drop-shadow(0 0 5px rgba(50,213,131,.65));
+  animation:batteryGlow 2s ease-in-out infinite;
+}
+.charge-card.discharging .metric-icon{color:var(--orange)}
+.charge-card.idle .metric-icon{color:var(--dim)}
+.current-card.charging .metric-icon{color:var(--green)}
+.current-card.discharging .metric-icon{color:var(--orange)}
+.current-card.idle .metric-icon{color:var(--blue)}
+@keyframes batteryGlow{
+  0%,100%{filter:drop-shadow(0 0 2px rgba(50,213,131,.25))}
+  50%{filter:drop-shadow(0 0 8px rgba(50,213,131,.9))}
+}
 
-.cells { padding: 16px; }
-.chead { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; margin-bottom: 14px; }
-.chead span { color: var(--dim); }
-.cg { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
-.cell { text-align: center; min-width: 0; }
-.cell .well {
-  display: block;
-  height: 46px;
-  border-radius: 12px;
-  background: rgba(255,255,255,.08);
-  position: relative;
-  overflow: hidden;
+/* Інші показники */
+h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.tile{padding:15px;min-width:0}
+.tile span{font-size:12px;color:var(--dim)}
+.tile b{
+  display:block;font-size:25px;font-weight:720;letter-spacing:-.03em;
+  margin-top:6px;overflow-wrap:anywhere;
 }
-.cell .well:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: var(--h,0%);
-  background: linear-gradient(180deg,rgba(48,209,88,.9),rgba(48,209,88,.4));
-  transition: height .7s;
-}
-.cell.mx .well:after { background: linear-gradient(180deg,#64d2ff,rgba(100,210,255,.4)); }
-.cell.mn .well:after { background: linear-gradient(180deg,#ff9f0a,rgba(255,159,10,.4)); }
-.cell .well i {
-  position: absolute;
-  top: 5px;
-  left: 0;
-  right: 0;
-  font-style: normal;
-  font-size: 11px;
-  color: var(--dim);
-  z-index: 1;
-}
-.cell b { display: block; font-size: 12px; font-weight: 650; margin-top: 6px; overflow-wrap: anywhere; }
+.tile b small{font-size:13px;color:var(--dim);font-weight:600;margin-left:3px}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metrics .tile{padding:14px}
+.metrics .tile b{font-size:20px}
 
-.state { padding: 15px; display: flex; flex-wrap: wrap; gap: 8px; }
-.temps { display: flex; gap: 9px; width: 100%; margin-bottom: 4px; }
-.temps div {
-  flex: 1;
-  min-width: 0;
-  background: rgba(255,255,255,.06);
-  border-radius: 15px;
-  padding: 11px 12px;
+/* Прогноз */
+.estimate{padding:16px}
+.estimate-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.estimate-head strong{display:block;font-size:28px;letter-spacing:-.03em;margin-top:5px}
+.estimate-head span,.estimate small{color:var(--dim);font-size:12px}
+.estimate .estimate-head small{display:block;margin-top:6px;line-height:1.45}
+.forecast-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.forecast-controls label{display:grid;gap:7px;min-width:0;color:var(--dim);font-size:11px}
+.forecast-controls select{
+  width:100%;min-width:0;background:rgba(255,255,255,.07);color:var(--ink);
+  border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:11px 9px;
+  font:inherit;font-size:12px;
 }
-.temps span { font-size: 12px; color: var(--dim); }
-.temps b { display: block; font-size: 21px; font-weight: 700; margin-top: 3px; }
+.forecast-controls option{background:#171a21;color:#fff}
+.note{text-align:center;color:var(--dim);font-size:11px;line-height:1.5;margin:10px 0 0}
 
-.note { text-align: center; color: var(--dim); font-size: 11px; line-height: 1.5; margin: 3px 0 0; }
-.tech { padding: 5px 17px; }
-.tech summary { padding: 13px 0; font-size: 14px; font-weight: 650; cursor: pointer; list-style: none; }
-.tech summary::-webkit-details-marker { display: none; }
-.kr {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 9px 0;
-  border-top: 1px solid rgba(255,255,255,.1);
-  font-size: 12px;
+/* Комірки */
+.cells{padding:16px}
+.chead{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-bottom:14px}
+.chead span{color:var(--dim)}
+.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cell{text-align:center;min-width:0}
+.cell .well{
+  display:block;height:46px;border-radius:12px;background:rgba(255,255,255,.06);
+  position:relative;overflow:hidden;
 }
-.kr span { color: var(--dim); }
-.kr b { text-align: right; word-break: break-all; font-weight: 600; }
-.hidden { display: none !important; }
+.cell .well:after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:var(--h,0%);
+  background:linear-gradient(180deg,rgba(50,213,131,.9),rgba(50,213,131,.4));
+  transition:height .7s;
+}
+.cell.mx .well:after{background:linear-gradient(180deg,#64d2ff,rgba(100,210,255,.4))}
+.cell.mn .well:after{background:linear-gradient(180deg,#ffad55,rgba(255,173,85,.4))}
+.cell .well i{
+  position:absolute;top:5px;left:0;right:0;font-style:normal;
+  font-size:11px;color:var(--dim);z-index:1;
+}
+.cell b{display:block;font-size:12px;font-weight:650;margin-top:6px;overflow-wrap:anywhere}
 
-.estimate { padding: 16px; }
-.estimate-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.estimate-head strong { display: block; font-size: 28px; letter-spacing: -.03em; margin-top: 5px; }
-.estimate-head span,.estimate small { color: var(--dim); font-size: 12px; }
-.estimate-head small { display: block; margin-top: 6px; line-height: 1.45; }
+/* Згортання секцій */
+.collapsible{padding:0;overflow:hidden}
+.collapse-summary{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px;cursor:pointer;list-style:none;
+}
+.collapse-summary::-webkit-details-marker{display:none}
+.collapse-title{display:block;font-size:15px;font-weight:750}
+.collapse-subtitle{display:block;margin-top:5px;color:var(--dim);font-size:11px;line-height:1.4}
+.collapse-right{display:flex;align-items:center;gap:10px;min-width:0;text-align:right}
+.collapse-right .collapse-subtitle{margin:0}
+.collapse-arrow{display:inline-block;color:var(--dim);font-size:19px;transition:transform .2s;flex:0 0 auto}
+.collapsible[open] .collapse-arrow{transform:rotate(180deg)}
+.collapsible-body{padding:0 15px 16px}
 
-.collapsible { padding: 0; overflow: hidden; }
-.collapse-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 16px;
-  cursor: pointer;
-  list-style: none;
-}
-.collapse-summary::-webkit-details-marker { display: none; }
-.collapse-title { display: block; font-size: 15px; font-weight: 750; }
-.collapse-subtitle { display: block; margin-top: 5px; color: var(--dim); font-size: 11px; line-height: 1.4; }
-.collapse-right { display: flex; align-items: center; gap: 10px; min-width: 0; text-align: right; }
-.collapse-right .collapse-subtitle { margin: 0; }
-.collapse-arrow {
-  display: inline-block;
-  color: var(--dim);
-  font-size: 19px;
-  transition: transform .2s ease;
-  flex: 0 0 auto;
-}
-.collapsible[open] .collapse-arrow { transform: rotate(180deg); }
-.collapsible-body { padding: 0 15px 16px; }
-.collapsible-body .state { padding: 0; border: 0; background: transparent; }
+/* Температури */
+.state{padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.temps{display:flex;gap:9px;width:100%;margin-bottom:4px}
+.temps div{flex:1;min-width:0;background:rgba(255,255,255,.04);border-radius:14px;padding:11px 12px}
+.temps span{font-size:12px;color:var(--dim)}
+.temps b{display:block;font-size:21px;font-weight:700;margin-top:3px}
 
-.forecast-controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 14px;
-}
-.forecast-controls label {
-  display: grid;
-  gap: 7px;
-  min-width: 0;
-  color: var(--dim);
-  font-size: 11px;
-}
-.forecast-controls select {
-  width: 100%;
-  min-width: 0;
-  background: rgba(255,255,255,.07);
-  color: var(--ink);
-  border: 1px solid rgba(255,255,255,.16);
-  border-radius: 12px;
-  padding: 11px 9px;
-  font: inherit;
-  font-size: 12px;
-}
-.forecast-controls option { background: #171a21; color: #fff; }
+/* Технічна інформація */
+.tech{padding:5px 17px}
+.tech summary{padding:13px 0;font-size:14px;font-weight:650;cursor:pointer;list-style:none}
+.tech summary::-webkit-details-marker{display:none}
+.kr{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(255,255,255,.08);font-size:12px}
+.kr span{color:var(--dim)}
+.kr b{text-align:right;word-break:break-all;font-weight:600}
+.hidden{display:none!important}
 
-@media(max-width:360px) {
-  .wrap { padding-left: 12px; padding-right: 12px; }
-  h1 { font-size: 29px; }
-  .cg { gap: 7px; }
-  .cell b { font-size: 11px; }
-  .legend b { font-size: 17px; }
+@media(max-width:350px){
+  .wrap{padding-left:12px;padding-right:12px}
+  h1{font-size:29px}
+  .metrics-top{gap:6px}
+  .metric-card{padding:12px 7px;min-height:112px}
+  .metric-card em{font-size:9px}
+  .metric-card b{font-size:16px}
+  .metric-icon{width:20px;height:20px}
+  .metric-accent{left:7px;right:7px}
+  .forecast-controls{grid-template-columns:1fr}
+  .collapse-summary{padding:14px}
+  .collapsible-body{padding:0 12px 13px}
+  .cg{gap:7px}
+  .cell b{font-size:11px}
 }
-@media(max-width:350px) {
-  .forecast-controls { grid-template-columns: 1fr; }
-  .collapse-summary { padding: 14px; }
-  .collapsible-body { padding: 0 12px 13px; }
-}
-@media(prefers-reduced-motion:reduce) {
-  .bar,.cell .well:after { transition: none; }
-  .charge-indicator.charging .light { animation: none; }
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
 </head>
+
 <body>
 <div class="wrap">
 
@@ -393,20 +307,55 @@ h2 { font-size: 14px; font-weight: 650; color: var(--dim); margin: 6px 8px -4px;
 </div>
 
 <section class="glass hero">
-  <div class="rings">
-    <svg viewBox="0 0 260 260" aria-label="Заряд, струм і напруга">
-      <circle class="trk" cx="130" cy="130" r="112" stroke="#ff375f"/>
-      <circle class="trk" cx="130" cy="130" r="86" stroke="#a8ff35"/>
-      <circle class="trk" cx="130" cy="130" r="60" stroke="#00d7ff"/>
-      <circle class="bar" id="r1" cx="130" cy="130" r="112" stroke="#ff375f" style="color:#ff375f"/>
-      <circle class="bar" id="r2" cx="130" cy="130" r="86" stroke="#a8ff35" style="color:#a8ff35"/>
-      <circle class="bar" id="r3" cx="130" cy="130" r="60" stroke="#00d7ff" style="color:#00d7ff"/>
-    </svg>
+  <div class="metrics-top">
+
+    <div class="metric-card charge-card idle" id="chargeCard">
+      <div class="metric-topline">
+        <em>ЗАРЯД</em>
+        <svg class="metric-icon" id="batteryIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="7" width="17" height="11" rx="2.5" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M21 10v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M6.5 10.5h4.5v4H6.5z" fill="currentColor" opacity=".85"/>
+        </svg>
+      </div>
+      <b id="l1">—</b>
+      <span class="metric-accent"></span>
+    </div>
+
+    <div class="metric-card current-card idle" id="currentCard">
+      <div class="metric-topline">
+        <em>СТРУМ</em>
+        <svg class="metric-icon" id="currentIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M13.2 2.8 5.8 13h5l-.4 8.2L18.2 11h-5.1l.1-8.2Z"
+            stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <b id="l2">—</b>
+      <span class="metric-accent"></span>
+    </div>
+
+    <div class="metric-card voltage-card">
+      <div class="metric-topline">
+        <em>НАПРУГА</em>
+        <svg class="metric-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 12h4l3-7 4 14 3-7h4"
+            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <b id="l3">—</b>
+      <span class="metric-accent"></span>
+    </div>
+
   </div>
-  <div class="legend">
-    <div><em style="color:#ff375f">ЗАРЯД</em><b id="l1">—</b></div>
-    <div><em style="color:#a8ff35">СТРУМ</em><b id="l2">—</b></div>
-    <div><em style="color:#00d7ff">НАПРУГА</em><b id="l3">—</b></div>
+
+  <!-- Збережені службові ID старого інтерфейсу -->
+  <div class="hidden" aria-hidden="true">
+    <svg viewBox="0 0 260 260">
+      <circle id="r1" cx="130" cy="130" r="112"/>
+      <circle id="r2" cx="130" cy="130" r="86"/>
+      <circle id="r3" cx="130" cy="130" r="60"/>
+    </svg>
+    <span id="soc">—</span>
   </div>
 </section>
 
@@ -432,16 +381,14 @@ h2 { font-size: 14px; font-weight: 650; color: var(--dim); margin: 6px 8px -4px;
   </div>
 
   <div class="forecast-controls">
-    <label for="forecastDirection">
-      Режим прогнозу
+    <label for="forecastDirection">Режим прогнозу
       <select id="forecastDirection">
         <option value="auto">Автоматично</option>
         <option value="charge">Заряджання</option>
         <option value="discharge">Розряджання</option>
       </select>
     </label>
-    <label for="forecastTarget">
-      Цільовий рівень
+    <label for="forecastTarget">Цільовий рівень
       <select id="forecastTarget">
         <option value="20" data-direction="discharge">20% · резерв</option>
         <option value="10" data-direction="discharge">10% · низький заряд</option>
@@ -452,11 +399,7 @@ h2 { font-size: 14px; font-weight: 650; color: var(--dim); margin: 6px 8px -4px;
       </select>
     </label>
   </div>
-
-  <p class="note" style="margin-top:12px">
-    Прогноз орієнтовний: струм змінюється під навантаженням, а заряджання сповільнюється біля 100%.
-    Для оцінки використовується повна ємність 103,9 А·год.
-  </p>
+  <p class="note">Прогноз орієнтовний: струм змінюється під навантаженням, а заряджання сповільнюється біля 100%. Для оцінки використовується повна ємність 103,9 А·год.</p>
 </section>
 
 <h2>Додатково</h2>
@@ -478,9 +421,7 @@ h2 { font-size: 14px; font-weight: 650; color: var(--dim); margin: 6px 8px -4px;
       <span class="collapse-arrow">⌄</span>
     </div>
   </summary>
-  <div class="collapsible-body">
-    <div class="cg" id="cg"></div>
-  </div>
+  <div class="collapsible-body"><div class="cg" id="cg"></div></div>
 </details>
 
 <details class="glass collapsible" id="temperaturePanel" open>
@@ -516,14 +457,12 @@ h2 { font-size: 14px; font-weight: 650; color: var(--dim); margin: 6px 8px -4px;
   <summary>Показати (лише перегляд)</summary>
   <div id="kv"></div>
   <div class="hidden">
-    <span id="serial">—</span>
-    <span id="sw">—</span>
-    <span id="hw">—</span>
-    <span id="devname">—</span>
+    <span id="serial">—</span><span id="sw">—</span>
+    <span id="hw">—</span><span id="devname">—</span>
   </div>
 </details>
-
 <p class="note" id="updated">Реальні дані ще не зчитані. Тестові значення не використовуються.</p>
+
 </div>
 
 <script>
@@ -535,26 +474,16 @@ const RX='0000fff1-0000-1000-8000-00805f9b34fb';
 const TX='0000fff2-0000-1000-8000-00805f9b34fb';
 
 const $=id=>document.getElementById(id);
-
-let device=null;
-let server=null;
-let rx=null;
-let tx=null;
-let notifyHandler=null;
-let busy=false;
-let expected=null;
-let resolveReply=null;
-let replyTimer=null;
-let refreshTimer=null;
-let notifyBuffer=[];
-let lastDisconnectInfo='';
-let bleStage='не розпочато підключення';
+let device=null,server=null,rx=null,tx=null,notifyHandler=null;
+let busy=false,expected=null,resolveReply=null,replyTimer=null,refreshTimer=null;
+let notifyBuffer=[],bleStage='не розпочато підключення',lastDisconnectInfo='';
 let latestForecast=null;
 
 const FULL_CAPACITY_AH=103.9;
+const DESIGN_CAPACITY_AH=100.0;
 
 const fmt=(v,n=2)=>
-  Number.isFinite(v) ? v.toFixed(n).replace('.',',') : '—';
+  Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
 
 function status(msg,type=''){
   $('status').textContent=msg;
@@ -577,18 +506,21 @@ function setChargeIndicator(state,current=null,power=null){
   const el=$('chargeIndicator');
   el.className='charge-indicator '+state;
 
+  $('chargeCard').classList.remove('charging','discharging','idle');
+  $('currentCard').classList.remove('charging','discharging','idle');
+  $('chargeCard').classList.add(state);
+  $('currentCard').classList.add(state);
+
   if(state==='charging'){
     $('chargeIndicatorText').textContent='ЗАРЯДЖАННЯ';
     $('chargeIndicatorDetail').textContent=
-      'У батарею надходить енергія · '+
-      fmt(Math.abs(power)/1000,2)+' кВт · '+
-      fmt(Math.abs(current),1)+' А';
+      'У батарею надходить енергія · '+fmt(Math.abs(power)/1000,2)+
+      ' кВт · '+fmt(Math.abs(current),1)+' А';
   }else if(state==='discharging'){
     $('chargeIndicatorText').textContent='ЙДЕ РОЗРЯД';
     $('chargeIndicatorDetail').textContent=
-      'Батарея віддає енергію · '+
-      fmt(Math.abs(power)/1000,2)+' кВт · '+
-      fmt(Math.abs(current),1)+' А';
+      'Батарея віддає енергію · '+fmt(Math.abs(power)/1000,2)+
+      ' кВт · '+fmt(Math.abs(current),1)+' А';
   }else if(state==='idle'){
     $('chargeIndicatorText').textContent='ЗАРЯД НЕ ВІДБУВАЄТЬСЯ';
     $('chargeIndicatorDetail').textContent='Струм близький до нуля';
@@ -619,56 +551,37 @@ function command(cmd,payload=[]){
 
 function parseFrame(input){
   const d=Array.from(input);
-  if(d[0]!==0x9a||d.length<11||d.length!==11+d[7]||d[d.length-1]!==0x9d){
+  if(d[0]!==0x9a||d.length<11||d.length!==11+d[7]||
+     d[d.length-1]!==0x9d){
     throw Error('Некоректна структура відповіді');
   }
-
   const got=(d[d.length-3]<<8)|d[d.length-2];
   const calc=crcModbus(d.slice(0,-3));
-
   if(got!==calc)throw Error('CRC не збігається');
-
-  if(expected&&d.slice(1,7).join(',')!==expected.join(',')){
-    return null;
-  }
+  if(expected&&d.slice(1,7).join(',')!==expected.join(','))return null;
   return d;
 }
 
 function onNotify(event){
   const v=event.target.value;
-  const chunk=Array.from(
-    new Uint8Array(v.buffer,v.byteOffset,v.byteLength)
-  );
-
-  // Деякі браузери можуть передавати один пакет кількома BLE-повідомленнями.
+  const chunk=Array.from(new Uint8Array(v.buffer,v.byteOffset,v.byteLength));
   notifyBuffer.push(...chunk);
-
-  if(notifyBuffer.length>2048){
-    notifyBuffer=notifyBuffer.slice(-512);
-  }
+  if(notifyBuffer.length>2048)notifyBuffer=notifyBuffer.slice(-512);
 
   while(notifyBuffer.length){
     const head=notifyBuffer.indexOf(0x9a);
-
-    if(head<0){
-      notifyBuffer=[];
-      return;
-    }
-
+    if(head<0){notifyBuffer=[];return;}
     if(head>0)notifyBuffer.splice(0,head);
     if(notifyBuffer.length<8)return;
 
     const frameLength=11+notifyBuffer[7];
-
     if(frameLength<11||frameLength>255){
       notifyBuffer.shift();
       continue;
     }
-
     if(notifyBuffer.length<frameLength)return;
 
     const candidate=notifyBuffer.splice(0,frameLength);
-
     if(!resolveReply)continue;
 
     try{
@@ -681,7 +594,7 @@ function onNotify(event){
         return;
       }
     }catch(e){
-      // Некоректний або сторонній пакет ігнорується.
+      // Ігноруємо некоректні або сторонні пакети.
     }
   }
 }
@@ -690,35 +603,22 @@ async function writePacket(bytes){
   if(!server||!server.connected){
     throw Error('GATT-з’єднання втрачено перед записом');
   }
-
-  const t=tx;
-  if(!t){
-    throw Error('TX=null перед записом. Перепідключи BMS.');
+  if(!tx){
+    throw Error('TX не визначена. Перепідключи BMS.');
   }
 
-  const props=t.properties||{};
-
-  try{
-    if(props.write&&typeof t.writeValueWithResponse==='function'){
-      return await t.writeValueWithResponse(bytes);
-    }
-    if(props.writeWithoutResponse&&typeof t.writeValueWithoutResponse==='function'){
-      return await t.writeValueWithoutResponse(bytes);
-    }
-    if(typeof t.writeValue==='function'){
-      return await t.writeValue(bytes);
-    }
-    if(typeof t.writeValueWithResponse==='function'){
-      return await t.writeValueWithResponse(bytes);
-    }
-    if(typeof t.writeValueWithoutResponse==='function'){
-      return await t.writeValueWithoutResponse(bytes);
-    }
-
-    throw Error('TX не має доступного методу запису.');
-  }catch(e){
-    throw Error('Запис у TX не вдався: '+(e?.message||String(e)));
+  const props=tx.properties||{};
+  if(props.write&&typeof tx.writeValueWithResponse==='function'){
+    return tx.writeValueWithResponse(bytes);
   }
+  if(props.writeWithoutResponse&&typeof tx.writeValueWithoutResponse==='function'){
+    return tx.writeValueWithoutResponse(bytes);
+  }
+  if(typeof tx.writeValue==='function')return tx.writeValue(bytes);
+  if(typeof tx.writeValueWithResponse==='function')return tx.writeValueWithResponse(bytes);
+  if(typeof tx.writeValueWithoutResponse==='function')return tx.writeValueWithoutResponse(bytes);
+
+  throw Error('TX не має доступного методу запису');
 }
 
 async function request(cmd,payload=[],timeout=4000){
@@ -742,7 +642,6 @@ async function request(cmd,payload=[],timeout=4000){
     }catch(e){
       clearTimeout(replyTimer);
       resolveReply=null;
-
       if(attempt===2){
         expected=null;
         throw e;
@@ -750,7 +649,6 @@ async function request(cmd,payload=[],timeout=4000){
       await new Promise(r=>setTimeout(r,300));
     }
   }
-
   throw Error('Немає відповіді BMS');
 }
 
@@ -762,11 +660,7 @@ function str(bytes){
   }
   return out.trim();
 }
-
-function u16(d,p){
-  return (d[p]<<8)|d[p+1];
-}
-
+function u16(d,p){return(d[p]<<8)|d[p+1];}
 function s16(d,p){
   const n=u16(d,p);
   return n&0x8000?n-0x10000:n;
@@ -781,32 +675,21 @@ async function readInfo(){
   const swLen=v[9]||0;
   $('sw').textContent=str(v.slice(10,10+swLen))||'—';
 
-  const hwPos=65;
-  const hwLen=v[hwPos-1]||0;
+  const hwPos=65,hwLen=v[hwPos-1]||0;
   $('hw').textContent=str(v.slice(hwPos,hwPos+hwLen))||'—';
   $('devname').textContent=device?.name||'PC-A2EE';
 }
 
-function ring(id,r,p){
-  const el=$(id);
-  const circ=2*Math.PI*r;
-  el.style.strokeDasharray=circ;
-  el.style.strokeDashoffset=circ*(1-Math.max(0,Math.min(1,p)));
-}
-
 function drawRings(soc,current,voltage){
-  ring('r1',112,soc/100);
-  ring('r2',86,Math.min(1,Math.abs(current)/100));
-  ring('r3',60,(voltage-20)/(29.2-20));
-
+  // Сумісність зі старими ID показників.
+  $('soc').textContent=Number.isFinite(soc)?soc+'%':'—';
   $('l1').innerHTML=Number.isFinite(soc)?soc+'<small>%</small>':'—';
-  $('l2').innerHTML=Number.isFinite(current)?fmt(current,1)+'<small> А</small>':'—';
-  $('l3').innerHTML=Number.isFinite(voltage)?fmt(voltage)+'<small> В</small>':'—';
+  $('l2').innerHTML=Number.isFinite(current)?fmt(current,2)+'<small> А</small>':'—';
+  $('l3').innerHTML=Number.isFinite(voltage)?fmt(voltage,2)+'<small> В</small>':'—';
 }
 
 function renderCells(cells){
   $('cg').innerHTML='';
-
   if(!cells.length){
     $('cg').textContent='Дані комірок відсутні';
     $('range').textContent='—';
@@ -814,30 +697,22 @@ function renderCells(cells){
     return;
   }
 
-  const mx=Math.max(...cells);
-  const mn=Math.min(...cells);
-
+  const mx=Math.max(...cells),mn=Math.min(...cells);
   $('range').textContent=
-    '№'+(cells.indexOf(mn)+1)+' '+Math.round(mn*1000)+
-    ' мВ – №'+(cells.indexOf(mx)+1)+' '+Math.round(mx*1000)+' мВ';
-
+    '№'+(cells.indexOf(mn)+1)+' '+Math.round(mn*1000)+' мВ – №'+
+    (cells.indexOf(mx)+1)+' '+Math.round(mx*1000)+' мВ';
   $('delta').textContent='різниця '+Math.round((mx-mn)*1000)+' мВ';
 
   cells.forEach((v,i)=>{
     const el=document.createElement('div');
     el.className='cell'+(v===mx?' mx':v===mn?' mn':'');
-
     const h=Math.max(8,Math.min(100,(v-3.0)/(3.5-3.0)*100));
-
-    el.innerHTML=
-      '<span class="well" style="--h:'+h+'%"><i>'+(i+1)+
-      '</i></span><b>'+fmt(v,3)+' В</b>';
-
+    el.innerHTML='<span class="well" style="--h:'+h+'%"><i>'+
+      (i+1)+'</i></span><b>'+fmt(v,3)+' В</b>';
     $('cg').appendChild(el);
   });
 }
 
-/* Прогноз часу до заданого рівня заряду */
 function syncForecastOptions(){
   const mode=$('forecastDirection').value;
   const target=$('forecastTarget');
@@ -846,7 +721,6 @@ function syncForecastOptions(){
   for(const option of target.options){
     option.disabled=mode!=='auto'&&option.dataset.direction!==mode;
   }
-
   if(currentOption.disabled){
     const fallback=Array.from(target.options).find(o=>!o.disabled);
     if(fallback)target.value=fallback.value;
@@ -855,33 +729,27 @@ function syncForecastOptions(){
 
 function formatDuration(hours){
   if(!Number.isFinite(hours)||hours<0)return '—';
-
   const total=Math.round(hours*60);
   const days=Math.floor(total/1440);
   const h=Math.floor((total%1440)/60);
   const m=total%60;
-
   if(days>0)return days+' д '+h+' год '+m+' хв';
   if(h>0)return h+' год '+m+' хв';
   return m+' хв';
 }
 
 function updateForecast(soc,current,voltage){
-  latestForecast={
-    soc:Number(soc),
-    current:Number(current),
-    voltage:Number(voltage)
-  };
+  latestForecast={soc:Number(soc),current:Number(current),voltage:Number(voltage)};
 
   const selectedMode=$('forecastDirection').value;
   const direction=selectedMode==='auto'
     ?(current>0.5?'charge':current<-.5?'discharge':'idle')
     :selectedMode;
-
   const target=Number($('forecastTarget').value);
 
-  $('estimateLabel').textContent=
-    direction==='charge'||direction==='discharge'
+  $('estimateLabel').textContent=direction==='charge'
+    ?'До '+target+'% заряду'
+    :direction==='discharge'
       ?'До '+target+'% заряду'
       :'Орієнтовний час';
 
@@ -896,21 +764,14 @@ function updateForecast(soc,current,voltage){
   const actuallyCharging=current>0.5;
   const actuallyDischarging=current<-.5;
 
-  if(
-    (direction==='charge'&&!actuallyCharging)||
-    (direction==='discharge'&&!actuallyDischarging)
-  ){
+  if((direction==='charge'&&!actuallyCharging)||
+     (direction==='discharge'&&!actuallyDischarging)){
     $('timeEstimate').textContent='—';
-    $('estimateDetail').textContent=
-      direction==='charge'
-        ?'Для прогнозу потрібен фактичний позитивний струм заряджання понад 0,5 А.'
-        :'Для прогнозу потрібен фактичний негативний струм розряджання нижче −0,5 А.';
-
-    pill(
-      $('estimateMode'),
-      direction==='charge'?'Заряджання':'Розряджання',
-      direction==='charge'?'ok':'warn'
-    );
+    $('estimateDetail').textContent=direction==='charge'
+      ?'Для прогнозу потрібен фактичний позитивний струм заряджання понад 0,5 А.'
+      :'Для прогнозу потрібен фактичний негативний струм розряджання нижче −0,5 А.';
+    pill($('estimateMode'),direction==='charge'?'Заряджання':'Розряджання',
+      direction==='charge'?'ok':'warn');
     return;
   }
 
@@ -919,10 +780,8 @@ function updateForecast(soc,current,voltage){
   if(deltaSoc<=0){
     $('timeEstimate').textContent='Досягнуто';
     $('estimateDetail').textContent=
-      'Поточний заряд уже '+
-      (direction==='charge'?'не нижчий за':'не вищий за')+
+      'Поточний заряд уже '+(direction==='charge'?'не нижчий за':'не вищий за')+
       ' ціль '+target+'%.';
-
     pill($('estimateMode'),'Ціль досягнута','ok');
     return;
   }
@@ -930,7 +789,6 @@ function updateForecast(soc,current,voltage){
   const ahNeeded=FULL_CAPACITY_AH*deltaSoc/100;
   let hours=ahNeeded/Math.abs(current);
 
-  // Заряджання зазвичай сповільнюється ближче до повного рівня.
   if(direction==='charge'&&target>=100)hours*=1.5;
   else if(direction==='charge'&&target>=90)hours*=1.2;
 
@@ -942,11 +800,8 @@ function updateForecast(soc,current,voltage){
       ?'Враховано запас на сповільнення заряджання.'
       :'Розрахунок за поточним струмом; навантаження може змінити час.');
 
-  pill(
-    $('estimateMode'),
-    direction==='charge'?'Заряджання':'Розряджання',
-    direction==='charge'?'ok':'warn'
-  );
+  pill($('estimateMode'),direction==='charge'?'Заряджання':'Розряджання',
+    direction==='charge'?'ok':'warn');
 }
 
 $('forecastDirection').addEventListener('change',()=>{
@@ -955,35 +810,28 @@ $('forecastDirection').addEventListener('change',()=>{
     updateForecast(latestForecast.soc,latestForecast.current,latestForecast.voltage);
   }
 });
-
 $('forecastTarget').addEventListener('change',()=>{
   if(latestForecast){
     updateForecast(latestForecast.soc,latestForecast.current,latestForecast.voltage);
   }
 });
-
 syncForecastOptions();
 
 async function readData(){
   if(!server||!server.connected||busy)return;
-
   busy=true;
   $('refresh').disabled=true;
 
   try{
     const p=await request([0,0,10,1,0,0],[1,1]);
-
     const current=s16(p,9)/100;
     const voltage=u16(p,11)/100;
     const cycleCharge=u16(p,13)/100;
     const capacity=Math.floor(u16(p,17)/100);
-    const soc=p[19];
-    const health=p[20];
-    const cycles=u16(p,21);
+    const soc=p[19],health=p[20],cycles=u16(p,21);
 
     const c=await request([0,0,10,2,0,0],[1,1]);
-    const count=c[11];
-    const cells=[];
+    const count=c[11],cells=[];
 
     for(let i=0;i<count&&i<32;i++){
       const pos=12+i*4;
@@ -1002,7 +850,6 @@ async function readData(){
     await request([0,0,10,0,0,0]);
 
     const power=voltage*current;
-
     drawRings(soc,current,voltage);
 
     $('pw').innerHTML=fmt(Math.abs(power)/1000,2)+'<small> кВт</small>';
@@ -1019,68 +866,57 @@ async function readData(){
     });
 
     const validTemps=temps.filter(v=>v!==null);
-    const average=validTemps.length
-      ?validTemps.reduce((a,b)=>a+b,0)/validTemps.length
-      :NaN;
-
-    $('tempAvg').innerHTML=Number.isFinite(average)
-      ?fmt(average,1)+'<small> °C</small>'
+    $('tempAvg').innerHTML=validTemps.length
+      ?fmt(validTemps.reduce((a,b)=>a+b,0)/validTemps.length,1)+'<small> °C</small>'
       :'—';
 
     $('temperatureSummary').textContent=validTemps.length
-      ?'Середня температура '+fmt(average,1)+' °C · SOH '+health+'%'
+      ?'Середня температура '+
+        fmt(validTemps.reduce((a,b)=>a+b,0)/validTemps.length,1)+
+        ' °C · SOH '+health+'%'
       :'Датчики, SOH та ємність батареї';
 
-    const mode=current>0.5
-      ?'Позитивний струм'
-      :current<-.5
-        ?'Негативний струм'
-        :'Малий струм';
+    const mode=current>0.5?'Позитивний струм':
+      current<-.5?'Негативний струм':'Малий струм';
 
     pill($('chargeState'),mode,current>.5?'ok':current<-.5?'warn':'');
     pill($('bmsState'),'BMS відповіла','ok');
 
     setChargeIndicator(
       current>0.5?'charging':current<-.5?'discharging':'idle',
-      current,
-      power
+      current,power
     );
 
     const remainingAh=FULL_CAPACITY_AH*Math.max(0,Math.min(100,soc))/100;
-
     $('remainingAh').innerHTML=
       fmt(remainingAh,1)+'<small> з '+fmt(FULL_CAPACITY_AH,1)+' А·г</small>';
-
     $('fullCapacity').innerHTML=fmt(FULL_CAPACITY_AH,1)+'<small> А·г</small>';
 
     updateForecast(soc,current,voltage);
 
     $('updated').textContent=
       'Останнє оновлення: '+new Date().toLocaleTimeString('uk-UA');
-
     status('Дані зчитано. Перевір показники в застосунку BMS для звірки.','ok');
 
-    const technicalRows=[
-      ['Назва',device?.name||'PC-A2EE'],
-      ['Серійний номер',$('serial').textContent],
-      ['Версія ПЗ',$('sw').textContent],
-      ['Версія заліза',$('hw').textContent],
-      ['Напруга пакета',fmt(voltage)+' В'],
-      ['Струм зі знаком',fmt(current)+' А'],
-      ['Заряд',soc+'%'],
-      ['Здоров’я BMS',health+'%'],
-      ['Проєктна ємність',capacity+' А·г'],
-      ['Повна ємність для оцінки',fmt(FULL_CAPACITY_AH,1)+' А·г'],
-      ['Залишкова ємність (розрахунок)',fmt(remainingAh,1)+' А·г'],
-      ['Заряд за цикл',fmt(cycleCharge,2)+' А·г'],
-      ['Кількість циклів',cycles],
-      ['Комірок',cells.length],
-      ['Температурні поля',temps.map(v=>v==null?'—':fmt(v,1)+' °C').join(', ')]
-    ];
-
-    $('kv').innerHTML='<h3>Пристрій</h3>'+technicalRows.map(r=>
-      '<div class="kr"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'
-    ).join('');
+    $('kv').innerHTML='<h3>Пристрій</h3>'+
+      [
+        ['Назва',device?.name||'PC-A2EE'],
+        ['Серійний номер',$('serial').textContent],
+        ['Версія ПЗ',$('sw').textContent],
+        ['Версія заліза',$('hw').textContent],
+        ['Напруга пакета',fmt(voltage)+' В'],
+        ['Струм зі знаком',fmt(current)+' А'],
+        ['Заряд',soc+'%'],
+        ['Здоров’я BMS',health+'%'],
+        ['Проєктна ємність',capacity+' А·г'],
+        ['Повна ємність для оцінки',fmt(FULL_CAPACITY_AH,1)+' А·г (задано в інтерфейсі)'],
+        ['Залишкова ємність (розрахунок)',fmt(FULL_CAPACITY_AH*soc/100,1)+' А·г'],
+        ['Заряд за цикл (поле BMS)',fmt(cycleCharge,2)+' А·г'],
+        ['Кількість циклів',cycles],
+        ['Комірок',cells.length],
+        ['Температурні поля',temps.map(v=>v==null?'—':fmt(v,1)+' °C').join(', ')],
+        ['Стан помилки з бібліотеки','Не доступний у вебпротоколі']
+      ].map(r=>'<div class="kr"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
 
   }catch(e){
     status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');
@@ -1092,10 +928,7 @@ async function readData(){
 
 async function connect(){
   if(!navigator.bluetooth){
-    status(
-      'Web Bluetooth недоступний у цьому браузері. Потрібен сумісний браузер і HTTPS або localhost.',
-      'err'
-    );
+    status('Web Bluetooth недоступний у цьому браузері. Потрібен сумісний браузер і HTTPS або localhost.','err');
     return;
   }
 
@@ -1104,44 +937,36 @@ async function connect(){
 
   try{
     bleStage='очікування вибору пристрою';
-
     device=await navigator.bluetooth.requestDevice({
       filters:[{namePrefix:'PC-'}],
       optionalServices:[SERVICE]
     });
-
     bleStage='пристрій вибрано: '+(device.name||'без назви');
 
     device.addEventListener('gattserverdisconnected',()=>{
-      lastDisconnectInfo=
-        'GATT відключився. device.gatt.connected='+
-        String(!!device?.gatt?.connected)+
-        '; server.connected='+String(!!server?.connected)+
-        '; RX='+(rx?.uuid||'null')+
-        '; TX='+(tx?.uuid||'null');
+      lastDisconnectInfo='Подія gattserverdisconnected спрацювала.';
 
       clearInterval(refreshTimer);
       refreshTimer=null;
+      server=null;
+      rx=null;
+      tx=null;
       uiConnected(false);
       setChargeIndicator('unknown');
       $('connect').disabled=false;
-
-      status('З’єднання з BMS втрачено. '+lastDisconnectInfo,'err');
+      status('GATT відключився від BMS. '+lastDisconnectInfo,'err');
     });
 
     bleStage='виклик device.gatt.connect()';
     server=await device.gatt.connect();
-
     bleStage='GATT підключено';
     status('2/7: GATT підключено. Шукаю сервіс FFF0…','ok');
 
     notifyBuffer=[];
-
     bleStage='отримання сервісу FFF0';
     const service=await server.getPrimaryService(SERVICE);
 
-    status('3/7: Сервіс FFF0 знайдено. Отримую характеристики…');
-
+    status('3/7: Сервіс FFF0 знайдено. Отримую список характеристик…');
     bleStage='отримання характеристик';
     const chars=await service.getCharacteristics();
 
@@ -1150,7 +975,6 @@ async function connect(){
       uuid:(c.uuid||'').toLowerCase(),
       p:c.properties||{}
     }));
-
     const canNotify=x=>!!(x.p.notify||x.p.indicate);
     const canWrite=x=>!!(x.p.write||x.p.writeWithoutResponse);
 
@@ -1167,62 +991,49 @@ async function connect(){
       x.uuid+' ['+Object.keys(x.p).filter(k=>x.p[k]).join(', ')+']';
 
     if(!rxEntry||!txEntry){
-      throw Error(
-        'Не знайдено '+
-        (!rxEntry?'RX/сповіщення ':'')+
-        (!txEntry?'TX/запис ':'')+
-        '. Характеристики: '+
-        (entries.map(describe).join('; ')||'список порожній')
-      );
+      throw Error('Не знайдено '+(!rxEntry?'RX/сповіщення ':'')+
+        (!txEntry?'TX/запис ':'')+'. Характеристики: '+
+        (entries.map(describe).join('; ')||'список порожній'));
     }
 
     rx=rxEntry.c;
     tx=txEntry.c;
 
-    status(
-      '4/7: RX '+describe(rxEntry)+'; TX '+describe(txEntry)+
-      '. Вмикаю сповіщення…'
-    );
-
-    bleStage='активація сповіщень RX';
+    status('4/7: RX '+describe(rxEntry)+'; TX '+describe(txEntry)+'. Вмикаю сповіщення…');
+    bleStage='startNotifications() для RX '+(rx.uuid||'без UUID');
     notifyHandler=onNotify;
     rx.addEventListener('characteristicvaluechanged',notifyHandler);
     await rx.startNotifications();
 
-    bleStage='сповіщення активовані';
+    bleStage='сповіщення активовані; пауза перед першим записом';
     await new Promise(r=>setTimeout(r,800));
 
-    if(!server||!server.connected){
-      throw Error('GATT відключився після активації сповіщень');
-    }
+    if(!server||!server.connected)throw Error('GATT відключився після активації сповіщень');
+    if(!tx)throw Error('TX=null після активації сповіщень');
 
-    if(!tx)throw Error('TX недоступна після активації сповіщень');
-
+    bleStage='перед першим записом команди';
     uiConnected(true);
-    status('5/7: Сповіщення активні. Читаю інформацію BMS…','ok');
+    status('5/7: Сповіщення активні. TX доступна. Читаю серійний номер…','ok');
 
     await readInfo();
-
-    bleStage='читання телеметрії';
+    bleStage='readInfo завершено; читання телеметрії';
     await readData();
 
     if(refreshTimer)clearInterval(refreshTimer);
-
     refreshTimer=setInterval(()=>{
       if(!document.hidden)readData();
     },5000);
 
   }catch(e){
-    const diag=
-      ' Етап='+bleStage+
-      '. device.gatt.connected='+String(!!device?.gatt?.connected)+
-      ', server.connected='+String(!!server?.connected)+
-      ', RX='+(rx?.uuid||'null')+
-      ', TX='+(tx?.uuid||'null')+
-      '. '+(lastDisconnectInfo||'');
-
     $('connect').disabled=false;
-    status('Помилка підключення/читання: '+(e?.message||String(e))+diag,'err');
+    uiConnected(false);
+    status(
+      'Помилка підключення/читання: '+(e?.message||String(e))+
+      ' Етап='+bleStage+
+      '. GATT='+String(!!device?.gatt?.connected)+
+      ', RX='+(rx?.uuid||'null')+', TX='+(tx?.uuid||'null'),
+      'err'
+    );
   }
 }
 
@@ -1240,7 +1051,6 @@ async function disconnect(){
   server=null;
   rx=null;
   tx=null;
-
   uiConnected(false);
   setChargeIndicator('unknown');
   $('connect').disabled=false;

@@ -79,6 +79,18 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .kr{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(255,255,255,.1);font-size:12px}
 .kr span{color:var(--dim)}.kr b{text-align:right;word-break:break-all;font-weight:600}
 .hidden{display:none!important}
+.power{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.power span{font-size:12px;color:var(--dim)}
+.power b{display:block;font-size:40px;font-weight:740;letter-spacing:-.04em;margin-top:4px}
+.power b small{font-size:18px;color:var(--dim);margin-left:4px;font-weight:600}
+.switch-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px}
+.switch-row .lbl{font-size:13px;font-weight:650;color:var(--dim);transition:color .2s}
+.switch-row .lbl.on{color:var(--ink)}
+.switch{position:relative;width:52px;height:31px;border-radius:99px;border:0;padding:0;cursor:pointer;background:rgba(120,120,128,.4);-webkit-tap-highlight-color:transparent;transition:background .25s;flex:0 0 auto}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.4);transition:transform .25s cubic-bezier(.3,.9,.4,1)}
+.switch[aria-checked="true"]{background:var(--o)}
+.switch[aria-checked="true"]::after{transform:translateX(21px)}
+.switch:focus-visible{outline:2px solid var(--c);outline-offset:3px}
 @media(max-width:360px){.wrap{padding-left:12px;padding-right:12px}h1{font-size:29px}.cg{gap:7px}.metric-card b{font-size:17px}}
 @media(prefers-reduced-motion:reduce){.charge-indicator.charging .light{animation:none}}
 </style>
@@ -95,8 +107,12 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 <div class="metric-card voltage-card"><em>НАПРУГА</em><b id="l3">—</b><span class="metric-accent"></span></div>
 </div></section>
 
+<h2>Потужність зараз</h2>
+<section class="glass power"><div><span id="pwLabel">Споживання інвертора</span><b id="pwBig">—</b></div><span class="pill" id="pwMode"><i></i>Немає даних</span></section>
+
 <h2>Заряд і прогноз</h2>
-<section class="glass estimate"><div class="estimate-head"><div><span id="estimateLabel">До повного заряду · орієнтовно</span><strong id="timeEstimate">—</strong><small id="estimateDetail">З'явиться після підключення BMS</small></div><span class="pill" id="estimateMode"><i></i>Заряджання</span></div><button class="btn secondary" id="testDischarge" type="button">Тест: показати розряд</button><p class="note">Час розраховується за поточною потужністю та оцінкою залишкової ємності; це прогноз, не показник BMS.</p></section>
+<section class="glass estimate"><span id="estimateLabel">До повного заряду</span><strong id="timeEstimate" style="display:block;font-size:30px;letter-spacing:-.03em;margin-top:5px">—</strong><small id="estimateDetail">З’явиться після підключення BMS</small>
+<div class="switch-row"><span class="lbl on" id="lblCharge">До заряду</span><button class="switch" id="fcSwitch" type="button" role="switch" aria-checked="false" aria-label="Режим прогнозу"></button><span class="lbl" id="lblDis">Вистачить на</span></div></section>
 
 <h2>Вольтаж</h2>
 <div class="grid">
@@ -110,7 +126,6 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 
 <h2>Основні показники</h2>
 <div class="grid">
-<div class="glass tile"><span>Потужність</span><b id="pw">—</b></div>
 <div class="glass tile"><span>Заряд за цикл (BMS)</span><b id="cycleCharge">—</b></div>
 <div class="glass tile"><span>Здоров'я (SOH)</span><b id="health">—</b></div>
 <div class="glass tile"><span>Проєктна ємність</span><b id="capacity">—</b></div>
@@ -143,7 +158,7 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 (()=>{'use strict';
 const SERVICE='0000fff0-0000-1000-8000-00805f9b34fb',RX='0000fff1-0000-1000-8000-00805f9b34fb',TX='0000fff2-0000-1000-8000-00805f9b34fb';
 const $=id=>document.getElementById(id);
-let device=null,server=null,rx=null,tx=null,busy=false,expected=null,resolveReply=null,replyTimer=null,refreshTimer=null,testDischarge=false,connecting=false;
+let device=null,server=null,rx=null,tx=null,busy=false,expected=null,resolveReply=null,replyTimer=null,refreshTimer=null,fcMode=null,connecting=false;
 const FULL_CAPACITY_AH=103.9;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
@@ -177,13 +192,25 @@ $('delta').textContent='різниця '+Math.round((mx-mn)*1000)+' мВ';
 $('vPack').innerHTML=fmt(voltage)+'<small>В</small>';$('vSum').innerHTML=fmt(sum)+'<small>В</small>';$('vAvg').innerHTML=fmt(sum/cells.length,3)+'<small>В</small>';
 $('vMin').innerHTML=fmt(mn,3)+'<small>В</small>';$('vMax').innerHTML=fmt(mx,3)+'<small>В</small>';$('vDelta').innerHTML=Math.round((mx-mn)*1000)+'<small>мВ</small>';
 cells.forEach((v,i)=>{const el=document.createElement('div');el.className='cell'+(v===mx?' mx':v===mn?' mn':'');const h=Math.max(8,Math.min(100,(v-3.0)/(3.5-3.0)*100));el.innerHTML='<span class="well" style="--h:'+h+'%"><i>'+(i+1)+'</i></span><b>'+fmt(v,3)+' В</b>';$('cg').appendChild(el);});}
+let last=null;
+function fmtHours(h){if(h>=48){const d=Math.floor(h/24);return d+' д '+Math.min(23,Math.round(h-d*24))+' год';}const m=Math.round(h*60);return Math.floor(m/60)+' год '+(m%60)+' хв';}
+function renderForecast(){
+const dis=fcMode===null?!(last&&last.current>0.5):fcMode==='discharge';
+$('fcSwitch').setAttribute('aria-checked',dis?'true':'false');
+$('lblCharge').className='lbl'+(dis?'':' on');$('lblDis').className='lbl'+(dis?' on':'');
+$('estimateLabel').textContent=dis?'Заряду вистачить на':'До повного заряду';
+if(!last){$('timeEstimate').textContent='—';$('estimateDetail').textContent='З’явиться після підключення BMS';return;}
+const ah=dis?last.remainingAh:(FULL_CAPACITY_AH-last.remainingAh),absP=Math.abs(last.power);
+const hours=(absP>10&&last.voltage>0)?(ah*last.voltage/absP):NaN;
+$('timeEstimate').textContent=Number.isFinite(hours)?fmtHours(hours):'—';
+$('estimateDetail').textContent=Number.isFinite(hours)?'При потужності '+fmt(absP,0)+' Вт · орієнтовно':'Потужність занадто мала для прогнозу';}
 async function readData(){if(!server||!server.connected||busy)return;busy=true;$('refresh').disabled=true;try{
 const p=await request([0,0,10,1,0,0],[1,1]);const current=s16(p,9)/100,voltage=u16(p,11)/100,cycleCharge=u16(p,13)/100,capacity=Math.floor(u16(p,17)/100),soc=p[19],health=p[20],cycles=u16(p,21);
 const c=await request([0,0,10,2,0,0],[1,1]);const count=c[11],cells=[];for(let i=0;i<count&&i<32;i++){const pos=12+i*4;if(pos+1<c.length-3)cells.push(u16(c,pos)/1000);}
 const temps=[];for(let i=0;i<6;i++){const pos=14+i*4;if(pos+1<c.length-3){const raw=u16(c,pos);temps.push(raw===0?null:(raw-2731)/10);}}
 await request([0,0,10,0,0,0]);
 const power=voltage*current;drawMetrics(soc,current,voltage);
-$('pw').innerHTML=fmt(Math.abs(power)/1000,2)+'<small> кВт</small>';$('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small> А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small> А·г</small>';$('cycles').textContent=cycles;
+{const ap=Math.abs(power);$('pwBig').innerHTML=ap>=1000?fmt(ap/1000,2)+'<small>кВт</small>':Math.round(ap)+'<small>Вт</small>';$('pwLabel').textContent=current<-.5?'Інвертор споживає':current>.5?'Батарея заряджається':'Споживання майже нульове';pill($('pwMode'),current<-.5?'Віддає батарея':current>.5?'Заряджання':'Очікування',current<-.5?'warn':current>.5?'ok':'');}$('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small> А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small> А·г</small>';$('cycles').textContent=cycles;
 renderCells(cells,voltage);
 ['t1','t2','t3','t4','tmos','tamb'].forEach((id,i)=>$(id).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C');
 const vt=temps.filter(v=>v!==null);$('tempAvg').innerHTML=vt.length?fmt(vt.reduce((a,b)=>a+b,0)/vt.length,1)+'<small> °C</small>':'—';
@@ -191,13 +218,7 @@ pill($('chargeState'),current>0.5?'Позитивний струм':current<-.5?
 setChargeIndicator(current>0.5?'charging':current<-.5?'discharging':'idle',current,power);
 const remainingAh=FULL_CAPACITY_AH*Math.max(0,Math.min(100,soc))/100;
 $('remainingAh').innerHTML=fmt(remainingAh,1)+'<small>з '+fmt(FULL_CAPACITY_AH,1)+' А·г</small>';
-const chargingNow=current>0.5,useDischarge=testDischarge||!chargingNow,usableAh=useDischarge?remainingAh:(FULL_CAPACITY_AH-remainingAh);
-const absPower=Math.abs(power),hours=(absPower>10&&voltage>0)?(usableAh*voltage/absPower):NaN;
-$('estimateLabel').textContent=testDischarge?'Тестовий прогноз розряду · орієнтовно':(chargingNow?'До повного заряду · орієнтовно':'До розряду · орієнтовно');
-$('timeEstimate').textContent=Number.isFinite(hours)?(Math.floor(hours)+' год '+Math.round((hours%1)*60)+' хв'):'—';
-$('estimateDetail').textContent=Number.isFinite(hours)?('За потужності '+fmt(absPower,0)+' Вт; оцінка ємності '+fmt(usableAh,1)+' А·г'):'Потрібен ненульовий струм і потужність';
-pill($('estimateMode'),testDischarge?'Тест розряду':(chargingNow?'Заряджання':'Розряд / очікування'),testDischarge?'warn':(chargingNow?'ok':''));
-$('testDischarge').textContent=testDischarge?'Повернути прогноз заряджання':'Тест: показати розряд';
+last={power,voltage,current,remainingAh};renderForecast();
 $('updated').textContent='Останнє оновлення: '+new Date().toLocaleTimeString('uk-UA');status('Дані зчитано.','ok');
 $('kv').innerHTML=[['Назва',device?.name||'PC-A2EE'],['Серійний номер',$('serial').textContent],['Версія ПЗ',$('sw').textContent],['Версія заліза',$('hw').textContent],['Напруга пакета',fmt(voltage)+' В'],['Струм зі знаком',fmt(current)+' А'],['Заряд',soc+'%'],['Здоров’я BMS',health+'%'],['Проєктна ємність',capacity+' А·г'],['Заряд за цикл',fmt(cycleCharge,2)+' А·г'],['Цикли',cycles],['Комірок',cells.length]].map(r=>'<div class="kr"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
 }catch(e){status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');}finally{busy=false;if(server&&server.connected)$('refresh').disabled=false;}}
@@ -229,7 +250,8 @@ if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(()=>{if(!do
 }catch(e){connecting=false;uiConnected(false);$('connect').disabled=false;status('Помилка підключення: '+(e?.message||String(e))+'. Закрий PACEEX і вкладку на ноутбуці: BMS приймає лише одне з’єднання.','err');}}
 async function disconnect(){clearInterval(refreshTimer);refreshTimer=null;try{if(rx)rx.removeEventListener('characteristicvaluechanged',onNotify);if(device?.gatt?.connected)device.gatt.disconnect();}catch(e){}server=null;rx=null;tx=null;uiConnected(false);setChargeIndicator('unknown');$('connect').disabled=false;status('Відключено від BMS.');}
 $('connect').addEventListener('click',connect);$('refresh').addEventListener('click',readData);$('disconnect').addEventListener('click',disconnect);
-$('testDischarge').addEventListener('click',()=>{testDischarge=!testDischarge;if(server&&server.connected)readData();else{$('estimateLabel').textContent=testDischarge?'Тестовий прогноз розряду · орієнтовно':'До повного заряду · орієнтовно';pill($('estimateMode'),testDischarge?'Тест розряду':'Заряджання',testDischarge?'warn':'');$('testDischarge').textContent=testDischarge?'Повернути прогноз заряджання':'Тест: показати розряд';$('estimateDetail').textContent='Підключи BMS, щоб розрахувати прогноз на основі реальних показників.';}});
+$('fcSwitch').addEventListener('click',()=>{fcMode=$('fcSwitch').getAttribute('aria-checked')==='true'?'charge':'discharge';renderForecast();});
+renderForecast();
 $('kv').innerHTML='<div class="kr"><span>Статус</span><b>Очікування підключення</b></div><div class="kr"><span>BLE сервіс</span><b>FFF0</b></div><div class="kr"><span>RX / TX</span><b>FFF1 / FFF2</b></div>';
 })();
 </script></body></html>

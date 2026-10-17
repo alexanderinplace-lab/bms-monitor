@@ -36,6 +36,7 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
 .charge-indicator.discharging .light{background:var(--o);box-shadow:0 0 12px rgba(255,159,10,.75)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 .status{padding:10px 13px;border-radius:15px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--dim);overflow-wrap:anywhere}
+.status{white-space:pre-wrap}
 .status.ok{color:#a6f5b6}.status.err{color:#ffaaa5}
 .hero{padding:12px}
 .metrics-top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
@@ -224,17 +225,20 @@ $('kv').innerHTML=[['Назва',device?.name||'PC-A2EE'],['Серійний н�
 }catch(e){status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');}finally{busy=false;if(server&&server.connected)$('refresh').disabled=false;}}
 
 // Стійке підключення: кілька спроб і паузи, щоб iOS/Bluefy встигали вести з'єднання.
-async function openGatt(){let lastErr,step='';
+const T=(p,ms)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(Error('немає відповіді '+(ms/1000)+' с')),ms))]);
+async function openGatt(){const log=[];let lastErr,step='';
+const show=(t,type='')=>{log.push(t);status(log.slice(-7).join('\n'),type);};
 for(let i=1;i<=4;i++){try{
-const say=t=>{step=t;status('Спроба '+i+' з 4: '+t+'…');};
-say('підключення до BMS');server=await device.gatt.connect();
+const say=(t,ms,pr)=>{step=t;show('Спроба '+i+': '+t+'…');return T(pr,ms);};
+server=await say('підключення',15000,device.gatt.connect());
 if(!server.connected)throw Error('BMS одразу розірвала з’єднання');
-say('пошук сервісу FFF0');const service=await server.getPrimaryService(SERVICE);
-say('пошук каналів FFF1/FFF2');rx=await service.getCharacteristic(RX);tx=await service.getCharacteristic(TX);
-say('підписка на відповіді (FFF1)');await rx.startNotifications();
+const service=await say('пошук сервісу FFF0',10000,server.getPrimaryService(SERVICE));
+try{rx=await say('канал FFF1',8000,service.getCharacteristic(RX));tx=await say('канал FFF2',8000,service.getCharacteristic(TX));}
+catch(e){const all=await say('усі канали сервісу',10000,service.getCharacteristics());rx=all.find(c=>c.uuid===RX);tx=all.find(c=>c.uuid===TX);if(!rx||!tx)throw Error('FFF1/FFF2 не знайдено');}
+await say('підписка на відповіді',8000,rx.startNotifications());
 rx.addEventListener('characteristicvaluechanged',onNotify);return;
-}catch(e){lastErr=Error('крок «'+step+'»: '+(e?.message||String(e)));status('Спроба '+i+' не вдалась. '+lastErr.message,'err');try{if(device.gatt.connected)device.gatt.disconnect();}catch(_){}await sleep(1500);}}
-throw lastErr||Error('Не вдалося підключитись');}
+}catch(e){lastErr=Error('крок «'+step+'»: '+(e?.message||String(e)));show('✗ '+lastErr.message,'err');try{if(device.gatt.connected)device.gatt.disconnect();}catch(_){}await sleep(1500);}}
+throw Error('\n'+log.slice(-9).join('\n'));}
 
 async function connect(){
 if(!navigator.bluetooth){status('Web Bluetooth недоступний у цьому браузері. На iPhone відкрий сторінку в Bluefy.','err');return;}

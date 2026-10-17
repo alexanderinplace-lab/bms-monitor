@@ -224,17 +224,16 @@ $('kv').innerHTML=[['Назва',device?.name||'PC-A2EE'],['Серійний н�
 }catch(e){status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');}finally{busy=false;if(server&&server.connected)$('refresh').disabled=false;}}
 
 // Стійке підключення: кілька спроб і паузи, щоб iOS/Bluefy встигали вести з'єднання.
-async function openGatt(){let lastErr;
+async function openGatt(){let lastErr,step='';
 for(let i=1;i<=4;i++){try{
-status('Підключення, спроба '+i+' з 4…');
-server=await device.gatt.connect();await sleep(800);
-if(!server.connected)throw Error('BMS розірвала з’єднання одразу після підключення');
-const service=await server.getPrimaryService(SERVICE);await sleep(300);
-rx=await service.getCharacteristic(RX);tx=await service.getCharacteristic(TX);await sleep(300);
-await rx.startNotifications();await sleep(300);
-if(!server.connected)throw Error('З’єднання втрачено після підписки');
+const say=t=>{step=t;status('Спроба '+i+' з 4: '+t+'…');};
+say('підключення до BMS');server=await device.gatt.connect();
+if(!server.connected)throw Error('BMS одразу розірвала з’єднання');
+say('пошук сервісу FFF0');const service=await server.getPrimaryService(SERVICE);
+say('пошук каналів FFF1/FFF2');rx=await service.getCharacteristic(RX);tx=await service.getCharacteristic(TX);
+say('підписка на відповіді (FFF1)');await rx.startNotifications();
 rx.addEventListener('characteristicvaluechanged',onNotify);return;
-}catch(e){lastErr=e;try{if(device.gatt.connected)device.gatt.disconnect();}catch(_){}await sleep(1200);}}
+}catch(e){lastErr=Error('крок «'+step+'»: '+(e?.message||String(e)));status('Спроба '+i+' не вдалась. '+lastErr.message,'err');try{if(device.gatt.connected)device.gatt.disconnect();}catch(_){}await sleep(1500);}}
 throw lastErr||Error('Не вдалося підключитись');}
 
 async function connect(){

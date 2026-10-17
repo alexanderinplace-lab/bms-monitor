@@ -70,6 +70,7 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
   box-shadow:0 5px 14px rgba(0,0,0,.18);min-height:44px;
 }
 .btn.secondary{background:rgba(255,255,255,.06)}
+.btn.small{padding:8px 14px;min-height:36px;font-size:12px}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 
 .status{
@@ -91,7 +92,7 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
   width:12px;height:12px;border-radius:50%;background:#8e8e93;
   box-shadow:0 0 0 4px rgba(142,142,147,.12);flex:0 0 auto;
 }
-.charge-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.charge-copy{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
 .charge-copy strong{font-size:13px;font-weight:750}
 .charge-copy small{font-size:12px;color:var(--dim)}
 .charge-indicator.charging{
@@ -116,6 +117,21 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
   0%,100%{opacity:1;transform:scale(1)}
   50%{opacity:.55;transform:scale(.84)}
 }
+
+/* Таймери: інвертор / мережа */
+.charge-timers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.ctimer{
+  display:flex;flex-direction:column;gap:2px;min-width:0;
+  padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);opacity:.6;
+  transition:opacity .3s,background .3s,border-color .3s;
+}
+.ctimer .ct-label{font-size:10px;letter-spacing:.06em;font-weight:750;color:var(--dim);text-transform:uppercase}
+.ctimer b{font-size:17px;font-weight:720;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.ctimer small{font-size:10.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+.ctimer.on{opacity:1}
+#invTimer.on{border-color:rgba(255,173,85,.35);background:rgba(255,173,85,.08)}
+#gridTimer.on{border-color:rgba(50,213,131,.35);background:rgba(50,213,131,.08)}
 
 /* Три головні картки */
 .hero{padding:12px}
@@ -187,20 +203,40 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .metrics .tile b{font-size:20px}
 
 /* Прогноз */
-.estimate{padding:16px}
 .estimate-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.estimate-head strong{display:block;font-size:28px;letter-spacing:-.03em;margin-top:5px}
+.estimate-head strong{
+  display:block;font-size:28px;letter-spacing:-.03em;margin-top:5px;
+  font-variant-numeric:tabular-nums;
+}
 .estimate-head span,.estimate small{color:var(--dim);font-size:12px}
 .estimate .estimate-head small{display:block;margin-top:6px;line-height:1.45}
 .forecast-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
 .forecast-controls label{display:grid;gap:7px;min-width:0;color:var(--dim);font-size:11px}
-.forecast-controls select{
+.forecast-controls select,.chart-tools select{
   width:100%;min-width:0;background:rgba(255,255,255,.07);color:var(--ink);
   border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:11px 9px;
   font:inherit;font-size:12px;
 }
-.forecast-controls option{background:#171a21;color:#fff}
+.forecast-controls option,.chart-tools option{background:#171a21;color:#fff}
 .note{text-align:center;color:var(--dim);font-size:11px;line-height:1.5;margin:10px 0 0}
+
+/* Графік */
+.chart-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.chart-tools select{width:auto;padding:9px 12px}
+.chart-readout{
+  font-size:11px;color:var(--dim);min-height:16px;margin-bottom:6px;
+  font-variant-numeric:tabular-nums;
+}
+#chart svg{display:block;width:100%;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.chart-empty{padding:30px 8px;text-align:center;color:var(--dim);font-size:12px}
+.chart-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.lg{
+  display:flex;align-items:center;gap:7px;flex:1 1 auto;
+  padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.04);
+  font-size:11px;color:var(--dim);white-space:nowrap;
+}
+.lg svg{width:16px;height:16px;flex:0 0 auto}
+.lg b{color:var(--ink);font-weight:650}
 
 /* Комірки */
 .cells{padding:16px}
@@ -232,13 +268,19 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
   padding:16px;cursor:pointer;list-style:none;
 }
 .collapse-summary::-webkit-details-marker{display:none}
-.collapse-title{display:block;font-size:15px;font-weight:750}
+.collapse-title{display:flex;align-items:center;font-size:15px;font-weight:750}
 .collapse-subtitle{display:block;margin-top:5px;color:var(--dim);font-size:11px;line-height:1.4}
 .collapse-right{display:flex;align-items:center;gap:10px;min-width:0;text-align:right}
 .collapse-right .collapse-subtitle{margin:0}
 .collapse-arrow{display:inline-block;color:var(--dim);font-size:19px;transition:transform .2s;flex:0 0 auto}
 .collapsible[open] .collapse-arrow{transform:rotate(180deg)}
 .collapsible-body{padding:0 15px 16px}
+
+/* Іконки біля назв секцій */
+.ci{
+  width:18px;height:18px;flex:0 0 auto;margin-right:8px;color:var(--blue);
+  fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+}
 
 /* Температури */
 .state{padding:0;display:flex;flex-wrap:wrap;gap:8px}
@@ -249,7 +291,7 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 
 /* Технічна інформація */
 .tech{padding:5px 17px}
-.tech summary{padding:13px 0;font-size:14px;font-weight:650;cursor:pointer;list-style:none}
+.tech summary{display:flex;align-items:center;padding:13px 0;font-size:14px;font-weight:650;cursor:pointer;list-style:none}
 .tech summary::-webkit-details-marker{display:none}
 .kr{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(255,255,255,.08);font-size:12px}
 .kr span{color:var(--dim)}
@@ -270,6 +312,7 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
   .collapsible-body{padding:0 12px 13px}
   .cg{gap:7px}
   .cell b{font-size:11px}
+  .ctimer b{font-size:15px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -299,6 +342,18 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
   <span class="charge-copy">
     <strong id="chargeIndicatorText">Стан заряджання невідомий</strong>
     <small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small>
+    <span class="charge-timers">
+      <span class="ctimer" id="invTimer">
+        <span class="ct-label">На інверторі</span>
+        <b id="invNow">—</b>
+        <small id="invTotal">за сесію 00:00:00</small>
+      </span>
+      <span class="ctimer" id="gridTimer">
+        <span class="ct-label">Від мережі</span>
+        <b id="gridNow">—</b>
+        <small id="gridTotal">за сесію 00:00:00</small>
+      </span>
+    </span>
   </span>
 </div>
 
@@ -369,39 +424,6 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
   <div class="glass tile"><span>Середня температура</span><b id="tempAvg">—</b></div>
 </div>
 
-<h2>Заряд і прогноз</h2>
-<section class="glass estimate">
-  <div class="estimate-head">
-    <div>
-      <span id="estimateLabel">Орієнтовний час</span>
-      <strong id="timeEstimate">—</strong>
-      <small id="estimateDetail">Підключи BMS для розрахунку за фактичним струмом</small>
-    </div>
-    <span class="pill" id="estimateMode"><i></i>Очікування</span>
-  </div>
-
-  <div class="forecast-controls">
-    <label for="forecastDirection">Режим прогнозу
-      <select id="forecastDirection">
-        <option value="auto">Автоматично</option>
-        <option value="charge">Заряджання</option>
-        <option value="discharge">Розряджання</option>
-      </select>
-    </label>
-    <label for="forecastTarget">Цільовий рівень
-      <select id="forecastTarget">
-        <option value="20" data-direction="discharge">20% · резерв</option>
-        <option value="10" data-direction="discharge">10% · низький заряд</option>
-        <option value="0" data-direction="discharge">0% · повний розряд</option>
-        <option value="80" data-direction="charge">80% · швидкий заряд</option>
-        <option value="90" data-direction="charge" selected>90% · рекомендовано</option>
-        <option value="100" data-direction="charge">100% · повний заряд</option>
-      </select>
-    </label>
-  </div>
-  <p class="note">Прогноз орієнтовний: струм змінюється під навантаженням, а заряджання сповільнюється біля 100%. Для оцінки використовується повна ємність 103,9 А·год.</p>
-</section>
-
 <h2>Додатково</h2>
 <div class="metrics">
   <div class="glass tile"><span>Залишок (оцінка)</span><b id="remainingAh">—</b></div>
@@ -410,10 +432,85 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
   <div class="glass tile"><span>Розряджено за весь час</span><b id="totalDischarged">Недоступно</b></div>
 </div>
 
+<!-- ===== Усі згортні секції — нижче «Основні показники» ===== -->
+
+<details class="glass collapsible estimate" id="estimatePanel" open>
+  <summary class="collapse-summary">
+    <div>
+      <strong class="collapse-title">
+        <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.8h5"/></svg>
+        Заряд і прогноз
+      </strong>
+      <span class="collapse-subtitle" id="estimateSummary">Таймер заряджання та розряджання</span>
+    </div>
+    <span class="collapse-arrow">⌄</span>
+  </summary>
+  <div class="collapsible-body">
+    <div class="estimate-head">
+      <div>
+        <span id="estimateLabel">Орієнтовний час</span>
+        <strong id="timeEstimate">—</strong>
+        <small id="estimateDetail">Підключи BMS для розрахунку за фактичним струмом</small>
+      </div>
+      <span class="pill" id="estimateMode"><i></i>Очікування</span>
+    </div>
+
+    <div class="forecast-controls">
+      <label for="forecastDirection">Режим прогнозу
+        <select id="forecastDirection">
+          <option value="auto">Автоматично</option>
+          <option value="charge">Заряджання</option>
+          <option value="discharge">Розряджання</option>
+        </select>
+      </label>
+      <label for="forecastTarget">Цільовий рівень
+        <select id="forecastTarget">
+          <option value="20" data-direction="discharge">20% · резерв</option>
+          <option value="10" data-direction="discharge">10% · низький заряд</option>
+          <option value="0" data-direction="discharge">0% · повний розряд</option>
+          <option value="80" data-direction="charge">80% · швидкий заряд</option>
+          <option value="90" data-direction="charge" selected>90% · рекомендовано</option>
+          <option value="100" data-direction="charge">100% · повний заряд</option>
+        </select>
+      </label>
+    </div>
+    <p class="note">Прогноз орієнтовний: струм змінюється під навантаженням, а заряджання сповільнюється біля 100%. Для оцінки використовується повна ємність 103,9 А·год.</p>
+  </div>
+</details>
+
+<details class="glass collapsible" id="chartPanel" open>
+  <summary class="collapse-summary">
+    <div>
+      <strong class="collapse-title">
+        <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+        Графік заряду
+      </strong>
+      <span class="collapse-subtitle">Заряджання, розряджання і простій</span>
+    </div>
+    <span class="collapse-arrow">⌄</span>
+  </summary>
+  <div class="collapsible-body">
+    <div class="chart-tools">
+      <select id="chartRange" aria-label="Період графіка">
+        <option value="1">Остання 1 год</option>
+        <option value="6" selected>Останні 6 год</option>
+        <option value="24">Останні 24 год</option>
+      </select>
+      <button class="btn secondary small" id="chartClear" type="button">Очистити</button>
+    </div>
+    <div class="chart-readout" id="chartReadout"></div>
+    <div id="chart"></div>
+    <div class="chart-legend" id="chartLegend"></div>
+  </div>
+</details>
+
 <details class="glass collapsible" id="cellsPanel" open>
   <summary class="collapse-summary">
     <div>
-      <strong class="collapse-title">Напруга комірок</strong>
+      <strong class="collapse-title">
+        <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="7" width="17" height="11" rx="2.5"/><path d="M21.5 10.5v4M6.5 10.5v4M10.5 10.5v4M14.5 10.5v4"/></svg>
+        Напруга комірок
+      </strong>
       <span class="collapse-subtitle" id="range">Очікування даних</span>
     </div>
     <div class="collapse-right">
@@ -427,7 +524,10 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 <details class="glass collapsible" id="temperaturePanel" open>
   <summary class="collapse-summary">
     <div>
-      <strong class="collapse-title">Температура та ємність</strong>
+      <strong class="collapse-title">
+        <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0Z"/></svg>
+        Температура та ємність
+      </strong>
       <span class="collapse-subtitle" id="temperatureSummary">Датчики, SOH та ємність батареї</span>
     </div>
     <span class="collapse-arrow">⌄</span>
@@ -454,7 +554,10 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 
 <h2>Технічна інформація</h2>
 <details class="glass tech">
-  <summary>Показати (лише перегляд)</summary>
+  <summary>
+    <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 2.5v3.5M15 2.5v3.5M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/></svg>
+    Показати (лише перегляд)
+  </summary>
   <div id="kv"></div>
   <div class="hidden">
     <span id="serial">—</span><span id="sw">—</span>
@@ -482,8 +585,78 @@ let latestForecast=null;
 const FULL_CAPACITY_AH=103.9;
 const DESIGN_CAPACITY_AH=100.0;
 
+/* ===== Історія, таймери, прогноз ===== */
+const HIST_KEY='paceex_history_v1';
+const HIST_MAX_MS=24*3600*1000;
+const HIST_MAX_POINTS=20000;
+const GAP_MS=90000;
+const ST_NAME=['charging','discharging','idle'];
+const ST_IDX={charging:0,discharging:1,idle:2};
+const ST_LABEL={charging:'Заряджання',discharging:'Розряджання',idle:'Простій'};
+const ST_COLOR={charging:'#32d583',discharging:'#53c8f5',idle:'#8e8e93'};
+
+let hist=[],histSaved=0;
+let lastSource='none',srcSince=0,invMs=0,gridMs=0,lastTick=0;
+let fc=null;
+
+const stateOf=c=>c>0.5?'charging':c<-0.5?'discharging':'idle';
+const p2=n=>String(n).padStart(2,'0');
+
 const fmt=(v,n=2)=>
   Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
+
+function hms(ms){
+  const s=Math.max(0,Math.floor(ms/1000));
+  return p2(Math.floor(s/3600))+':'+p2(Math.floor(s%3600/60))+':'+p2(s%60);
+}
+function timerText(ms){
+  const s=Math.max(0,Math.floor(ms/1000));
+  const d=Math.floor(s/86400);
+  const r=hms((s%86400)*1000);
+  return d>0?d+' д '+r:r;
+}
+
+function loadHist(){
+  try{
+    const raw=localStorage.getItem(HIST_KEY);
+    if(!raw)return;
+    const arr=JSON.parse(raw);
+    const cutoff=Date.now()-HIST_MAX_MS;
+    hist=arr
+      .filter(r=>Array.isArray(r)&&r[0]>=cutoff)
+      .map(r=>({t:r[0],soc:r[1],cur:r[2],v:r[3],st:ST_NAME[r[4]]||'idle'}));
+  }catch(e){hist=[];}
+}
+function saveHist(force){
+  const now=Date.now();
+  if(!force&&now-histSaved<60000)return;
+  histSaved=now;
+  try{
+    localStorage.setItem(HIST_KEY,JSON.stringify(
+      hist.map(p=>[p.t,p.soc,p.cur,p.v,ST_IDX[p.st]])
+    ));
+  }catch(e){}
+}
+function pushHist(soc,cur,v){
+  const now=Date.now();
+  const last=hist[hist.length-1];
+  if(last&&now-last.t<3000)return;
+  hist.push({t:now,soc:Number(soc),cur:Number(cur),v:Number(v),st:stateOf(cur)});
+  const cutoff=now-HIST_MAX_MS;
+  while(hist.length&&hist[0].t<cutoff)hist.shift();
+  if(hist.length>HIST_MAX_POINTS)hist.splice(0,hist.length-HIST_MAX_POINTS);
+  saveHist(false);
+  renderChart();
+}
+function avgCurrentFor(st,fallback){
+  const now=Date.now(),arr=[];
+  for(let i=hist.length-1;i>=0&&arr.length<12;i--){
+    const p=hist[i];
+    if(p.st!==st||now-p.t>120000)break;
+    arr.push(p.cur);
+  }
+  return arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:fallback;
+}
 
 function status(msg,type=''){
   $('status').textContent=msg;
@@ -529,6 +702,50 @@ function setChargeIndicator(state,current=null,power=null){
     $('chargeIndicatorDetail').textContent=
       'Підключи BMS, щоб перевірити напрямок струму';
   }
+}
+
+/* Таймери «на інверторі» / «від мережі» */
+function renderTimers(){
+  const now=Date.now();
+  const onInv=lastSource==='inv',onGrid=lastSource==='grid';
+  $('invTimer').classList.toggle('on',onInv);
+  $('gridTimer').classList.toggle('on',onGrid);
+  $('invNow').textContent=onInv?hms(now-srcSince):'—';
+  $('gridNow').textContent=onGrid?hms(now-srcSince):'—';
+  $('invTotal').textContent='за сесію '+hms(invMs);
+  $('gridTotal').textContent='за сесію '+hms(gridMs);
+}
+
+function renderCountdown(){
+  if(!fc)return;
+  const left=fc.endTs-Date.now();
+  const t=timerText(left);
+  $('timeEstimate').textContent=t;
+  $('estimateSummary').textContent=
+    (fc.direction==='charge'?'Заряд':'Розряд')+' · '+t+' до '+fc.target+'%';
+}
+
+function tick(){
+  const now=Date.now();
+  const dt=lastTick?Math.min(now-lastTick,120000):0;
+  lastTick=now;
+  if(server&&server.connected&&lastSource!=='none'){
+    if(lastSource==='inv')invMs+=dt;else gridMs+=dt;
+  }
+  renderTimers();
+  renderCountdown();
+}
+
+function onLinkLost(){
+  lastSource='none';
+  fc=null;
+  latestForecast=null;
+  $('timeEstimate').textContent='—';
+  $('estimateLabel').textContent='Орієнтовний час';
+  $('estimateDetail').textContent='Підключи BMS для розрахунку за фактичним струмом';
+  $('estimateSummary').textContent='Таймер заряджання та розряджання';
+  pill($('estimateMode'),'Очікування','');
+  renderTimers();
 }
 
 function crcModbus(bytes){
@@ -740,23 +957,30 @@ function formatDuration(hours){
 
 function updateForecast(soc,current,voltage){
   latestForecast={soc:Number(soc),current:Number(current),voltage:Number(voltage)};
+  fc=null;
 
   const selectedMode=$('forecastDirection').value;
+  const st=stateOf(current);
   const direction=selectedMode==='auto'
-    ?(current>0.5?'charge':current<-.5?'discharge':'idle')
+    ?(st==='charging'?'charge':st==='discharging'?'discharge':'idle')
     :selectedMode;
-  const target=Number($('forecastTarget').value);
 
-  $('estimateLabel').textContent=direction==='charge'
-    ?'До '+target+'% заряду'
-    :direction==='discharge'
-      ?'До '+target+'% заряду'
-      :'Орієнтовний час';
+  // Автоматично: якщо вибрана ціль не підходить під напрямок — беремо 100% (заряд) або 0% (розряд)
+  const sel=$('forecastTarget');
+  let target=Number(sel.value);
+  const optDir=sel.options[sel.selectedIndex].dataset.direction;
+  const autoTarget=direction!=='idle'&&optDir!==direction;
+  if(autoTarget)target=direction==='charge'?100:0;
+
+  $('estimateLabel').textContent=direction==='idle'
+    ?'Орієнтовний час'
+    :'До '+target+'% заряду'+(autoTarget?' · авто':'');
 
   if(direction==='idle'){
     $('timeEstimate').textContent='—';
     $('estimateDetail').textContent=
       'Немає активного заряджання або розряджання. Вибери режим вручну або дочекайся струму понад 0,5 А.';
+    $('estimateSummary').textContent='Простій · немає струму';
     pill($('estimateMode'),'Простій','');
     return;
   }
@@ -770,6 +994,7 @@ function updateForecast(soc,current,voltage){
     $('estimateDetail').textContent=direction==='charge'
       ?'Для прогнозу потрібен фактичний позитивний струм заряджання понад 0,5 А.'
       :'Для прогнозу потрібен фактичний негативний струм розряджання нижче −0,5 А.';
+    $('estimateSummary').textContent='Очікування відповідного струму';
     pill($('estimateMode'),direction==='charge'?'Заряджання':'Розряджання',
       direction==='charge'?'ok':'warn');
     return;
@@ -782,26 +1007,38 @@ function updateForecast(soc,current,voltage){
     $('estimateDetail').textContent=
       'Поточний заряд уже '+(direction==='charge'?'не нижчий за':'не вищий за')+
       ' ціль '+target+'%.';
+    $('estimateSummary').textContent='Ціль '+target+'% досягнута';
     pill($('estimateMode'),'Ціль досягнута','ok');
     return;
   }
 
+  const avg=Math.abs(avgCurrentFor(st,current))||Math.abs(current);
   const ahNeeded=FULL_CAPACITY_AH*deltaSoc/100;
-  let hours=ahNeeded/Math.abs(current);
+  let hours=ahNeeded/avg;
 
   if(direction==='charge'&&target>=100)hours*=1.5;
   else if(direction==='charge'&&target>=90)hours*=1.2;
 
-  $('timeEstimate').textContent=formatDuration(hours);
+  fc={direction,target,endTs:Date.now()+hours*3600000};
+
+  const endDate=new Date(fc.endTs);
+  let eta=endDate.toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'});
+  if(endDate.toDateString()!==new Date().toDateString()){
+    eta+=' ('+endDate.toLocaleDateString('uk-UA',{day:'numeric',month:'short'})+')';
+  }
+
   $('estimateDetail').textContent=
-    'Залишилось приблизно '+fmt(ahNeeded,1)+' А·год · струм зараз '+
-    fmt(Math.abs(current),2)+' А. '+
+    (direction==='charge'?'Заряджатиметься ще ':'Батареї вистачить ще ')+
+    'приблизно '+formatDuration(hours)+' · до '+eta+
+    ' · залишилось '+fmt(ahNeeded,1)+' А·год при середньому струмі '+fmt(avg,2)+' А. '+
     (direction==='charge'&&target>=90
       ?'Враховано запас на сповільнення заряджання.'
-      :'Розрахунок за поточним струмом; навантаження може змінити час.');
+      :'Час перераховується при зміні навантаження.');
 
   pill($('estimateMode'),direction==='charge'?'Заряджання':'Розряджання',
     direction==='charge'?'ok':'warn');
+
+  renderCountdown();
 }
 
 $('forecastDirection').addEventListener('change',()=>{
@@ -816,6 +1053,164 @@ $('forecastTarget').addEventListener('change',()=>{
   }
 });
 syncForecastOptions();
+
+/* ===== Графік ===== */
+function iconInner(k,c){
+  if(k==='charging'){
+    return '<path d="M13.2 2.8 5.8 13h5l-.4 8.2L18.2 11h-5.1l.1-8.2Z" fill="'+c+'"/>';
+  }
+  if(k==='discharging'){
+    return '<rect x="2.5" y="7" width="16" height="10.5" rx="2.5"/>'+
+           '<path d="M21.5 10.5v3.5"/>'+
+           '<path d="M10.5 9.8v5.2M8.2 12.9l2.3 2.3 2.3-2.3"/>';
+  }
+  return '<path d="M9 6.5v11M15 6.5v11"/>';
+}
+function ico(k,cx,cy,s,c){
+  return '<g transform="translate('+(cx-s/2)+' '+(cy-s/2)+') scale('+(s/24)+')" fill="none" stroke="'+c+
+    '" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+iconInner(k,c)+'</g>';
+}
+function legendIcon(k){
+  const c=ST_COLOR[k];
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="'+c+
+    '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+iconInner(k,c)+'</svg>';
+}
+function renderLegend(dur){
+  $('chartLegend').innerHTML=['charging','discharging','idle'].map(k=>
+    '<span class="lg">'+legendIcon(k)+'<span>'+ST_LABEL[k]+'</span><b>'+
+    (dur?formatDuration(dur[k]/3600000):'—')+'</b></span>'
+  ).join('');
+}
+const READOUT_DEFAULT='Торкнись або проведи пальцем по графіку';
+
+function chartEmpty(){
+  $('chart').innerHTML='<div class="chart-empty">Графік з’явиться після кількох зчитувань BMS</div>';
+  $('chartReadout').textContent='';
+  renderLegend(null);
+}
+
+function renderChart(){
+  const box=$('chart');
+  if(!box)return;
+  if(hist.length<2){chartEmpty();return;}
+
+  const rangeMs=Number($('chartRange').value)*3600000;
+  const t1=hist[hist.length-1].t;
+  const t0=Math.max(t1-rangeMs,hist[0].t);
+  const pts=hist.filter(p=>p.t>=t0);
+  if(pts.length<2){chartEmpty();return;}
+  const span=Math.max(t1-t0,60000);
+
+  // Суцільні відрізки одного стану (розриви в даних пропускаємо)
+  const runs=[];
+  for(let i=1;i<pts.length;i++){
+    const a=pts[i-1],b=pts[i];
+    if(b.t-a.t>GAP_MS)continue;
+    const r=runs[runs.length-1];
+    if(r&&r.st===a.st&&r.last===a){r.pts.push(b);r.last=b;r.end=b.t;}
+    else runs.push({st:a.st,pts:[a,b],last:b,start:a.t,end:b.t});
+  }
+
+  const dur={charging:0,discharging:0,idle:0};
+  runs.forEach(r=>{dur[r.st]+=r.end-r.start;});
+
+  const W=400,H=216,L=34,R=10,T=10,PH=150,PW=W-L-R;
+  const SY=T+PH+10,SH=22;
+  const rd=n=>Math.round(n*10)/10;
+  const X=t=>rd(L+(t-t0)/span*PW);
+  const Y=s=>rd(T+(1-Math.max(0,Math.min(100,s))/100)*PH);
+
+  let g='';
+
+  [0,25,50,75,100].forEach(v=>{
+    g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="rgba(255,255,255,.07)"/>'+
+       '<text x="'+(L-6)+'" y="'+(Y(v)+3)+'" text-anchor="end" font-size="9" fill="rgba(235,240,255,.5)">'+v+'%</text>';
+  });
+
+  // Кольорові фони станів
+  runs.forEach(r=>{
+    const x1=X(r.start),x2=X(r.end);
+    g+='<rect x="'+x1+'" y="'+T+'" width="'+Math.max(1,rd(x2-x1))+'" height="'+PH+'" fill="'+ST_COLOR[r.st]+'" opacity=".10"/>';
+  });
+
+  // Лінія заряду, пофарбована за станом
+  runs.forEach(r=>{
+    const step=Math.max(1,Math.ceil(r.pts.length/500));
+    const pp=r.pts.filter((p,i)=>i%step===0||i===r.pts.length-1);
+    g+='<polyline fill="none" stroke="'+ST_COLOR[r.st]+'" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" points="'+
+       pp.map(p=>X(p.t)+','+Y(p.soc)).join(' ')+'"/>';
+  });
+
+  // Смуга станів з іконками
+  g+='<rect x="'+L+'" y="'+SY+'" width="'+PW+'" height="'+SH+'" rx="6" fill="rgba(255,255,255,.05)"/>';
+  runs.forEach(r=>{
+    const x1=X(r.start),x2=X(r.end),w=Math.max(1,rd(x2-x1));
+    g+='<rect x="'+x1+'" y="'+SY+'" width="'+w+'" height="'+SH+'" rx="4" fill="'+ST_COLOR[r.st]+'" opacity=".9"/>';
+    if(w>=22)g+=ico(r.st,x1+w/2,SY+SH/2,14,'#06080d');
+  });
+
+  // Підписи часу
+  const multiDay=span>20*3600000;
+  for(let i=0;i<=4;i++){
+    const t=t0+span*i/4;
+    const d=new Date(t);
+    let lbl=d.toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'});
+    if(multiDay)lbl=d.toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit'})+' '+lbl;
+    g+='<text x="'+X(t)+'" y="'+(H-6)+'" text-anchor="'+(i===0?'start':i===4?'end':'middle')+
+       '" font-size="9" fill="rgba(235,240,255,.5)">'+lbl+'</text>';
+  }
+
+  // Курсор
+  g+='<line id="cLine" x1="0" x2="0" y1="'+T+'" y2="'+(SY+SH)+'" stroke="rgba(255,255,255,.55)" stroke-width="1" visibility="hidden"/>'+
+     '<circle id="cDot" cx="0" cy="0" r="4" fill="#fff" stroke="#06080d" stroke-width="1.5" visibility="hidden"/>';
+
+  box.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" id="chartSvg" role="img" aria-label="Графік заряду батареї">'+g+'</svg>';
+  renderLegend(dur);
+  if(!$('chartReadout').textContent)$('chartReadout').textContent=READOUT_DEFAULT;
+
+  const svg=$('chartSvg');
+  const line=$('cLine'),dot=$('cDot');
+  const move=e=>{
+    const rc=svg.getBoundingClientRect();
+    const fx=(e.clientX-rc.left)/rc.width*W;
+    const t=t0+Math.max(0,Math.min(1,(fx-L)/PW))*span;
+    let best=pts[0],bd=Infinity;
+    for(const p of pts){
+      const d=Math.abs(p.t-t);
+      if(d<bd){bd=d;best=p;}
+    }
+    const x=X(best.t);
+    line.setAttribute('x1',x);line.setAttribute('x2',x);
+    line.setAttribute('visibility','visible');
+    dot.setAttribute('cx',x);dot.setAttribute('cy',Y(best.soc));
+    dot.setAttribute('fill',ST_COLOR[best.st]);
+    dot.setAttribute('visibility','visible');
+    $('chartReadout').textContent=
+      new Date(best.t).toLocaleTimeString('uk-UA')+' · '+best.soc+'% · '+
+      (best.cur>0?'+':'')+fmt(best.cur,1)+' А · '+ST_LABEL[best.st];
+  };
+  const leave=()=>{
+    line.setAttribute('visibility','hidden');
+    dot.setAttribute('visibility','hidden');
+    $('chartReadout').textContent=READOUT_DEFAULT;
+  };
+  svg.addEventListener('pointerdown',move);
+  svg.addEventListener('pointermove',move);
+  svg.addEventListener('pointerleave',leave);
+  svg.addEventListener('pointercancel',leave);
+}
+
+$('chartRange').addEventListener('change',renderChart);
+$('chartClear').addEventListener('click',()=>{
+  if(!confirm('Очистити історію графіка?'))return;
+  hist=[];
+  saveHist(true);
+  renderChart();
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)saveHist(true);
+});
+window.addEventListener('pagehide',()=>saveHist(true));
 
 async function readData(){
   if(!server||!server.connected||busy)return;
@@ -887,6 +1282,12 @@ async function readData(){
       current,power
     );
 
+    // Джерело живлення: розряд = інвертор, інакше = мережа
+    const src=current<-.5?'inv':'grid';
+    if(src!==lastSource){lastSource=src;srcSince=Date.now();}
+    pushHist(soc,current,voltage);
+    renderTimers();
+
     const remainingAh=FULL_CAPACITY_AH*Math.max(0,Math.min(100,soc))/100;
     $('remainingAh').innerHTML=
       fmt(remainingAh,1)+'<small> з '+fmt(FULL_CAPACITY_AH,1)+' А·г</small>';
@@ -953,6 +1354,7 @@ async function connect(){
       tx=null;
       uiConnected(false);
       setChargeIndicator('unknown');
+      onLinkLost();
       $('connect').disabled=false;
       status('GATT відключився від BMS. '+lastDisconnectInfo,'err');
     });
@@ -1027,6 +1429,7 @@ async function connect(){
   }catch(e){
     $('connect').disabled=false;
     uiConnected(false);
+    onLinkLost();
     status(
       'Помилка підключення/читання: '+(e?.message||String(e))+
       ' Етап='+bleStage+
@@ -1053,6 +1456,7 @@ async function disconnect(){
   tx=null;
   uiConnected(false);
   setChargeIndicator('unknown');
+  onLinkLost();
   $('connect').disabled=false;
   status('Відключено від BMS.');
 }
@@ -1065,6 +1469,12 @@ $('kv').innerHTML=
   '<div class="kr"><span>Статус</span><b>Очікування підключення</b></div>'+
   '<div class="kr"><span>BLE сервіс</span><b>FFF0</b></div>'+
   '<div class="kr"><span>RX / TX</span><b>Визначаються за UUID і властивостями</b></div>';
+
+/* Старт */
+loadHist();
+renderChart();
+renderTimers();
+setInterval(tick,1000);
 
 })();
 </script>

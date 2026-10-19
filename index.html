@@ -25,6 +25,10 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
 .btn.secondary{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.05))}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .btn:active{transform:scale(.97)}
+.btn.icon{width:44px;padding:0;flex:0 0 auto}
+.btn.icon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn.icon.danger:not(:disabled){color:#ff6b61;border-color:rgba(255,69,58,.35);background:linear-gradient(180deg,rgba(255,69,58,.2),rgba(255,69,58,.07))}
+.btn.icon:not(:disabled):active svg{transform:rotate(-40deg);transition:transform .2s}
 .charge-indicator{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:20px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14)}
 .charge-indicator .light{width:13px;height:13px;border-radius:50%;background:#8e8e93;flex:0 0 auto}
 .charge-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
@@ -161,7 +165,7 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 </head>
 <body><div class="wrap">
 <header><div><h1>Батарея</h1><div class="sub">PACEEX · 8 комірок</div></div><span class="pill" id="mode"><i></i>Не підключено</span></header>
-<div class="actions"><button class="btn" id="connect" type="button">Підключитись</button><button class="btn secondary" id="refresh" type="button" disabled>Оновити</button><button class="btn secondary" id="disconnect" type="button" disabled>Відключитись</button></div>
+<div class="actions"><button class="btn" id="connect" type="button">Підключитись</button><button class="btn secondary icon" id="refresh" type="button" disabled aria-label="Оновити" title="Оновити"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button><button class="btn secondary icon danger" id="disconnect" type="button" disabled aria-label="Відключитись" title="Відключитись"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button></div>
 <div class="charge-indicator idle" id="chargeIndicator" role="status" aria-live="polite"><span class="charge-copy"><strong id="chargeIndicatorText">Стан заряджання невідомий</strong><small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small></span>
 <svg class="flow" id="flow" viewBox="0 0 320 112" role="img" aria-label="Схема живлення: мережа, батарея, дім">
 <line class="ln" id="ln1" x1="88" y1="38" x2="120" y2="38"/><line class="ln" id="ln2" x1="200" y1="38" x2="232" y2="38"/>

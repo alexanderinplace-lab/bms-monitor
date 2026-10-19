@@ -117,6 +117,15 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .flow .on-o .nd{fill:rgba(255,173,85,.16);stroke:rgba(255,173,85,.7);filter:drop-shadow(0 0 10px rgba(255,173,85,.45))}
 .flow .on-o .ic{stroke:var(--o)}
 .flow .soft .nd{fill:rgba(50,213,131,.07);stroke:rgba(50,213,131,.38);filter:none}
+.charge-indicator .flow{order:-1}
+.charge-indicator strong{font-size:19px;font-weight:750}
+.charge-indicator small{font-size:14px;line-height:1.35}
+.flow text{font-size:13px}
+.ln.run{animation:lnr .9s linear infinite}
+@keyframes lnr{to{stroke-dashoffset:-8}}
+.flow .pulse .nd{animation:ndp 2s ease-in-out infinite}
+@keyframes ndp{50%{stroke-opacity:.35;fill-opacity:.55}}
+@media(prefers-reduced-motion:reduce){.ln.run,.flow .pulse .nd{animation:none}}
 .segc{position:relative;display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.07);border-radius:16px;padding:4px;margin-bottom:16px}
 .segc .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:12px;background:linear-gradient(180deg,rgba(50,213,131,.75),rgba(50,213,131,.45));box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .3s cubic-bezier(.3,.9,.4,1),background .3s}
 .segc[data-mode="dis"] .thumb{transform:translateX(100%);background:linear-gradient(180deg,rgba(255,173,85,.85),rgba(255,173,85,.5))}
@@ -219,7 +228,7 @@ function status(msg,type=''){$('status').textContent=msg;$('status').className='
 function pill(el,text,type=''){el.className='pill'+(type?' '+type:'');el.innerHTML='<i></i>'+text;}
 function uiConnected(yes){$('connect').disabled=yes;$('refresh').disabled=!yes;$('disconnect').disabled=!yes;pill($('mode'),yes?'Підключено':'Не підключено',yes?'ok':'');}
 function setFlow(state){
-const m={charging:{g:'on-c',b:'on-g',h:'on-c',l1:'c',l2:'g'},grid:{g:'on-c',b:'on-g soft',h:'on-c',l1:'c',l2:'c'},discharging:{g:'',b:'on-o',h:'on-o',l1:'',l2:'o'}};
+const m={charging:{g:'on-c',b:'on-g pulse',h:'on-c',l1:'c run',l2:'g'},grid:{g:'on-c',b:'on-g soft',h:'on-c',l1:'c',l2:'c'},discharging:{g:'',b:'on-o pulse',h:'on-o',l1:'',l2:'o run'}};
 const c=m[state==='idle'?'grid':state]||{g:'',b:'',h:'',l1:'',l2:''};
 $('nGrid').setAttribute('class','node '+c.g);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
 $('ln1').setAttribute('class','ln '+c.l1);$('ln2').setAttribute('class','ln '+c.l2);}

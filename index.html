@@ -228,7 +228,7 @@ function status(msg,type=''){$('status').textContent=msg;$('status').className='
 function pill(el,text,type=''){el.className='pill'+(type?' '+type:'');el.innerHTML='<i></i>'+text;}
 function uiConnected(yes){$('connect').disabled=yes;$('refresh').disabled=!yes;$('disconnect').disabled=!yes;pill($('mode'),yes?'Підключено':'Не підключено',yes?'ok':'');}
 function setFlow(state){
-const m={charging:{g:'on-c',b:'on-g pulse',h:'on-c',l1:'c run',l2:'g'},grid:{g:'on-c',b:'on-g soft',h:'on-c',l1:'c',l2:'c'},discharging:{g:'',b:'on-o pulse',h:'on-o',l1:'',l2:'o run'}};
+const m={charging:{g:'on-c',b:'on-g pulse',h:'on-c',l1:'c run',l2:'c run'},grid:{g:'on-c',b:'on-g soft',h:'on-c',l1:'c run',l2:'c run'},discharging:{g:'',b:'on-o pulse',h:'on-o',l1:'',l2:'o run'}};
 const c=m[state==='idle'?'grid':state]||{g:'',b:'',h:'',l1:'',l2:''};
 $('nGrid').setAttribute('class','node '+c.g);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
 $('ln1').setAttribute('class','ln '+c.l1);$('ln2').setAttribute('class','ln '+c.l2);}

@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="uk">
 <head>
@@ -166,6 +167,26 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 </section></div></details>
 
 <details class="sec" data-k="s5" open><summary>Історія заряду</summary><div class="secbody"><section class="glass hist"><div class="seg"><button type="button" id="h24" class="on">За останні 24 години</button><button type="button" id="h10">Останні 10 днів</button></div><div class="hsum" id="hsum"><span>Дані збираються…</span></div><svg id="hchart" viewBox="0 0 340 152" role="img" aria-label="Графік рівня заряду"></svg><small class="hnote">Графік записується, поки сторінка відкрита й підключена до BMS. Коли сторінка закрита, на графіку з’являються пропуски.</small></section></div></details>
+
+<!-- ДОДАНО: діагностика BMS; оригінальні секції вище не змінено -->
+<details class="sec" data-k="s6" open>
+  <summary>Діагностика BMS · сирі дані</summary>
+  <div class="secbody">
+    <section class="glass hist">
+      <p style="font-size:12px;color:var(--dim);line-height:1.5">
+        Читання відповідей BMS через поточне Bluetooth-з'єднання.
+        Команди лише читають уже відомі параметри.
+        Ця діагностика не зчитує CAN-шину безпосередньо.
+      </p>
+      <button class="btn" id="bmsDiagRun" type="button">
+        Зчитати сирі відповіді
+      </button>
+      <div class="status" id="bmsDiagOutput" style="margin-top:12px">
+        Очікування запуску діагностики.
+      </div>
+    </section>
+  </div>
+</details>
 
 <h2>Технічна інформація</h2>
 <details class="glass tech"><summary>Показати (лише перегляд)</summary><div id="kv"></div><div class="hidden"><span id="serial">—</span><span id="sw">—</span><span id="hw">—</span></div></details>
@@ -339,5 +360,79 @@ try{localStorage.setItem(WXK,JSON.stringify(w));}catch(e){}}catch(e){}}
 loadWx();setInterval(loadWx,15*60*1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadWx();});
 autoConnect();
+
+/* ДОДАТОК: діагностика сирих відповідей BMS.
+   Оригінальні функції та основний цикл читання не змінюються. */
+$('bmsDiagRun').addEventListener('click', async () => {
+  const btn = $('bmsDiagRun');
+  const out = $('bmsDiagOutput');
+
+  if (!server || !server.connected) {
+    out.textContent = 'Спочатку підключись до BMS.';
+    return;
+  }
+
+  if (busy) {
+    out.textContent =
+      'Зараз виконується інше читання. Спробуй трохи пізніше.';
+    return;
+  }
+
+  btn.disabled = true;
+  busy = true;
+  $('refresh').disabled = true;
+
+  const tests = [
+    {
+      name: 'Основні параметри',
+      cmd: [0, 0, 10, 1, 0, 0],
+      payload: [1, 1]
+    },
+    {
+      name: 'Комірки та температури',
+      cmd: [0, 0, 10, 2, 0, 0],
+      payload: [1, 1]
+    },
+    {
+      name: 'Стан BMS',
+      cmd: [0, 0, 10, 0, 0, 0],
+      payload: []
+    }
+  ];
+
+  const results = [];
+
+  try {
+    for (const test of tests) {
+      try {
+        const frame = await request(test.cmd, test.payload);
+        const bytes = Array.from(frame);
+
+        results.push(
+          test.name + '\n' +
+          'Байтів: ' + bytes.length + '\n' +
+          bytes.map((b, i) =>
+            String(i).padStart(2, '0') + ':' +
+            b.toString(16).padStart(2, '0').toUpperCase() +
+            ' (' + b + ')'
+          ).join('  ')
+        );
+      } catch (e) {
+        results.push(
+          test.name + '\nПомилка: ' +
+          (e?.message || String(e))
+        );
+      }
+    }
+
+    out.textContent = results.join('\n\n--------------------\n\n');
+  } finally {
+    busy = false;
+    btn.disabled = false;
+    if (server && server.connected) {
+      $('refresh').disabled = false;
+    }
+  }
+});
 })();
 </script></body></html>

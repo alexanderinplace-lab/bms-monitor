@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="uk">
 <head>
@@ -84,7 +83,7 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .sec[open]>summary::after{transform:rotate(-135deg);margin-top:3px}
 .secbody{padding-top:6px}
 
-/* Схема потоків енергії */
+/* Схема */
 .charge-indicator{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:14px 16px;border-radius:20px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14)}
 .charge-copy{display:flex;flex-direction:column;gap:3px;min-width:0;width:100%}
 .charge-indicator strong{font-size:19px;font-weight:750}
@@ -92,6 +91,7 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .charge-indicator.charging{background:linear-gradient(110deg,rgba(48,209,88,.19),rgba(48,209,88,.055));border-color:rgba(48,209,88,.55)}
 .charge-indicator.discharging{background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
 .charge-indicator.mains{background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
+.charge-indicator.charging .charge-copy,.charge-indicator.discharging .charge-copy,.charge-indicator.mains .charge-copy{display:none}
 .flow{order:-1;width:100%;height:auto;display:block}
 .nd{fill:rgba(255,255,255,.06);stroke:rgba(255,255,255,.16);stroke-width:1;transition:fill .3s,stroke .3s,filter .3s}
 .ic{fill:none;stroke:rgba(255,255,255,.55);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
@@ -116,6 +116,7 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .flow .pulse .nd{animation:ndp 2s ease-in-out infinite}
 @keyframes ndp{50%{stroke-opacity:.35;fill-opacity:.55}}
 @media(prefers-reduced-motion:reduce){.ln.run,.flow .pulse .nd{animation:none}}
+/* Прогноз у кутках схеми */
 .flow .fcL text{text-anchor:start}.flow .fcR text{text-anchor:end}
 .flow text.fl{font-size:11px;fill:var(--dim);letter-spacing:.02em}
 .flow text.fv{font-size:22px;font-weight:750;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
@@ -124,174 +125,52 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 @media(max-width:360px){.wrap{padding-left:12px;padding-right:12px}.cg{gap:7px}}
 </style>
 </head>
-<body>
-<div class="wrap">
-<header>
-  <div class="wx" id="wx" title="Погода у Дніпрі">
-    <span id="wxIcon"></span><b id="wxT">—</b><small>Дніпро</small>
-  </div>
-</header>
-
-<div class="actions">
-  <button class="btn secondary conn" id="connect" type="button"><i class="dot"></i><span>Підключитись</span></button>
-  <button class="btn secondary icon" id="refresh" type="button" disabled aria-label="Оновити" title="Оновити"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button>
-  <button class="btn secondary icon" id="disconnect" type="button" disabled aria-label="Відключитись" title="Відключитись"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button>
-</div>
-
+<body><div class="wrap">
+<header><div class="wx" id="wx" title="Погода у Дніпрі"><span id="wxIcon"></span><b id="wxT">—</b><small>Дніпро</small></div></header>
+<div class="actions"><button class="btn secondary conn" id="connect" type="button"><i class="dot"></i><span>Підключитись</span></button><button class="btn secondary icon" id="refresh" type="button" disabled aria-label="Оновити" title="Оновити"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button><button class="btn secondary icon" id="disconnect" type="button" disabled aria-label="Відключитись" title="Відключитись"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button></div>
 <div class="status" id="status" role="status">Натисни «Підключитись» і вибери PC-A2EE. Перед цим закрий PACEEX і вкладку з цією сторінкою на ноутбуці: BMS приймає лише одне з'єднання.</div>
+<div class="charge-indicator idle" id="chargeIndicator" role="status" aria-live="polite"><span class="charge-copy"><strong id="chargeIndicatorText">Стан заряджання невідомий</strong><small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small></span>
+<svg class="flow" id="flow" viewBox="0 0 320 248" role="img" aria-label="Схема живлення: мережа, інвертор, акумулятор, дім"><path class="ln" id="ln0" fill="none" d="M160 61V79"/><path class="ln" id="ln1" fill="none" d="M133 106H72a12 12 0 0 0-12 12V151"/><path class="ln" id="ln2" fill="none" d="M187 106H248a12 12 0 0 1 12 12V151"/><g class="node" id="nGrid" transform="translate(160 34)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g><g class="node" id="nInv" transform="translate(160 106)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><rect class="ic" x="4.5" y="2.5" width="15" height="19" rx="3.5"/><circle class="ic" cx="12" cy="9.5" r="3"/><path class="ic" d="M8.5 16.2h7M8.5 18.8h4"/></g></g><g class="node" id="nBat" transform="translate(60 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><rect class="ic" x="-21" y="-12" width="38" height="24" rx="7" style="stroke-width:1.8"/><path class="ic" d="M20.3 -4v8" style="stroke-width:2.2"/><rect class="bf" id="bfill" x="-18" y="-9" width="0" height="18" rx="4.5"/><text class="pct" id="fnBat" x="-2" y="1">—</text></g><g class="node" id="nHome" transform="translate(260 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g><text class="val" id="fnCur" x="98" y="96">—</text><text class="cap" x="98" y="122">струм</text><text class="val" id="fnPow" x="222" y="96">—</text><text class="cap" id="fnPowCap" x="222" y="122">потужність</text><text class="lbl" x="60" y="224">Акумулятор</text><text class="volt" id="fnVolt" x="60" y="242">—</text><text class="lbl" x="260" y="224">Дім</text>
+<g class="fcL hidden" id="fcL"><text class="fl" x="4" y="18">До повного заряду</text><text class="fv" id="fcLv" x="4" y="44"></text></g>
+<g class="fcR hidden" id="fcR"><text class="fl" x="316" y="18">Заряду вистачить на</text><text class="fv" id="fcRv" x="316" y="44"></text></g></svg></div>
 
-<div class="charge-indicator idle" id="chargeIndicator" role="status" aria-live="polite">
-  <span class="charge-copy">
-    <strong id="chargeIndicatorText">Стан заряджання невідомий</strong>
-    <small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small>
-  </span>
-  <svg class="flow" id="flow" viewBox="0 0 320 248" role="img" aria-label="Схема живлення: мережа, інвертор, акумулятор, дім">
-    <path class="ln" id="ln0" fill="none" d="M160 61V79"/>
-    <path class="ln" id="ln1" fill="none" d="M133 106H72a12 12 0 0 0-12 12V151"/>
-    <path class="ln" id="ln2" fill="none" d="M187 106H248a12 12 0 0 1 12 12V151"/>
-    <g class="node" id="nGrid" transform="translate(160 34)">
-      <rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/>
-      <g transform="translate(-13.8 -13.8) scale(1.15)">
-        <path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/>
-      </g>
-    </g>
-    <g class="node" id="nInv" transform="translate(160 106)">
-      <rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/>
-      <g transform="translate(-13.8 -13.8) scale(1.15)">
-        <rect class="ic" x="4.5" y="2.5" width="15" height="19" rx="3.5"/>
-        <circle class="ic" cx="12" cy="9.5" r="3"/>
-        <path class="ic" d="M8.5 16.2h7M8.5 18.8h4"/>
-      </g>
-    </g>
-    <g class="node" id="nBat" transform="translate(60 178)">
-      <rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/>
-      <rect class="ic" x="-21" y="-12" width="38" height="24" rx="7" style="stroke-width:1.8"/>
-      <path class="ic" d="M20.3 -4v8" style="stroke-width:2.2"/>
-      <rect class="bf" id="bfill" x="-18" y="-9" width="0" height="18" rx="4.5"/>
-      <text class="pct" id="fnBat" x="-2" y="1">—</text>
-    </g>
-    <g class="node" id="nHome" transform="translate(260 178)">
-      <rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/>
-      <g transform="translate(-13.8 -13.8) scale(1.15)">
-        <path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/>
-      </g>
-    </g>
-    <text class="val" id="fnCur" x="98" y="96">—</text>
-    <text class="cap" x="98" y="122">струм</text>
-    <text class="val" id="fnPow" x="222" y="96">—</text>
-    <text class="cap" id="fnPowCap" x="222" y="122">потужність АКБ</text>
-    <text class="lbl" x="60" y="224">Акумулятор</text>
-    <text class="volt" id="fnVolt" x="60" y="242">—</text>
-    <text class="lbl" x="260" y="224">Дім</text>
-    <g class="fcL hidden" id="fcL"><text class="fl" x="4" y="18">До повного заряду</text><text class="fv" id="fcLv" x="4" y="44"></text></g>
-    <g class="fcR hidden" id="fcR"><text class="fl" x="316" y="18">Заряду вистачить на</text><text class="fv" id="fcRv" x="316" y="44"></text></g>
-  </svg>
-</div>
+<details class="sec" data-k="s0" open><summary>Вольтаж</summary><div class="secbody"><div class="grid">
+<div class="glass tile"><span>Напруга пакета</span><b id="vPack">—</b></div>
+<div class="glass tile"><span>Сума комірок</span><b id="vSum">—</b></div>
+<div class="glass tile"><span>Середня комірка</span><b id="vAvg">—</b></div>
+<div class="glass tile"><span>Різниця комірок</span><b id="vDelta">—</b></div>
+<div class="glass tile"><span>Найнижча комірка</span><b id="vMin">—</b></div>
+<div class="glass tile"><span>Найвища комірка</span><b id="vMax">—</b></div>
+</div></div></details>
 
-<!-- Окремий блок інвертора: значення не вигадуються, поки немає каналу телеметрії -->
-<section class="glass tile" id="inverterTelemetry" style="padding:15px">
-  <span>Телеметрія інвертора MUST</span>
-  <b style="font-size:17px;margin-top:8px">Потрібне окреме підключення</b>
-  <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-    <div>
-      <span>Напруга міської мережі</span>
-      <b style="font-size:21px">— <small>В</small></b>
-    </div>
-    <div>
-      <span>Навантаження квартири</span>
-      <b style="font-size:21px">— <small>Вт</small></b>
-    </div>
-  </div>
-  <p style="font-size:12px;line-height:1.5;color:var(--dim);margin:12px 0 0">
-    Дані не надходять через поточне Bluetooth-з'єднання BMS.
-    Для реальних значень потрібно підключити інвертор через сумісний інтерфейс моніторингу.
-  </p>
-</section>
+<details class="sec" data-k="s1" open><summary>Основні показники</summary><div class="secbody"><div class="grid">
+<div class="glass tile"><span>Заряд за цикл (BMS)</span><b id="cycleCharge">—</b></div>
+<div class="glass tile"><span>Здоров'я (SOH)</span><b id="health">—</b></div>
+<div class="glass tile"><span>Проєктна ємність</span><b id="capacity">—</b></div>
+<div class="glass tile"><span>Цикли</span><b id="cycles">—</b></div>
+<div class="glass tile"><span>Середня температура</span><b id="tempAvg">—</b></div>
+</div></div></details>
 
-<details class="sec" data-k="s0" open>
-  <summary>Вольтаж</summary>
-  <div class="secbody">
-    <div class="grid">
-      <div class="glass tile"><span>Напруга пакета</span><b id="vPack">—</b></div>
-      <div class="glass tile"><span>Сума комірок</span><b id="vSum">—</b></div>
-      <div class="glass tile"><span>Середня комірка</span><b id="vAvg">—</b></div>
-      <div class="glass tile"><span>Різниця комірок</span><b id="vDelta">—</b></div>
-      <div class="glass tile"><span>Найнижча комірка</span><b id="vMin">—</b></div>
-      <div class="glass tile"><span>Найвища комірка</span><b id="vMax">—</b></div>
-    </div>
-  </div>
-</details>
+<details class="sec" data-k="s2" open><summary>Додатково</summary><div class="secbody"><div class="grid">
+<div class="glass tile"><span>Залишок (оцінка)</span><b id="remainingAh">—</b></div>
+<div class="glass tile"><span>Повна ємність</span><b>103,9<small>А·г</small></b></div>
+</div></div></details>
 
-<details class="sec" data-k="s1" open>
-  <summary>Основні показники</summary>
-  <div class="secbody">
-    <div class="grid">
-      <div class="glass tile"><span>Заряд за цикл (BMS)</span><b id="cycleCharge">—</b></div>
-      <div class="glass tile"><span>Здоров'я (SOH)</span><b id="health">—</b></div>
-      <div class="glass tile"><span>Проєктна ємність</span><b id="capacity">—</b></div>
-      <div class="glass tile"><span>Цикли</span><b id="cycles">—</b></div>
-      <div class="glass tile"><span>Середня температура</span><b id="tempAvg">—</b></div>
-    </div>
-  </div>
-</details>
+<details class="sec" data-k="s3" open><summary>Комірки</summary><div class="secbody"><section class="glass cells"><div class="chead"><span id="range">Очікування даних</span><span id="delta">—</span></div><div class="cg" id="cg"></div></section></div></details>
 
-<details class="sec" data-k="s2" open>
-  <summary>Додатково</summary>
-  <div class="secbody">
-    <div class="grid">
-      <div class="glass tile"><span>Залишок (оцінка)</span><b id="remainingAh">—</b></div>
-      <div class="glass tile"><span>Повна ємність</span><b>103,9<small>А·г</small></b></div>
-    </div>
-  </div>
-</details>
+<details class="sec" data-k="s4" open><summary>Температура і стан</summary><div class="secbody"><section class="glass state">
+<div class="temps"><div><span>Датчик T1</span><b id="t1">—</b></div><div><span>Датчик T2</span><b id="t2">—</b></div></div>
+<div class="temps"><div><span>Датчик T3</span><b id="t3">—</b></div><div><span>Датчик T4</span><b id="t4">—</b></div></div>
+<div class="temps"><div><span>MOSFET</span><b id="tmos">—</b></div><div><span>Навколишня</span><b id="tamb">—</b></div></div>
+<span class="pill" id="bmsState"><i></i>Стан BMS невідомий</span><span class="pill" id="chargeState"><i></i>Напрямок струму невідомий</span>
+</section></div></details>
 
-<details class="sec" data-k="s3" open>
-  <summary>Комірки</summary>
-  <div class="secbody">
-    <section class="glass cells">
-      <div class="chead"><span id="range">Очікування даних</span><span id="delta">—</span></div>
-      <div class="cg" id="cg"></div>
-    </section>
-  </div>
-</details>
-
-<details class="sec" data-k="s4" open>
-  <summary>Температура і стан</summary>
-  <div class="secbody">
-    <section class="glass state">
-      <div class="temps"><div><span>Датчик T1</span><b id="t1">—</b></div><div><span>Датчик T2</span><b id="t2">—</b></div></div>
-      <div class="temps"><div><span>Датчик T3</span><b id="t3">—</b></div><div><span>Датчик T4</span><b id="t4">—</b></div></div>
-      <div class="temps"><div><span>MOSFET</span><b id="tmos">—</b></div><div><span>Навколишня</span><b id="tamb">—</b></div></div>
-      <span class="pill" id="bmsState"><i></i>Стан BMS невідомий</span>
-      <span class="pill" id="chargeState"><i></i>Напрямок струму невідомий</span>
-    </section>
-  </div>
-</details>
-
-<details class="sec" data-k="s5" open>
-  <summary>Історія заряду</summary>
-  <div class="secbody">
-    <section class="glass hist">
-      <div class="seg">
-        <button type="button" id="h24" class="on">За останні 24 години</button>
-        <button type="button" id="h10">Останні 10 днів</button>
-      </div>
-      <div class="hsum" id="hsum"><span>Дані збираються…</span></div>
-      <svg id="hchart" viewBox="0 0 340 152" role="img" aria-label="Графік рівня заряду"></svg>
-      <small class="hnote">Графік записується, поки сторінка відкрита й підключена до BMS. Коли сторінка закрита, на графіку з'являються пропуски.</small>
-    </section>
-  </div>
-</details>
+<details class="sec" data-k="s5" open><summary>Історія заряду</summary><div class="secbody"><section class="glass hist"><div class="seg"><button type="button" id="h24" class="on">За останні 24 години</button><button type="button" id="h10">Останні 10 днів</button></div><div class="hsum" id="hsum"><span>Дані збираються…</span></div><svg id="hchart" viewBox="0 0 340 152" role="img" aria-label="Графік рівня заряду"></svg><small class="hnote">Графік записується, поки сторінка відкрита й підключена до BMS. Коли сторінка закрита, на графіку з’являються пропуски.</small></section></div></details>
 
 <h2>Технічна інформація</h2>
-<details class="glass tech">
-  <summary>Показати (лише перегляд)</summary>
-  <div id="kv"></div>
-  <div class="hidden"><span id="serial">—</span><span id="sw">—</span><span id="hw">—</span></div>
-</details>
+<details class="glass tech"><summary>Показати (лише перегляд)</summary><div id="kv"></div><div class="hidden"><span id="serial">—</span><span id="sw">—</span><span id="hw">—</span></div></details>
 <p class="note" id="updated">Реальні дані ще не зчитані.</p>
 </div>
-
 <script>
 (()=>{'use strict';
 const SERVICE='0000fff0-0000-1000-8000-00805f9b34fb',RX='0000fff1-0000-1000-8000-00805f9b34fb',TX='0000fff2-0000-1000-8000-00805f9b34fb';
@@ -303,483 +182,162 @@ const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
 function status(msg,type=''){$('status').textContent=msg;$('status').className='status'+(type?' '+type:'');}
 function pill(el,text,type=''){el.className='pill'+(type?' '+type:'');el.innerHTML='<i></i>'+text;}
 function uiConnected(yes){const b=$('connect');b.disabled=yes;b.classList.toggle('on',yes);b.lastElementChild.textContent=yes?'Підключено':'Підключитись';$('refresh').disabled=!yes;$('disconnect').disabled=!yes;}
-
 function setFlow(state){
-const m={
-charging:{g:'on-g',i:'on-c',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run'},
-grid:{g:'on-g',i:'on-c',b:'on-g',h:'on-c',l0:'g run',l1:'c',l2:'c run'},
-discharging:{g:'',i:'on-c',b:'on-c pulse',h:'on-c',l0:'',l1:'c run rev',l2:'c run'},
-idle:{g:'',i:'',b:'',h:'',l0:'',l1:'',l2:''},
-unknown:{g:'',i:'',b:'',h:'',l0:'',l1:'',l2:''}
-};
-const key=state;
-const c=m[key]||{g:'',i:'',b:'',h:'',l0:'',l1:'',l2:''};
-if(!m[key]){
-  ['fnCur','fnPow','fnVolt','fnBat'].forEach(i=>$(i).textContent='—');
-  $('bfill').setAttribute('width',0);
-  $('fnPowCap').textContent='потужність АКБ';
-}
-$('nGrid').setAttribute('class','node '+c.g);
-$('nInv').setAttribute('class','node '+c.i);
-$('nBat').setAttribute('class','node '+c.b);
-$('nHome').setAttribute('class','node '+c.h);
-$('ln0').setAttribute('class','ln '+c.l0);
-$('ln1').setAttribute('class','ln '+c.l1);
-$('ln2').setAttribute('class','ln '+c.l2);
-$('fcL').classList.toggle('hidden',state!=='charging');
-$('fcR').classList.toggle('hidden',state!=='discharging');
-}
-
-function setChargeIndicator(state){
-const el=$('chargeIndicator');
-el.className='charge-indicator '+(state==='grid'?'mains':state);
-setFlow(state);
+const m={charging:{g:'on-g',i:'on-c',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run'},grid:{g:'on-g',i:'on-c',b:'on-g',h:'on-c',l0:'g run',l1:'c',l2:'c run'},discharging:{g:'',i:'on-c',b:'on-c pulse',h:'on-c',l0:'',l1:'c run rev',l2:'c run'}};
+const key=state==='idle'?'grid':state;const c=m[key]||{g:'',i:'',b:'',h:'',l0:'',l1:'',l2:''};
+if(!m[key]){['fnCur','fnPow','fnVolt','fnBat'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);$('fnPowCap').textContent='потужність';}
+$('nGrid').setAttribute('class','node '+c.g);$('nInv').setAttribute('class','node '+c.i);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
+$('ln0').setAttribute('class','ln '+c.l0);$('ln1').setAttribute('class','ln '+c.l1);$('ln2').setAttribute('class','ln '+c.l2);
+$('fcL').classList.toggle('hidden',state!=='charging');$('fcR').classList.toggle('hidden',state!=='discharging');}
+function setChargeIndicator(state){const el=$('chargeIndicator');el.className='charge-indicator '+(state==='grid'?'mains':state);setFlow(state);
 const t=$('chargeIndicatorText'),d=$('chargeIndicatorDetail');
-if(state==='idle'){
-  t.textContent='СТРУМ АКУМУЛЯТОРА МАЛИЙ';
-  d.textContent='Напрямок потоку енергії не визначено. Наявність міської мережі не підтверджена.';
-}else if(state==='unknown'){
-  t.textContent='Стан заряджання невідомий';
-  d.textContent='Підключи BMS, щоб перевірити напрямок струму';
-}else if(state==='charging'){
-  t.textContent='АКУМУЛЯТОР ЗАРЯДЖАЄТЬСЯ';
-  d.textContent='За показниками струму BMS';
-}else if(state==='discharging'){
-  t.textContent='АКУМУЛЯТОР РОЗРЯДЖАЄТЬСЯ';
-  d.textContent='За показниками струму BMS';
-}else{
-  t.textContent='Стан невідомий';
-  d.textContent='Немає підтверджених даних про потік енергії';
-}
-}
-
+if(state==='idle'){t.textContent='ЗАРЯД НЕ ВІДБУВАЄТЬСЯ';d.textContent='Струм близький до нуля';}
+else if(state==='unknown'){t.textContent='Стан заряджання невідомий';d.textContent='Підключи BMS, щоб перевірити напрямок струму';}
+else{t.textContent='';d.textContent='';}}
 function crcModbus(bytes){let crc=0xffff;for(const b of bytes){crc^=b;for(let i=0;i<8;i++)crc=(crc&1)?((crc>>>1)^0xa001):(crc>>>1);}return crc&0xffff;}
 function command(cmd,payload=[]){const a=[0x9a,...cmd,payload.length,...payload];const crc=crcModbus(a);a.push((crc>>8)&255,crc&255,0x9d);return new Uint8Array(a);}
-function parseFrame(input){
-const d=Array.from(input);
-if(d[0]!==0x9a||d.length<11||d.length!==11+d[7]||d[d.length-1]!==0x9d)throw Error('Некоректна структура відповіді');
-const got=(d[d.length-3]<<8)|d[d.length-2],calc=crcModbus(d.slice(0,-3));
-if(got!==calc)throw Error('CRC не збігається');
-if(expected&&d.slice(1,7).join(',')!==expected.join(','))return null;
-return d;
-}
-function onNotify(event){
-const v=event.target.value;
-const d=new Uint8Array(v.buffer,v.byteOffset,v.byteLength);
-if(!resolveReply)return;
-try{
-  const frame=parseFrame(d);
-  if(frame){clearTimeout(replyTimer);const resolve=resolveReply;resolveReply=null;resolve(frame);}
-}catch(e){}
-}
-async function writePacket(bytes){
-if(typeof tx.writeValueWithResponse==='function')await tx.writeValueWithResponse(bytes);
-else if(typeof tx.writeValueWithoutResponse==='function')await tx.writeValueWithoutResponse(bytes);
-else await tx.writeValue(bytes);
-}
-async function request(cmd,payload=[],timeout=4000){
-const packet=command(cmd,payload);expected=Array.from(packet.slice(1,7));
-for(let attempt=0;attempt<3;attempt++){
-  const p=new Promise((resolve,reject)=>{
-    resolveReply=resolve;
-    replyTimer=setTimeout(()=>{resolveReply=null;reject(Error('BMS не відповіла вчасно'));},timeout);
-  });
-  try{
-    await writePacket(packet);
-    const frame=await p;
-    expected=null;
-    return frame;
-  }catch(e){
-    clearTimeout(replyTimer);resolveReply=null;
-    if(attempt===2){expected=null;throw e;}
-    await sleep(300);
-  }
-}
-throw Error('Немає відповіді BMS');
-}
+function parseFrame(input){const d=Array.from(input);if(d[0]!==0x9a||d.length<11||d.length!==11+d[7]||d[d.length-1]!==0x9d)throw Error('Некоректна структура відповіді');const got=(d[d.length-3]<<8)|d[d.length-2],calc=crcModbus(d.slice(0,-3));if(got!==calc)throw Error('CRC не збігається');if(expected&&d.slice(1,7).join(',')!==expected.join(','))return null;return d;}
+function onNotify(event){const v=event.target.value;const d=new Uint8Array(v.buffer,v.byteOffset,v.byteLength);if(!resolveReply)return;try{const frame=parseFrame(d);if(frame){clearTimeout(replyTimer);const resolve=resolveReply;resolveReply=null;resolve(frame);}}catch(e){}}
+async function writePacket(bytes){if(typeof tx.writeValueWithResponse==='function')await tx.writeValueWithResponse(bytes);else if(typeof tx.writeValueWithoutResponse==='function')await tx.writeValueWithoutResponse(bytes);else await tx.writeValue(bytes);}
+async function request(cmd,payload=[],timeout=4000){const packet=command(cmd,payload);expected=Array.from(packet.slice(1,7));
+for(let attempt=0;attempt<3;attempt++){const p=new Promise((resolve,reject)=>{resolveReply=resolve;replyTimer=setTimeout(()=>{resolveReply=null;reject(Error('BMS не відповіла вчасно'));},timeout);});
+try{await writePacket(packet);const frame=await p;expected=null;return frame;}catch(e){clearTimeout(replyTimer);resolveReply=null;if(attempt===2){expected=null;throw e;}await sleep(300);}}
+throw Error('Немає відповіді BMS');}
 function str(bytes){let out='';for(const b of bytes){if(b<32||b>126)break;out+=String.fromCharCode(b);}return out.trim();}
 function u16(d,p){return(d[p]<<8)|d[p+1];}
 function s16(d,p){const n=u16(d,p);return n&0x8000?n-0x10000:n;}
-
-async function readInfo(){
-const s=await request([0,0,0,2,0,0]);
-$('serial').textContent=str(s.slice(9,9+s[8]))||'—';
-const v=await request([0,0,0,1,0,0]);
-$('sw').textContent=str(v.slice(10,10+(v[9]||0)))||'—';
-const hwPos=65;
-$('hw').textContent=str(v.slice(hwPos,hwPos+(v[hwPos-1]||0)))||'—';
-}
-
-function drawMetrics(soc,current,voltage){
-const ok=Number.isFinite(soc);
-$('fnBat').textContent=ok?soc+'%':'—';
-$('bfill').setAttribute('width',ok?(32*Math.max(0,Math.min(100,soc))/100).toFixed(1):0);
-$('fnCur').textContent=Number.isFinite(current)?fmt(current,1).replace('-','−')+' А':'—';
-$('fnVolt').textContent=Number.isFinite(voltage)?fmt(voltage)+' В':'—';
-}
-
-function renderCells(cells,voltage){
-$('cg').innerHTML='';
-if(!cells.length){
-  $('cg').textContent='Дані комірок відсутні';
-  $('range').textContent='—';$('delta').textContent='—';
-  return;
-}
+async function readInfo(){const s=await request([0,0,0,2,0,0]);$('serial').textContent=str(s.slice(9,9+s[8]))||'—';const v=await request([0,0,0,1,0,0]);$('sw').textContent=str(v.slice(10,10+(v[9]||0)))||'—';const hwPos=65;$('hw').textContent=str(v.slice(hwPos,hwPos+(v[hwPos-1]||0)))||'—';}
+function drawMetrics(soc,current,voltage){const ok=Number.isFinite(soc);$('fnBat').textContent=ok?soc+'%':'—';$('bfill').setAttribute('width',ok?(32*Math.max(0,Math.min(100,soc))/100).toFixed(1):0);$('fnCur').textContent=Number.isFinite(current)?fmt(current,1).replace('-','−')+' А':'—';$('fnVolt').textContent=Number.isFinite(voltage)?fmt(voltage)+' В':'—';}
+function renderCells(cells,voltage){$('cg').innerHTML='';
+if(!cells.length){$('cg').textContent='Дані комірок відсутні';$('range').textContent='—';$('delta').textContent='—';return;}
 const mx=Math.max(...cells),mn=Math.min(...cells),sum=cells.reduce((a,b)=>a+b,0);
 $('range').textContent='№'+(cells.indexOf(mn)+1)+' '+Math.round(mn*1000)+' мВ – №'+(cells.indexOf(mx)+1)+' '+Math.round(mx*1000)+' мВ';
 $('delta').textContent='різниця '+Math.round((mx-mn)*1000)+' мВ';
-$('vPack').innerHTML=fmt(voltage)+'<small>В</small>';
-$('vSum').innerHTML=fmt(sum)+'<small>В</small>';
-$('vAvg').innerHTML=fmt(sum/cells.length,3)+'<small>В</small>';
-$('vMin').innerHTML=fmt(mn,3)+'<small>В</small>';
-$('vMax').innerHTML=fmt(mx,3)+'<small>В</small>';
-$('vDelta').innerHTML=Math.round((mx-mn)*1000)+'<small>мВ</small>';
-cells.forEach((v,i)=>{
-  const el=document.createElement('div');
-  el.className='cell'+(v===mx?' mx':v===mn?' mn':'');
-  const h=Math.max(8,Math.min(100,(v-3.0)/(3.5-3.0)*100));
-  el.innerHTML='<span class="well" style="--h:'+h+'%"><i>'+(i+1)+'</i></span><b>'+fmt(v,3)+' В</b>';
-  $('cg').appendChild(el);
-});
-}
-
+$('vPack').innerHTML=fmt(voltage)+'<small>В</small>';$('vSum').innerHTML=fmt(sum)+'<small>В</small>';$('vAvg').innerHTML=fmt(sum/cells.length,3)+'<small>В</small>';
+$('vMin').innerHTML=fmt(mn,3)+'<small>В</small>';$('vMax').innerHTML=fmt(mx,3)+'<small>В</small>';$('vDelta').innerHTML=Math.round((mx-mn)*1000)+'<small>мВ</small>';
+cells.forEach((v,i)=>{const el=document.createElement('div');el.className='cell'+(v===mx?' mx':v===mn?' mn':'');const h=Math.max(8,Math.min(100,(v-3.0)/(3.5-3.0)*100));el.innerHTML='<span class="well" style="--h:'+h+'%"><i>'+(i+1)+'</i></span><b>'+fmt(v,3)+' В</b>';$('cg').appendChild(el);});}
 let last=null;
+/* Час для SVG-тексту: ~ 5 д 6 год / ~ 3 год 20 хв */
 function tsp(n,u){return '<tspan dx="6">'+n+'</tspan><tspan class="tu" dx="3">'+u+'</tspan>';}
-function fmtHoursSvg(h){
-let s='~';
+function fmtHoursSvg(h){let s='~';
 if(h>240)return '&gt; 10<tspan class="tu" dx="3">днів</tspan>';
 if(h>=48){const d=Math.floor(h/24);return s+tsp(d,'д')+tsp(Math.min(23,Math.round(h-d*24)),'год');}
 const m=Math.max(1,Math.round(h*60));
 if(m<60)return s+tsp(m,'хв');
-return s+tsp(Math.floor(m/60),'год')+tsp(m%60,'хв');
-}
+return s+tsp(Math.floor(m/60),'год')+tsp(m%60,'хв');}
 function renderForecast(){
 if(!last)return;
 const {power,voltage,current,remainingAh}=last,absP=Math.abs(power);
-if(current>0.5&&voltage>0&&absP>10){
-  const h=(FULL_CAPACITY_AH-remainingAh)*voltage/absP;
-  if(Number.isFinite(h)&&h>=1/60)$('fcLv').innerHTML=fmtHoursSvg(h);
-  else $('fcL').classList.add('hidden');
-}else if(current<-1.5&&voltage>0&&absP>10){
-  const h=remainingAh*voltage/absP;
-  if(Number.isFinite(h)&&h>0)$('fcRv').innerHTML=fmtHoursSvg(h);
-  else $('fcR').classList.add('hidden');
-}
-}
-
-async function readData(){
-if(!server||!server.connected||busy)return;
-busy=true;$('refresh').disabled=true;
-try{
-  const p=await request([0,0,10,1,0,0],[1,1]);
-  const current=s16(p,9)/100,voltage=u16(p,11)/100,cycleCharge=u16(p,13)/100,capacity=Math.floor(u16(p,17)/100),soc=p[19],health=p[20],cycles=u16(p,21);
-
-  const c=await request([0,0,10,2,0,0],[1,1]);
-  const count=c[11],cells=[];
-  for(let i=0;i<count&&i<32;i++){
-    const pos=12+i*4;
-    if(pos+1<c.length-3)cells.push(u16(c,pos)/1000);
-  }
-
-  const temps=[];
-  for(let i=0;i<6;i++){
-    const pos=14+i*4;
-    if(pos+1<c.length-3){
-      const raw=u16(c,pos);
-      temps.push(raw===0?null:(raw-2731)/10);
-    }
-  }
-
-  await request([0,0,10,0,0,0]);
-
-  const power=voltage*current;
-  drawMetrics(soc,current,voltage);
-  recordHist(soc,current);
-  drawHist();
-
-  {
-    const ap=Math.abs(power);
-    $('fnPow').textContent=ap>=1000?fmt(ap/1000,2)+' кВт':Math.round(ap)+' Вт';
-    $('fnPowCap').textContent=current<-1.5?'розряд АКБ':current>.5?'заряд АКБ':'малий струм АКБ';
-  }
-
-  $('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small> А·г</small>';
-  $('health').innerHTML=health+'<small>%</small>';
-  $('capacity').innerHTML=capacity+'<small> А·г</small>';
-  $('cycles').textContent=cycles;
-
-  renderCells(cells,voltage);
-
-  ['t1','t2','t3','t4','tmos','tamb'].forEach((id,i)=>$(id).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C');
-  const vt=temps.filter(v=>v!==null);
-  $('tempAvg').innerHTML=vt.length?fmt(vt.reduce((a,b)=>a+b,0)/vt.length,1)+'<small> °C</small>':'—';
-
-  pill($('chargeState'),current>0.5?'Позитивний струм':current<-.5?'Негативний струм':'Малий струм',current>.5?'ok':current<-.5?'warn':'');
-  pill($('bmsState'),'BMS відповіла','ok');
-
-  const remainingAh=FULL_CAPACITY_AH*Math.max(0,Math.min(100,soc))/100;
-  $('remainingAh').innerHTML=fmt(remainingAh,1)+'<small>з '+fmt(FULL_CAPACITY_AH,1)+' А·г</small>';
-
-  last={power,voltage,current,remainingAh,soc};
-
-  /* Нульовий або малий струм не є доказом живлення від міської мережі */
-  setChargeIndicator(current>0.5?'charging':current<-1.5?'discharging':'idle');
-  renderForecast();
-
-  $('updated').textContent='Останнє оновлення: '+new Date().toLocaleTimeString('uk-UA');
-  status('Дані зчитано.','ok');
-
-  $('kv').innerHTML=[
-    ['Назва',device?.name||'PC-A2EE'],
-    ['Серійний номер',$('serial').textContent],
-    ['Версія ПЗ',$('sw').textContent],
-    ['Версія заліза',$('hw').textContent],
-    ['Напруга пакета',fmt(voltage)+' В'],
-    ['Струм зі знаком',fmt(current)+' А'],
-    ['Потужність на стороні АКБ',fmt(power)+' Вт'],
-    ['Заряд',soc+'%'],
-    ['Здоров’я BMS',health+'%'],
-    ['Проєктна ємність',capacity+' А·г'],
-    ['Заряд за цикл',fmt(cycleCharge,2)+' А·г'],
-    ['Цикли',cycles],
-    ['Комірок',cells.length],
-    ['Напруга міської мережі','Немає даних: інвертор не підключений'],
-    ['Навантаження квартири','Немає даних: інвертор не підключений']
-  ].map(r=>'<div class="kr"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
-
-}catch(e){
-  status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');
-}finally{
-  busy=false;
-  if(server&&server.connected)$('refresh').disabled=false;
-}
-}
+if(current>0.5&&voltage>0&&absP>10){const h=(FULL_CAPACITY_AH-remainingAh)*voltage/absP;
+if(Number.isFinite(h)&&h>=1/60)$('fcLv').innerHTML=fmtHoursSvg(h);else $('fcL').classList.add('hidden');}
+else if(current<-1.5&&voltage>0&&absP>10){const h=remainingAh*voltage/absP;
+if(Number.isFinite(h)&&h>0)$('fcRv').innerHTML=fmtHoursSvg(h);else $('fcR').classList.add('hidden');}}
+async function readData(){if(!server||!server.connected||busy)return;busy=true;$('refresh').disabled=true;try{
+const p=await request([0,0,10,1,0,0],[1,1]);const current=s16(p,9)/100,voltage=u16(p,11)/100,cycleCharge=u16(p,13)/100,capacity=Math.floor(u16(p,17)/100),soc=p[19],health=p[20],cycles=u16(p,21);
+const c=await request([0,0,10,2,0,0],[1,1]);const count=c[11],cells=[];for(let i=0;i<count&&i<32;i++){const pos=12+i*4;if(pos+1<c.length-3)cells.push(u16(c,pos)/1000);}
+const temps=[];for(let i=0;i<6;i++){const pos=14+i*4;if(pos+1<c.length-3){const raw=u16(c,pos);temps.push(raw===0?null:(raw-2731)/10);}}
+await request([0,0,10,0,0,0]);
+const power=voltage*current;drawMetrics(soc,current,voltage);recordHist(soc,current);drawHist();
+{const ap=Math.abs(power);$('fnPow').textContent=ap>=1000?fmt(ap/1000,2)+' кВт':Math.round(ap)+' Вт';$('fnPowCap').textContent=current<-1.5?'розряд':current>.5?'заряд':'від мережі';}$('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small> А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small> А·г</small>';$('cycles').textContent=cycles;
+renderCells(cells,voltage);
+['t1','t2','t3','t4','tmos','tamb'].forEach((id,i)=>$(id).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C');
+const vt=temps.filter(v=>v!==null);$('tempAvg').innerHTML=vt.length?fmt(vt.reduce((a,b)=>a+b,0)/vt.length,1)+'<small> °C</small>':'—';
+pill($('chargeState'),current>0.5?'Позитивний струм':current<-.5?'Негативний струм':'Малий струм',current>.5?'ok':current<-.5?'warn':'');pill($('bmsState'),'BMS відповіла','ok');
+const remainingAh=FULL_CAPACITY_AH*Math.max(0,Math.min(100,soc))/100;
+$('remainingAh').innerHTML=fmt(remainingAh,1)+'<small>з '+fmt(FULL_CAPACITY_AH,1)+' А·г</small>';
+last={power,voltage,current,remainingAh,soc};
+setChargeIndicator(current>0.5?'charging':current<-1.5?'discharging':'grid');renderForecast();
+$('updated').textContent='Останнє оновлення: '+new Date().toLocaleTimeString('uk-UA');status('Дані зчитано.','ok');
+$('kv').innerHTML=[['Назва',device?.name||'PC-A2EE'],['Серійний номер',$('serial').textContent],['Версія ПЗ',$('sw').textContent],['Версія заліза',$('hw').textContent],['Напруга пакета',fmt(voltage)+' В'],['Струм зі знаком',fmt(current)+' А'],['Заряд',soc+'%'],['Здоров’я BMS',health+'%'],['Проєктна ємність',capacity+' А·г'],['Заряд за цикл',fmt(cycleCharge,2)+' А·г'],['Цикли',cycles],['Комірок',cells.length]].map(r=>'<div class="kr"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
+}catch(e){status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');}finally{busy=false;if(server&&server.connected)$('refresh').disabled=false;}}
 
 // Стійке підключення: кілька спроб і паузи, щоб iOS/Bluefy встигали вести з'єднання.
 const T=(p,ms)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(Error('немає відповіді '+(ms/1000)+' с')),ms))]);
-
-async function openGatt(){
-const log=[];let lastErr,step='';
+async function openGatt(){const log=[];let lastErr,step='';
 const show=(t,type='')=>{log.push(t);status(log.slice(-7).join('\n'),type);};
-for(let i=1;i<=4;i++){
-  try{
-    const say=(t,ms,pr)=>{step=t;show('Спроба '+i+': '+t+'…');return T(pr,ms);};
-    server=await say('підключення',15000,device.gatt.connect());
-    if(!server.connected)throw Error('BMS одразу розірвала з’єднання');
-    const service=await say('пошук сервісу FFF0',10000,server.getPrimaryService(SERVICE));
-    try{
-      rx=await say('канал FFF1',8000,service.getCharacteristic(RX));
-      tx=await say('канал FFF2',8000,service.getCharacteristic(TX));
-    }catch(e){
-      const all=await say('усі канали сервісу',10000,service.getCharacteristics());
-      rx=all.find(c=>c.uuid===RX);tx=all.find(c=>c.uuid===TX);
-      if(!rx||!tx)throw Error('FFF1/FFF2 не знайдено');
-    }
-    await say('підписка на відповіді',8000,rx.startNotifications());
-    rx.addEventListener('characteristicvaluechanged',onNotify);
-    return;
-  }catch(e){
-    lastErr=Error('крок «'+step+'»: '+(e?.message||String(e)));
-    show('✗ '+lastErr.message,'err');
-    try{if(device.gatt.connected)device.gatt.disconnect();}catch(_){}
-    await sleep(1500);
-  }
-}
-throw Error('\n'+log.slice(-9).join('\n'));
-}
+for(let i=1;i<=4;i++){try{
+const say=(t,ms,pr)=>{step=t;show('Спроба '+i+': '+t+'…');return T(pr,ms);};
+server=await say('підключення',15000,device.gatt.connect());
+if(!server.connected)throw Error('BMS одразу розірвала з’єднання');
+const service=await say('пошук сервісу FFF0',10000,server.getPrimaryService(SERVICE));
+try{rx=await say('канал FFF1',8000,service.getCharacteristic(RX));tx=await say('канал FFF2',8000,service.getCharacteristic(TX));}
+catch(e){const all=await say('усі канали сервісу',10000,service.getCharacteristics());rx=all.find(c=>c.uuid===RX);tx=all.find(c=>c.uuid===TX);if(!rx||!tx)throw Error('FFF1/FFF2 не знайдено');}
+await say('підписка на відповіді',8000,rx.startNotifications());
+rx.addEventListener('characteristicvaluechanged',onNotify);return;
+}catch(e){lastErr=Error('крок «'+step+'»: '+(e?.message||String(e)));show('✗ '+lastErr.message,'err');try{if(device.gatt.connected)device.gatt.disconnect();}catch(_){}await sleep(1500);}}
+throw Error('\n'+log.slice(-9).join('\n'));}
 
 const NAME_KEY='bms_name_v1';
 function savedName(){try{return localStorage.getItem(NAME_KEY)||'PC-A2EE';}catch(e){return 'PC-A2EE';}}
-function onGattLost(){
-if(connecting)return;
-server=null;rx=null;tx=null;
-clearInterval(refreshTimer);refreshTimer=null;
-uiConnected(false);setChargeIndicator('unknown');
-$('connect').disabled=false;
-status('З’єднання з BMS розірвано. Перевір, що PACEEX і ноутбук не підключені, і натисни «Підключитись».');
-}
-
-async function startSession(dev){
-device=dev;dev.addEventListener('gattserverdisconnected',onGattLost);
-connecting=true;
-await openGatt();
-connecting=false;
+function onGattLost(){if(connecting)return;server=null;rx=null;tx=null;clearInterval(refreshTimer);refreshTimer=null;uiConnected(false);setChargeIndicator('unknown');$('connect').disabled=false;status('З’єднання з BMS розірвано. Перевір, що PACEEX і ноутбук не підключені, і натисни «Підключитись».');}
+async function startSession(dev){device=dev;dev.addEventListener('gattserverdisconnected',onGattLost);
+connecting=true;await openGatt();connecting=false;
 try{localStorage.setItem(NAME_KEY,dev.name||savedName());}catch(e){}
-uiConnected(true);
-status('Підключено. Читаю інформацію BMS…','ok');
-await readInfo();
-await readData();
-if(refreshTimer)clearInterval(refreshTimer);
-refreshTimer=setInterval(()=>{if(!document.hidden)readData();},5000);
-}
-
-async function knownDevice(){
-if(!navigator.bluetooth||typeof navigator.bluetooth.getDevices!=='function')return null;
-try{
-  const list=await navigator.bluetooth.getDevices(),n=savedName();
-  return list.find(d=>d.name===n)||list.find(d=>(d.name||'').startsWith('PC-'))||null;
-}catch(e){return null;}
-}
-
+uiConnected(true);status('Підключено. Читаю інформацію BMS…','ok');
+await readInfo();await readData();
+if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(()=>{if(!document.hidden)readData();},5000);}
+async function knownDevice(){if(!navigator.bluetooth||typeof navigator.bluetooth.getDevices!=='function')return null;
+try{const list=await navigator.bluetooth.getDevices(),n=savedName();return list.find(d=>d.name===n)||list.find(d=>(d.name||'').startsWith('PC-'))||null;}catch(e){return null;}}
 async function connect(){
-if(!navigator.bluetooth){
-  status('Web Bluetooth недоступний у цьому браузері. На iPhone відкрий сторінку в Bluefy.','err');
-  return;
-}
-$('connect').disabled=true;
-status('Шукаю пристрій '+savedName()+'…');
+if(!navigator.bluetooth){status('Web Bluetooth недоступний у цьому браузері. На iPhone відкрий сторінку в Bluefy.','err');return;}
+$('connect').disabled=true;status('Шукаю пристрій '+savedName()+'…');
 try{
-  let dev=await knownDevice();
-  if(!dev)dev=await navigator.bluetooth.requestDevice({filters:[{name:savedName()}],optionalServices:[SERVICE]});
-  await startSession(dev);
-}catch(e){
-  connecting=false;uiConnected(false);$('connect').disabled=false;
-  status('Помилка підключення: '+(e?.message||String(e))+'. Закрий PACEEX і вкладку на ноутбуці: BMS приймає лише одне з’єднання.','err');
-}
-}
-
-async function autoConnect(){
-if(server&&server.connected)return;
-const dev=await knownDevice();
-if(!dev)return;
-$('connect').disabled=true;
-status('Знайшов збережений BMS '+(dev.name||'')+' — підключаюсь автоматично…');
-try{
-  await startSession(dev);
-}catch(e){
-  connecting=false;uiConnected(false);$('connect').disabled=false;
-  status('Автопідключення не вдалося: '+(e?.message||String(e))+'\nНатисни «Підключитись».','err');
-}
-}
-
-async function disconnect(){
-clearInterval(refreshTimer);refreshTimer=null;
-try{
-  if(rx)rx.removeEventListener('characteristicvaluechanged',onNotify);
-  if(device?.gatt?.connected)device.gatt.disconnect();
-}catch(e){}
-server=null;rx=null;tx=null;
-uiConnected(false);setChargeIndicator('unknown');
-$('connect').disabled=false;
-status('Відключено від BMS.');
-}
-
-$('connect').addEventListener('click',connect);
-$('refresh').addEventListener('click',readData);
-$('disconnect').addEventListener('click',disconnect);
+let dev=await knownDevice();
+if(!dev)dev=await navigator.bluetooth.requestDevice({filters:[{name:savedName()}],optionalServices:[SERVICE]});
+await startSession(dev);
+}catch(e){connecting=false;uiConnected(false);$('connect').disabled=false;status('Помилка підключення: '+(e?.message||String(e))+'. Закрий PACEEX і вкладку на ноутбуці: BMS приймає лише одне з’єднання.','err');}}
+async function autoConnect(){if(server&&server.connected)return;
+const dev=await knownDevice();if(!dev)return;
+$('connect').disabled=true;status('Знайшов збережений BMS '+(dev.name||'')+' — підключаюсь автоматично…');
+try{await startSession(dev);}catch(e){connecting=false;uiConnected(false);$('connect').disabled=false;status('Автопідключення не вдалося: '+(e?.message||String(e))+'\nНатисни «Підключитись».','err');}}
+async function disconnect(){clearInterval(refreshTimer);refreshTimer=null;try{if(rx)rx.removeEventListener('characteristicvaluechanged',onNotify);if(device?.gatt?.connected)device.gatt.disconnect();}catch(e){}server=null;rx=null;tx=null;uiConnected(false);setChargeIndicator('unknown');$('connect').disabled=false;status('Відключено від BMS.');}
+$('connect').addEventListener('click',connect);$('refresh').addEventListener('click',readData);$('disconnect').addEventListener('click',disconnect);
 
 $('kv').innerHTML='<div class="kr"><span>Статус</span><b>Очікування підключення</b></div><div class="kr"><span>BLE сервіс</span><b>FFF0</b></div><div class="kr"><span>RX / TX</span><b>FFF1 / FFF2</b></div>';
-
-const HK='bms_hist_v1';
-let hist=[],hRange=24;
+const HK='bms_hist_v1';let hist=[],hRange=24;
 try{hist=JSON.parse(localStorage.getItem(HK)||'[]');}catch(e){hist=[];}
-
-function recordHist(soc,cur){
-const now=Date.now(),l=hist[hist.length-1];
-if(l&&now-l[0]<60000)return;
-hist.push([now,soc,Math.round(cur*10)/10]);
-const cut=now-10*864e5;
-while(hist.length&&hist[0][0]<cut)hist.shift();
-try{localStorage.setItem(HK,JSON.stringify(hist));}catch(e){}
-}
-
+function recordHist(soc,cur){const now=Date.now(),l=hist[hist.length-1];if(l&&now-l[0]<60000)return;hist.push([now,soc,Math.round(cur*10)/10]);const cut=now-10*864e5;while(hist.length&&hist[0][0]<cut)hist.shift();try{localStorage.setItem(HK,JSON.stringify(hist));}catch(e){}}
 function drawHist(){
-const now=Date.now(),span=hRange===24?24*36e5:10*864e5,n=hRange===24?96:80,bw=span/n,start=now-span,W=300,H=120,Y0=10,step=W/n;
+const now=Date.now(),span=hRange*36e5,n=hRange===24?96:80,bw=span/n,start=now-span,W=300,H=120,Y0=10,step=W/n;
 const sum=new Array(n).fill(0),cnt=new Array(n).fill(0);
-hist.forEach(p=>{
-  if(p[0]<start)return;
-  const i=Math.min(n-1,Math.floor((p[0]-start)/bw));
-  sum[i]+=p[1];cnt[i]++;
-});
+hist.forEach(p=>{if(p[0]<start)return;const i=Math.min(n-1,Math.floor((p[0]-start)/bw));sum[i]+=p[1];cnt[i]++;});
 let g='',bars='',lab='',vals=[];
-[100,50,0].forEach(v=>{
-  const y=Y0+H*(1-v/100);
-  g+='<line x1="0" x2="'+W+'" y1="'+y+'" y2="'+y+'" stroke="rgba(255,255,255,.14)" stroke-dasharray="3 3"/><text x="'+(W+6)+'" y="'+(y+3)+'" font-size="10" fill="rgba(235,240,255,.58)">'+v+'%</text>';
-});
-for(let i=0;i<n;i++){
-  if(!cnt[i])continue;
-  const v=sum[i]/cnt[i];vals.push(v);
-  const h=Math.max(1.5,H*v/100);
-  bars+='<rect x="'+(i*step+.5)+'" y="'+(Y0+H-h)+'" width="'+Math.max(1,step-1.4)+'" height="'+h+'" rx="1.2" fill="#32d583"/>';
-}
+[100,50,0].forEach(v=>{const y=Y0+H*(1-v/100);g+='<line x1="0" x2="'+W+'" y1="'+y+'" y2="'+y+'" stroke="rgba(255,255,255,.14)" stroke-dasharray="3 3"/><text x="'+(W+6)+'" y="'+(y+3)+'" font-size="10" fill="rgba(235,240,255,.58)">'+v+'%</text>';});
+for(let i=0;i<n;i++){if(!cnt[i])continue;const v=sum[i]/cnt[i];vals.push(v);const h=Math.max(1.5,H*v/100);bars+='<rect x="'+(i*step+.5)+'" y="'+(Y0+H-h)+'" width="'+Math.max(1,step-1.4)+'" height="'+h+'" rx="1.2" fill="#32d583"/>';}
 const ticks=hRange===24?[0,6,12,18]:[0,2,4,6,8];
-ticks.forEach(t=>{
-  const x=hRange===24?t/24*W:t/10*W;
-  const d=new Date(start+(hRange===24?t*36e5:t*864e5));
-  const txt=hRange===24?String(d.getHours()).padStart(2,'0')+':00':String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0');
-  lab+='<text x="'+x+'" y="'+(Y0+H+16)+'" font-size="10" fill="rgba(235,240,255,.58)">'+txt+'</text>';
-});
+ticks.forEach(t=>{const x=hRange===24?t/24*W:t/10*W,d=new Date(start+(hRange===24?t*36e5:t*864e5));const txt=hRange===24?String(d.getHours()).padStart(2,'0')+':00':String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0');lab+='<text x="'+x+'" y="'+(Y0+H+16)+'" font-size="10" fill="rgba(235,240,255,.58)">'+txt+'</text>';});
 $('hchart').innerHTML=g+bars+lab;
-$('hsum').innerHTML=vals.length?'<span>Мін</span> '+Math.round(Math.min(...vals))+'% · <span>макс</span> '+Math.round(Math.max(...vals))+'%':'<span>За цей період даних ще немає</span>';
-}
-
-$('h24').addEventListener('click',()=>{
-hRange=24;$('h24').className='on';$('h10').className='';drawHist();
-});
-$('h10').addEventListener('click',()=>{
-hRange=240;$('h10').className='on';$('h24').className='';drawHist();
-});
+$('hsum').innerHTML=vals.length?'<span>Мін</span> '+Math.round(Math.min(...vals))+'% · <span>макс</span> '+Math.round(Math.max(...vals))+'%':'<span>За цей період даних ще немає</span>';}
+$('h24').addEventListener('click',()=>{hRange=24;$('h24').className='on';$('h10').className='';drawHist();});
+$('h10').addEventListener('click',()=>{hRange=240;$('h10').className='on';$('h24').className='';drawHist();});
 drawHist();
-
-try{
-const m=JSON.parse(localStorage.getItem('bms_sec_v1')||'{}');
-document.querySelectorAll('.sec').forEach(d=>{
-  if(m[d.dataset.k]===false)d.open=false;
-  d.addEventListener('toggle',()=>{
-    m[d.dataset.k]=d.open;
-    try{localStorage.setItem('bms_sec_v1',JSON.stringify(m));}catch(e){}
-  });
-});
-}catch(e){}
-
+try{const m=JSON.parse(localStorage.getItem('bms_sec_v1')||'{}');document.querySelectorAll('.sec').forEach(d=>{if(m[d.dataset.k]===false)d.open=false;d.addEventListener('toggle',()=>{m[d.dataset.k]=d.open;try{localStorage.setItem('bms_sec_v1',JSON.stringify(m));}catch(e){}});});}catch(e){}
 /* Погода у Дніпрі (Open-Meteo, без ключа) */
 const WXK='bms_wx_v1';
 const WX_PATHS={
 cloud:'<path d="M6.5 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.6 10a4 4 0 0 1-.1 8.5Z"/>',
 sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>',
-moon:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>'
-};
-
+moon:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>'};
 function wxSvg(code,day){
 let body,col='#c8d3ff';
 if(code===0||code===1){body=day?WX_PATHS.sun:WX_PATHS.moon;col=day?'#ffc766':'#c8d3ff';}
-else if(code===2){
-  body=(day?'<circle cx="8" cy="8" r="2.8"/><path d="M8 2v1.4M2 8h1.4M3.8 3.8l1 1M12.2 3.8l-1 1"/>':'<path d="M11 3.5A4.6 4.6 0 1 0 14.5 11 3.7 3.7 0 0 1 11 3.5Z"/>')+'<g transform="translate(3.6 5.4) scale(.78)">'+WX_PATHS.cloud+'</g>';
-  col=day?'#ffc766':'#c8d3ff';
-}else if(code===3){body=WX_PATHS.cloud;col='#aab4c8';}
+else if(code===2){body=(day?'<circle cx="8" cy="8" r="2.8"/><path d="M8 2v1.4M2 8h1.4M3.8 3.8l1 1M12.2 3.8l-1 1"/>':'<path d="M11 3.5A4.6 4.6 0 1 0 14.5 11 3.7 3.7 0 0 1 11 3.5Z"/>')+'<g transform="translate(3.6 5.4) scale(.78)">'+WX_PATHS.cloud+'</g>';col=day?'#ffc766':'#c8d3ff';}
+else if(code===3){body=WX_PATHS.cloud;col='#aab4c8';}
 else if(code===45||code===48){body='<path d="M4 8h16M6 12h12M4 16h16"/>';col='#aab4c8';}
-else if((code>=51&&code<=67)||(code>=80&&code<=82)){
-  body='<g transform="translate(0 -2.5)">'+WX_PATHS.cloud+'</g><path d="M8 18.5l-1 2.6M12 18.5l-1 2.6M16 18.5l-1 2.6"/>';col='#53c8f5';
-}else if((code>=71&&code<=77)||code===85||code===86){
-  body='<g transform="translate(0 -2.5)">'+WX_PATHS.cloud+'</g><path d="M8 19.5h.01M12 19.5h.01M16 19.5h.01M10 22h.01M14 22h.01" stroke-width="2.6"/>';col='#d6e8ff';
-}else if(code>=95){
-  body='<g transform="translate(0 -2.5)">'+WX_PATHS.cloud+'</g><path d="M12.8 14.5 10.4 18.4h3.2L11.4 22" stroke="#ffc766"/>';col='#aab4c8';
-}else{body=WX_PATHS.cloud;col='#aab4c8';}
-return '<svg viewBox="0 0 24 24" style="color:'+col+'" aria-hidden="true">'+body+'</svg>';
-}
-
-function showWx(w){
-if(!w||!Number.isFinite(w.t))return;
-$('wxIcon').innerHTML=wxSvg(w.c,w.d);
-$('wxT').textContent=Math.round(w.t)+'°C';
-}
+else if((code>=51&&code<=67)||(code>=80&&code<=82)){body='<g transform="translate(0 -2.5)">'+WX_PATHS.cloud+'</g><path d="M8 18.5l-1 2.6M12 18.5l-1 2.6M16 18.5l-1 2.6"/>';col='#53c8f5';}
+else if((code>=71&&code<=77)||code===85||code===86){body='<g transform="translate(0 -2.5)">'+WX_PATHS.cloud+'</g><path d="M8 19.5h.01M12 19.5h.01M16 19.5h.01M10 22h.01M14 22h.01" stroke-width="2.6"/>';col='#d6e8ff';}
+else if(code>=95){body='<g transform="translate(0 -2.5)">'+WX_PATHS.cloud+'</g><path d="M12.8 14.5 10.4 18.4h3.2L11.4 22" stroke="#ffc766"/>';col='#aab4c8';}
+else{body=WX_PATHS.cloud;col='#aab4c8';}
+return '<svg viewBox="0 0 24 24" style="color:'+col+'" aria-hidden="true">'+body+'</svg>';}
+function showWx(w){if(!w||!Number.isFinite(w.t))return;$('wxIcon').innerHTML=wxSvg(w.c,w.d);$('wxT').textContent=Math.round(w.t)+'°C';}
 try{showWx(JSON.parse(localStorage.getItem(WXK)||'null'));}catch(e){}
-
-async function loadWx(){
-try{
-  const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=48.4647&longitude=35.0462&current=temperature_2m,weather_code,is_day&timezone=auto',{cache:'no-store'});
-  if(!r.ok)throw Error(r.status);
-  const j=(await r.json()).current;
-  const w={t:j.temperature_2m,c:j.weather_code,d:j.is_day===1};
-  showWx(w);
-  try{localStorage.setItem(WXK,JSON.stringify(w));}catch(e){}
-}catch(e){}
-}
-loadWx();
-setInterval(loadWx,15*60*1000);
+async function loadWx(){try{
+const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=48.4647&longitude=35.0462&current=temperature_2m,weather_code,is_day&timezone=auto',{cache:'no-store'});
+if(!r.ok)throw Error(r.status);const j=(await r.json()).current;
+const w={t:j.temperature_2m,c:j.weather_code,d:j.is_day===1};showWx(w);
+try{localStorage.setItem(WXK,JSON.stringify(w));}catch(e){}}catch(e){}}
+loadWx();setInterval(loadWx,15*60*1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadWx();});
 autoConnect();
 })();
-</script>
-</body>
-</html>
+</script></body></html>

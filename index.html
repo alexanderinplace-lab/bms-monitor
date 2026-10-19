@@ -25,30 +25,20 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
 .btn.secondary{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.05))}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .btn:active{transform:scale(.97)}
-
-/* Індикатор стану + схема ЛЕП → батарея → дім */
-.charge-indicator{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:16px 16px 14px;border-radius:22px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14);text-align:left;transition:background .3s,border-color .3s}
-.charge-copy{display:flex;flex-direction:column;gap:4px;min-width:0;text-align:left;align-items:flex-start}
-.charge-indicator strong{font-size:15px;font-weight:750;letter-spacing:-.01em}
-.charge-indicator small{font-size:12px;color:var(--dim);line-height:1.45;overflow-wrap:anywhere}
-.charge-indicator.charging{--fl:var(--g);background:linear-gradient(110deg,rgba(48,209,88,.19),rgba(48,209,88,.055));border-color:rgba(48,209,88,.5)}
-.charge-indicator.discharging{--fl:var(--o);background:linear-gradient(110deg,rgba(255,159,10,.17),rgba(255,159,10,.045));border-color:rgba(255,159,10,.45)}
-.charge-indicator.grid{--fl:var(--c);background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
-.flow{width:100%;height:auto;display:block;max-width:340px;margin:0 auto}
-.flow .tile{fill:rgba(255,255,255,.07);stroke:rgba(255,255,255,.14);stroke-width:1}
-.flow .ic{fill:none;stroke:var(--dim);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
-.flow .fillbar{fill:var(--dim);transition:fill .3s}
-.flow .lbl{fill:var(--dim);font-size:11px;font-weight:600;text-anchor:middle}
-.flow .link{fill:none;stroke:rgba(255,255,255,.2);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 7}
-.charging .flow .ic,.grid .flow .ic,.discharging .flow .ic{stroke:var(--fl)}
-.charging .flow .fillbar,.grid .flow .fillbar,.discharging .flow .fillbar{fill:var(--fl)}
-.discharging .flow .tower .ic{stroke:var(--dim)}
-.charging .flow .tile.act,.grid .flow .tile.act,.discharging .flow .tile.act{stroke:var(--fl);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--fl) 55%,transparent))}
-.charging .flow .l1,.charging .flow .l2,.discharging .flow .l2{stroke:var(--fl);stroke-dasharray:6 8;animation:flow 1s linear infinite}
-.grid .flow .l1,.grid .flow .l2{stroke:var(--fl);stroke-dasharray:none}
-@keyframes flow{to{stroke-dashoffset:-14}}
-
-.status{padding:10px 13px;border-radius:15px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--dim);overflow-wrap:anywhere;white-space:pre-wrap}
+.charge-indicator{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:20px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14)}
+.charge-indicator .light{width:13px;height:13px;border-radius:50%;background:#8e8e93;flex:0 0 auto}
+.charge-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.charge-indicator strong{font-size:14px;font-weight:750}
+.charge-indicator small{font-size:12px;color:var(--dim)}
+.charge-indicator.charging{background:linear-gradient(110deg,rgba(48,209,88,.19),rgba(48,209,88,.055));border-color:rgba(48,209,88,.55)}
+.charge-indicator.charging .light{background:var(--g);box-shadow:0 0 14px rgba(48,209,88,.95);animation:pulse 1.6s ease-in-out infinite}
+.charge-indicator.discharging{background:linear-gradient(110deg,rgba(255,159,10,.17),rgba(255,159,10,.045));border-color:rgba(255,159,10,.45)}
+.charge-indicator.discharging .light{background:var(--o);box-shadow:0 0 12px rgba(255,159,10,.75)}
+.charge-indicator.grid{background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
+.charge-indicator.grid .light{background:var(--c);box-shadow:0 0 12px rgba(83,200,245,.8)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.status{padding:10px 13px;border-radius:15px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--dim);overflow-wrap:anywhere}
+.status{white-space:pre-wrap}
 .status.ok{color:#a6f5b6}.status.err{color:#ffaaa5}
 .hero{padding:12px}
 .metrics-top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
@@ -80,6 +70,11 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .temps div{flex:1;min-width:0;background:rgba(255,255,255,.06);border-radius:15px;padding:11px 12px}
 .temps span{font-size:12px;color:var(--dim)}
 .temps b{display:block;font-size:21px;font-weight:700;margin-top:3px}
+.estimate{padding:16px}
+.estimate-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.estimate-head strong{display:block;font-size:24px;letter-spacing:-.03em;margin-top:5px}
+.estimate span,.estimate small{color:var(--dim);font-size:12px}
+.estimate .btn{margin-top:12px;width:100%}
 .note{text-align:center;color:var(--dim);font-size:11px;margin:3px 0 0}
 .tech{padding:5px 17px}
 .tech summary{padding:13px 0;font-size:14px;font-weight:650;cursor:pointer;list-style:none}
@@ -87,77 +82,71 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .kr{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(255,255,255,.1);font-size:12px}
 .kr span{color:var(--dim)}.kr b{text-align:right;word-break:break-all;font-weight:600}
 .hidden{display:none!important}
-.power{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
-.power .prow{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.power{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .power span{font-size:12px;color:var(--dim)}
 .power b{display:block;font-size:40px;font-weight:740;letter-spacing:-.04em;margin-top:4px}
 .power b small{font-size:18px;color:var(--dim);margin-left:4px;font-weight:600}
-.power .pnote{font-size:11px;color:var(--dim);line-height:1.45}
-
-/* Прогноз у стилі iOS */
-.estimate{padding:14px 16px 16px;display:flex;flex-direction:column;gap:14px}
-.seg{display:flex;background:rgba(255,255,255,.08);border-radius:12px;padding:3px;gap:3px}
-.seg button{flex:1;appearance:none;-webkit-appearance:none;border:0;border-radius:9px;padding:10px 6px;font:inherit;font-size:13px;font-weight:650;color:var(--ink);background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s}
-.seg button.on{background:linear-gradient(180deg,rgba(50,213,131,.65),rgba(50,213,131,.38))}
-.seg.dis button.on{background:linear-gradient(180deg,rgba(255,173,85,.7),rgba(255,173,85,.4))}
-.est-body{display:flex;align-items:center;gap:16px}
-.ring{width:78px;height:78px;flex:0 0 auto}
-.ring .rb{fill:none;stroke:rgba(255,255,255,.1);stroke-width:7}
-.ring .rf{fill:none;stroke:var(--g);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .6s,stroke .3s}
-.ring.dis .rf{stroke:var(--o)}
-.ring text{fill:var(--ink);font-size:15px;font-weight:720;text-anchor:middle;dominant-baseline:central}
-.est-txt{min-width:0;display:flex;flex-direction:column;gap:3px}
-.est-txt span{font-size:12px;color:var(--dim)}
-.est-txt strong{display:block;font-size:30px;font-weight:740;letter-spacing:-.035em;line-height:1.1}
-.est-txt small{font-size:12px;color:var(--dim);line-height:1.4}
-
+.switch-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px}
+.switch-row .lbl{font-size:13px;font-weight:650;color:var(--dim);transition:color .2s}
+.switch-row .lbl.on{color:var(--ink)}
+.switch{position:relative;width:52px;height:31px;border-radius:99px;border:0;padding:0;cursor:pointer;background:rgba(120,120,128,.4);-webkit-tap-highlight-color:transparent;transition:background .25s;flex:0 0 auto}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.4);transition:transform .25s cubic-bezier(.3,.9,.4,1)}
+.switch[aria-checked="true"]{background:var(--o)}
+.switch[aria-checked="true"]::after{transform:translateX(21px)}
+.switch:focus-visible{outline:2px solid var(--c);outline-offset:3px}
 .hist{padding:14px}
-.hist .seg button.on{background:linear-gradient(180deg,rgba(50,213,131,.65),rgba(50,213,131,.38))}
+.seg{display:flex;background:rgba(255,255,255,.08);border-radius:12px;padding:3px;gap:3px}
+.seg button{flex:1;appearance:none;-webkit-appearance:none;border:0;border-radius:9px;padding:10px 6px;font:inherit;font-size:12px;font-weight:650;color:var(--ink);background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.seg button.on{background:linear-gradient(180deg,rgba(50,213,131,.65),rgba(50,213,131,.38))}
 .hsum{font-size:13px;margin:14px 2px 8px}.hsum span{color:var(--dim)}
 #hchart{width:100%;height:auto;display:block}
 .hnote{display:block;color:var(--dim);font-size:11px;margin-top:8px}
-@media(max-width:360px){.wrap{padding-left:12px;padding-right:12px}h1{font-size:29px}.cg{gap:7px}.metric-card b{font-size:17px}.est-txt strong{font-size:25px}}
-@media(prefers-reduced-motion:reduce){.flow .link{animation:none!important}}
+.wrap>*{min-width:0}
+.charge-indicator{flex-direction:column;align-items:stretch;gap:12px}
+.charge-copy{width:100%}.charge-indicator small{overflow-wrap:anywhere}.charge-indicator .light{display:none}
+.flow{width:100%;height:auto;display:block}
+.nd{fill:rgba(255,255,255,.06);stroke:rgba(255,255,255,.16);stroke-width:1;transition:fill .3s,stroke .3s,filter .3s}
+.ic{fill:none;stroke:rgba(255,255,255,.55);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+.ln{stroke:rgba(255,255,255,.28);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 7;transition:stroke .3s}
+.ln.c{stroke:var(--c)}.ln.g{stroke:var(--g)}.ln.o{stroke:var(--o)}
+.flow text{font-size:11px;fill:var(--dim);text-anchor:middle;font-family:inherit}
+.flow .on-c .nd{fill:rgba(83,200,245,.16);stroke:rgba(83,200,245,.7);filter:drop-shadow(0 0 10px rgba(83,200,245,.45))}
+.flow .on-c .ic{stroke:var(--c)}
+.flow .on-g .nd{fill:rgba(50,213,131,.16);stroke:rgba(50,213,131,.7);filter:drop-shadow(0 0 10px rgba(50,213,131,.45))}
+.flow .on-g .ic{stroke:var(--g)}
+.flow .on-o .nd{fill:rgba(255,173,85,.16);stroke:rgba(255,173,85,.7);filter:drop-shadow(0 0 10px rgba(255,173,85,.45))}
+.flow .on-o .ic{stroke:var(--o)}
+.flow .soft .nd{fill:rgba(50,213,131,.07);stroke:rgba(50,213,131,.38);filter:none}
+.segc{position:relative;display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.07);border-radius:16px;padding:4px;margin-bottom:16px}
+.segc .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:12px;background:linear-gradient(180deg,rgba(50,213,131,.75),rgba(50,213,131,.45));box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .3s cubic-bezier(.3,.9,.4,1),background .3s}
+.segc[data-mode="dis"] .thumb{transform:translateX(100%);background:linear-gradient(180deg,rgba(255,173,85,.85),rgba(255,173,85,.5))}
+.segc button{position:relative;z-index:1;appearance:none;-webkit-appearance:none;border:0;background:transparent;color:var(--ink);font:inherit;font-size:15px;font-weight:650;padding:12px 6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.est-body{display:flex;align-items:center;gap:18px}
+.est-ring{width:96px;height:96px;flex:0 0 auto}
+.rtrk{fill:none;stroke:rgba(255,255,255,.12);stroke-width:9}
+.rbar{fill:none;stroke:var(--g);stroke-width:9;stroke-linecap:round;transform:rotate(-90deg);transform-origin:40px 40px;stroke-dasharray:213.6;stroke-dashoffset:213.6;transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1),stroke .3s}
+.segc[data-mode="dis"]~.est-body .rbar{stroke:var(--o)}
+.est-ring text{fill:var(--ink);font-size:17px;font-weight:700;text-anchor:middle;font-family:inherit}
+.est-text{min-width:0}
+.est-body .est-time{font-size:36px}.est-body .est-time small{font-size:17px;margin:0 7px 0 2px}
+.est-time{font-size:44px;font-weight:740;letter-spacing:-.04em;margin:6px 0 2px}
+.est-time small{font-size:20px;color:var(--dim);font-weight:600;margin:0 9px 0 3px}
+@media(prefers-reduced-motion:reduce){.flow .fl{animation:none!important}}
+@media(max-width:360px){.wrap{padding-left:12px;padding-right:12px}h1{font-size:29px}.cg{gap:7px}.metric-card b{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.charge-indicator.charging .light{animation:none}}
 </style>
 </head>
 <body><div class="wrap">
 <header><div><h1>Батарея</h1><div class="sub">PACEEX · 8 комірок</div></div><span class="pill" id="mode"><i></i>Не підключено</span></header>
 <div class="actions"><button class="btn" id="connect" type="button">Підключитись</button><button class="btn secondary" id="refresh" type="button" disabled>Оновити</button><button class="btn secondary" id="disconnect" type="button" disabled>Відключитись</button></div>
-
-<div class="charge-indicator" id="chargeIndicator" role="status" aria-live="polite">
-  <svg class="flow" viewBox="0 0 300 98" aria-hidden="true">
-    <path class="link l1" d="M76 36H116"/>
-    <path class="link l2" d="M184 36H224"/>
-
-    <g class="tower">
-      <rect class="tile act" x="10" y="4" width="64" height="64" rx="18"/>
-      <g transform="translate(26 20) scale(1.3333)" class="ic-g">
-        <path class="ic" d="M12 2.5v2M12 4.5 7 21.5M12 4.5l5 17M4.5 8.5h15M8.2 8.5l3.8 5 3.8-5M6.5 14.5h11M5.8 17.5h12.4M7 21.5h10M4.5 8.5v1.6M19.5 8.5v1.6"/>
-      </g>
-      <text class="lbl" x="42" y="86">Мережа</text>
-    </g>
-
-    <g>
-      <rect class="tile act" x="118" y="4" width="64" height="64" rx="18"/>
-      <g transform="translate(134 20) scale(1.3333)">
-        <rect class="ic" x="2.5" y="7" width="16" height="10" rx="2.5"/>
-        <path class="ic" d="M21 10.5v3"/>
-        <rect class="fillbar" id="batFill" x="4.6" y="9.1" width="0" height="5.8" rx="1"/>
-      </g>
-      <text class="lbl" x="150" y="86">Батарея</text>
-    </g>
-
-    <g>
-      <rect class="tile act" x="226" y="4" width="64" height="64" rx="18"/>
-      <g transform="translate(242 20) scale(1.3333)">
-        <path class="ic" d="M3 11 12 3l9 8M5.5 9.5V20h13V9.5M10 20v-5.5h4V20"/>
-      </g>
-      <text class="lbl" x="258" y="86">Дім</text>
-    </g>
-  </svg>
-  <div class="charge-copy"><strong id="chargeIndicatorText">Стан заряджання невідомий</strong><small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small></div>
-</div>
-
+<div class="charge-indicator idle" id="chargeIndicator" role="status" aria-live="polite"><span class="charge-copy"><strong id="chargeIndicatorText">Стан заряджання невідомий</strong><small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small></span>
+<svg class="flow" id="flow" viewBox="0 0 320 112" role="img" aria-label="Схема живлення: мережа, батарея, дім">
+<line class="ln" id="ln1" x1="88" y1="38" x2="120" y2="38"/><line class="ln" id="ln2" x1="200" y1="38" x2="232" y2="38"/>
+<g class="node" id="nGrid" transform="translate(48 38)"><rect class="nd" x="-32" y="-32" width="64" height="64" rx="20"/><g transform="translate(-19 -19) scale(1.58)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g>
+<g class="node" id="nBat" transform="translate(160 38)"><rect class="nd" x="-32" y="-32" width="64" height="64" rx="20"/><g transform="translate(-19 -19) scale(1.58)"><rect class="ic" x="2.5" y="7" width="17" height="10" rx="2.6"/><path class="ic" d="M21.5 10.4v3.2"/></g></g>
+<g class="node" id="nHome" transform="translate(272 38)"><rect class="nd" x="-32" y="-32" width="64" height="64" rx="20"/><g transform="translate(-19 -19) scale(1.58)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g>
+<text x="48" y="94">Мережа</text><text x="160" y="94">Батарея</text><text x="272" y="94">Дім</text>
+</svg></div>
 <div class="status" id="status" role="status">Натисни «Підключитись» і вибери PC-A2EE. Перед цим закрий PACEEX і вкладку з цією сторінкою на ноутбуці: BMS приймає лише одне з'єднання.</div>
 
 <section class="glass hero"><div class="metrics-top">
@@ -167,23 +156,13 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 </div></section>
 
 <h2>Потужність зараз</h2>
-<section class="glass power">
-  <div class="prow"><div><span id="pwLabel">Споживання інвертора</span><b id="pwBig">—</b></div><span class="pill" id="pwMode"><i></i>Немає даних</span></div>
-  <div class="pnote" id="pwNote" style="display:none">BMS вимірює лише струм батареї, тому навантаження інвертора від мережі не видно. Це значення — фоновий розряд батареї в очікуванні, воно майже не змінюється.</div>
-</section>
+<section class="glass power"><div><span id="pwLabel">Споживання інвертора</span><b id="pwBig">—</b></div><span class="pill" id="pwMode"><i></i>Немає даних</span></section>
 
 <h2>Заряд і прогноз</h2>
 <section class="glass estimate">
-  <div class="seg" id="fcSeg"><button type="button" id="fcCharge" class="on">До заряду</button><button type="button" id="fcDis">Вистачить на</button></div>
-  <div class="est-body">
-    <svg class="ring" id="ring" viewBox="0 0 64 64" aria-hidden="true">
-      <circle class="rb" cx="32" cy="32" r="26"/>
-      <circle class="rf" id="ringFg" cx="32" cy="32" r="26" transform="rotate(-90 32 32)" stroke-dasharray="163.36" stroke-dashoffset="163.36"/>
-      <text x="32" y="33" id="ringTxt">—</text>
-    </svg>
-    <div class="est-txt"><span id="estimateLabel">До повного заряду</span><strong id="timeEstimate">—</strong><small id="estimateDetail">З’явиться після підключення BMS</small></div>
-  </div>
-</section>
+<div class="segc" id="seg" data-mode="charge" role="group" aria-label="Режим прогнозу"><span class="thumb"></span><button type="button" id="fcCharge" aria-pressed="true">До заряду</button><button type="button" id="fcDis" aria-pressed="false">Вистачить на</button></div>
+<div class="est-body"><svg class="est-ring" viewBox="0 0 80 80" aria-hidden="true"><circle class="rtrk" cx="40" cy="40" r="34"/><circle class="rbar" id="estRing" cx="40" cy="40" r="34"/><text x="40" y="46" id="ringTxt">–</text></svg>
+<div class="est-text"><span id="estimateLabel">До повного заряду</span><div class="est-time" id="timeEstimate">—</div><small id="estimateDetail">З’явиться після підключення BMS</small></div></div></section>
 
 <h2>Вольтаж</h2>
 <div class="grid">
@@ -239,11 +218,15 @@ const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
 function status(msg,type=''){$('status').textContent=msg;$('status').className='status'+(type?' '+type:'');}
 function pill(el,text,type=''){el.className='pill'+(type?' '+type:'');el.innerHTML='<i></i>'+text;}
 function uiConnected(yes){$('connect').disabled=yes;$('refresh').disabled=!yes;$('disconnect').disabled=!yes;pill($('mode'),yes?'Підключено':'Не підключено',yes?'ok':'');}
-function setBatFill(soc){const s=Number.isFinite(soc)?Math.max(0,Math.min(100,soc)):0;$('batFill').setAttribute('width',(12.8*s/100).toFixed(2));}
-function setChargeIndicator(state,current=null,power=null,soc=null){const el=$('chargeIndicator');el.className='charge-indicator '+state;setBatFill(soc);
-if(state==='charging'){$('chargeIndicatorText').textContent='ЗАРЯДЖАННЯ';$('chargeIndicatorDetail').textContent='Мережа живить дім і заряджає батарею · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
-else if(state==='discharging'){$('chargeIndicatorText').textContent='ЖИВЛЕННЯ ВІД БАТАРЕЇ';$('chargeIndicatorDetail').textContent='Мережі немає · батарея живить дім · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
-else if(state==='grid'){$('chargeIndicatorText').textContent='МЕРЕЖА ВІД МІСТА';$('chargeIndicatorDetail').textContent='Дім живиться від мережі · батарея в очікуванні · '+fmt(Math.abs(power),0)+' Вт · '+fmt(Math.abs(current),1)+' А';}
+function setFlow(state){
+const m={charging:{g:'on-c',b:'on-g',h:'on-c',l1:'c',l2:'g'},grid:{g:'on-c',b:'on-g soft',h:'on-c',l1:'c',l2:'c'},discharging:{g:'',b:'on-o',h:'on-o',l1:'',l2:'o'}};
+const c=m[state==='idle'?'grid':state]||{g:'',b:'',h:'',l1:'',l2:''};
+$('nGrid').setAttribute('class','node '+c.g);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
+$('ln1').setAttribute('class','ln '+c.l1);$('ln2').setAttribute('class','ln '+c.l2);}
+function setChargeIndicator(state,current=null,power=null){const el=$('chargeIndicator');el.className='charge-indicator '+state;setFlow(state);
+if(state==='charging'){$('chargeIndicatorText').textContent='ЗАРЯДЖАННЯ';$('chargeIndicatorDetail').textContent='У батарею надходить енергія · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
+else if(state==='discharging'){$('chargeIndicatorText').textContent='ЖИВЛЕННЯ ВІД БАТАРЕЇ';$('chargeIndicatorDetail').textContent='Батарея віддає енергію · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
+else if(state==='grid'){$('chargeIndicatorText').textContent='МЕРЕЖА ВІД МІСТА';$('chargeIndicatorDetail').textContent='Батарея в очікуванні · '+fmt(Math.abs(power),0)+' Вт · '+fmt(Math.abs(current),1)+' А';}
 else if(state==='idle'){$('chargeIndicatorText').textContent='ЗАРЯД НЕ ВІДБУВАЄТЬСЯ';$('chargeIndicatorDetail').textContent='Струм близький до нуля';}
 else{$('chargeIndicatorText').textContent='Стан заряджання невідомий';$('chargeIndicatorDetail').textContent='Підключи BMS, щоб перевірити напрямок струму';}}
 function crcModbus(bytes){let crc=0xffff;for(const b of bytes){crc^=b;for(let i=0;i<8;i++)crc=(crc&1)?((crc>>>1)^0xa001):(crc>>>1);}return crc&0xffff;}
@@ -259,7 +242,7 @@ function str(bytes){let out='';for(const b of bytes){if(b<32||b>126)break;out+=S
 function u16(d,p){return(d[p]<<8)|d[p+1];}
 function s16(d,p){const n=u16(d,p);return n&0x8000?n-0x10000:n;}
 async function readInfo(){const s=await request([0,0,0,2,0,0]);$('serial').textContent=str(s.slice(9,9+s[8]))||'—';const v=await request([0,0,0,1,0,0]);$('sw').textContent=str(v.slice(10,10+(v[9]||0)))||'—';const hwPos=65;$('hw').textContent=str(v.slice(hwPos,hwPos+(v[hwPos-1]||0)))||'—';}
-function drawMetrics(soc,current,voltage){$('l1').innerHTML=Number.isFinite(soc)?soc+'<small>%</small>':'—';$('l2').innerHTML=Number.isFinite(current)?fmt(current,1)+'<small> А</small>':'—';$('l3').innerHTML=Number.isFinite(voltage)?fmt(voltage)+'<small> В</small>':'—';}
+function drawMetrics(soc,current,voltage){const fb=$('fnBat');if(fb&&Number.isFinite(soc)){fb.textContent=soc+'%';$('bfill').setAttribute('width',(12.8*Math.max(0,Math.min(100,soc))/100).toFixed(1));}$('l1').innerHTML=Number.isFinite(soc)?soc+'<small>%</small>':'—';$('l2').innerHTML=Number.isFinite(current)?fmt(current,1)+'<small> А</small>':'—';$('l3').innerHTML=Number.isFinite(voltage)?fmt(voltage)+'<small> В</small>':'—';}
 function renderCells(cells,voltage){$('cg').innerHTML='';
 if(!cells.length){$('cg').textContent='Дані комірок відсутні';$('range').textContent='—';$('delta').textContent='—';return;}
 const mx=Math.max(...cells),mn=Math.min(...cells),sum=cells.reduce((a,b)=>a+b,0);
@@ -269,40 +252,32 @@ $('vPack').innerHTML=fmt(voltage)+'<small>В</small>';$('vSum').innerHTML=fmt(su
 $('vMin').innerHTML=fmt(mn,3)+'<small>В</small>';$('vMax').innerHTML=fmt(mx,3)+'<small>В</small>';$('vDelta').innerHTML=Math.round((mx-mn)*1000)+'<small>мВ</small>';
 cells.forEach((v,i)=>{const el=document.createElement('div');el.className='cell'+(v===mx?' mx':v===mn?' mn':'');const h=Math.max(8,Math.min(100,(v-3.0)/(3.5-3.0)*100));el.innerHTML='<span class="well" style="--h:'+h+'%"><i>'+(i+1)+'</i></span><b>'+fmt(v,3)+' В</b>';$('cg').appendChild(el);});}
 let last=null;
-function fmtHours(h){if(h>240)return '> 10 днів';if(h>=48){const d=Math.floor(h/24);return d+' д '+Math.min(23,Math.round(h-d*24))+' год';}const m=Math.round(h*60);return Math.floor(m/60)+' год '+(m%60)+' хв';}
+function fmtHours(h){if(h>240)return '> 10<small>днів</small>';if(h>=48){const d=Math.floor(h/24);return d+'<small>д</small>'+Math.min(23,Math.round(h-d*24))+'<small>год</small>';}const m=Math.round(h*60);return Math.floor(m/60)+'<small>год</small>'+(m%60)+'<small>хв</small>';}
 function renderForecast(){
 const dis=fcMode===null?!(last&&last.current>0.5):fcMode==='discharge';
-$('fcCharge').className=dis?'':'on';$('fcDis').className=dis?'on':'';$('fcSeg').className='seg'+(dis?' dis':'');
-$('ring').setAttribute('class','ring'+(dis?' dis':''));
+$('seg').setAttribute('data-mode',dis?'dis':'charge');$('fcCharge').setAttribute('aria-pressed',dis?'false':'true');$('fcDis').setAttribute('aria-pressed',dis?'true':'false');
+const soc=last?last.soc:NaN;$('estRing').style.strokeDashoffset=Number.isFinite(soc)?(213.6*(1-Math.max(0,Math.min(100,soc))/100)).toFixed(1):213.6;$('ringTxt').textContent=Number.isFinite(soc)?soc+'%':'–';
 $('estimateLabel').textContent=dis?'Заряду вистачить на':'До повного заряду';
-if(!last){$('timeEstimate').textContent='—';$('estimateDetail').textContent='З’явиться після підключення BMS';$('ringTxt').textContent='—';$('ringFg').setAttribute('stroke-dashoffset','163.36');return;}
-$('ringTxt').textContent=Math.round(last.soc)+'%';$('ringFg').setAttribute('stroke-dashoffset',(163.36*(1-Math.max(0,Math.min(100,last.soc))/100)).toFixed(2));
+if(!last){$('timeEstimate').textContent='—';$('estimateDetail').textContent='З’явиться після підключення BMS';return;}
 const ah=dis?last.remainingAh:(FULL_CAPACITY_AH-last.remainingAh),absP=Math.abs(last.power);
 const hours=(absP>10&&last.voltage>0)?(ah*last.voltage/absP):NaN;
-$('timeEstimate').textContent=Number.isFinite(hours)?fmtHours(hours):'—';
-if(!Number.isFinite(hours))$('estimateDetail').textContent='Потужність занадто мала для прогнозу';
-else if(last.grid&&dis)$('estimateDetail').textContent='Орієнтовно за струмом батареї в очікуванні ('+fmt(absP,0)+' Вт). Навантаження від мережі BMS не бачить.';
-else $('estimateDetail').textContent='При потужності '+fmt(absP,0)+' Вт · орієнтовно';}
+$('timeEstimate').innerHTML=Number.isFinite(hours)?fmtHours(hours):'—';
+$('estimateDetail').textContent=Number.isFinite(hours)?'При потужності '+fmt(absP,0)+' Вт · орієнтовно':'Потужність занадто мала для прогнозу';}
 async function readData(){if(!server||!server.connected||busy)return;busy=true;$('refresh').disabled=true;try{
 const p=await request([0,0,10,1,0,0],[1,1]);const current=s16(p,9)/100,voltage=u16(p,11)/100,cycleCharge=u16(p,13)/100,capacity=Math.floor(u16(p,17)/100),soc=p[19],health=p[20],cycles=u16(p,21);
 const c=await request([0,0,10,2,0,0],[1,1]);const count=c[11],cells=[];for(let i=0;i<count&&i<32;i++){const pos=12+i*4;if(pos+1<c.length-3)cells.push(u16(c,pos)/1000);}
 const temps=[];for(let i=0;i<6;i++){const pos=14+i*4;if(pos+1<c.length-3){const raw=u16(c,pos);temps.push(raw===0?null:(raw-2731)/10);}}
 await request([0,0,10,0,0,0]);
 const power=voltage*current;drawMetrics(soc,current,voltage);recordHist(soc,current);drawHist();
-const grid=!(current>.5)&&!(current<-1.5);
-{const ap=Math.abs(power);$('pwBig').innerHTML=ap>=1000?fmt(ap/1000,2)+'<small>кВт</small>':Math.round(ap)+'<small>Вт</small>';
-$('pwLabel').textContent=current<-1.5?'Інвертор споживає з батареї':current>.5?'Батарея заряджається':'Розряд батареї в очікуванні';
-$('pwNote').style.display=grid?'block':'none';
-pill($('pwMode'),current<-1.5?'Віддає батарея':current>.5?'Заряджання':'Мережа від міста',current<-1.5?'warn':current>.5?'ok':'');}
-$('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small> А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small> А·г</small>';$('cycles').textContent=cycles;
+{const ap=Math.abs(power);$('pwBig').innerHTML=ap>=1000?fmt(ap/1000,2)+'<small>кВт</small>':Math.round(ap)+'<small>Вт</small>';$('pwLabel').textContent=current<-1.5?'Інвертор споживає з батареї':current>.5?'Батарея заряджається':'Інвертор працює від мережі';pill($('pwMode'),current<-1.5?'Віддає батарея':current>.5?'Заряджання':'Мережа від міста',current<-1.5?'warn':current>.5?'ok':'');}$('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small> А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small> А·г</small>';$('cycles').textContent=cycles;
 renderCells(cells,voltage);
 ['t1','t2','t3','t4','tmos','tamb'].forEach((id,i)=>$(id).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C');
 const vt=temps.filter(v=>v!==null);$('tempAvg').innerHTML=vt.length?fmt(vt.reduce((a,b)=>a+b,0)/vt.length,1)+'<small> °C</small>':'—';
 pill($('chargeState'),current>0.5?'Позитивний струм':current<-.5?'Негативний струм':'Малий струм',current>.5?'ok':current<-.5?'warn':'');pill($('bmsState'),'BMS відповіла','ok');
-setChargeIndicator(current>0.5?'charging':current<-1.5?'discharging':'grid',current,power,soc);
+setChargeIndicator(current>0.5?'charging':current<-1.5?'discharging':'grid',current,power);
 const remainingAh=FULL_CAPACITY_AH*Math.max(0,Math.min(100,soc))/100;
 $('remainingAh').innerHTML=fmt(remainingAh,1)+'<small>з '+fmt(FULL_CAPACITY_AH,1)+' А·г</small>';
-last={power,voltage,current,remainingAh,soc,grid};renderForecast();
+last={power,voltage,current,remainingAh,soc};renderForecast();
 $('updated').textContent='Останнє оновлення: '+new Date().toLocaleTimeString('uk-UA');status('Дані зчитано.','ok');
 $('kv').innerHTML=[['Назва',device?.name||'PC-A2EE'],['Серійний номер',$('serial').textContent],['Версія ПЗ',$('sw').textContent],['Версія заліза',$('hw').textContent],['Напруга пакета',fmt(voltage)+' В'],['Струм зі знаком',fmt(current)+' А'],['Заряд',soc+'%'],['Здоров’я BMS',health+'%'],['Проєктна ємність',capacity+' А·г'],['Заряд за цикл',fmt(cycleCharge,2)+' А·г'],['Цикли',cycles],['Комірок',cells.length]].map(r=>'<div class="kr"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
 }catch(e){status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');}finally{busy=false;if(server&&server.connected)$('refresh').disabled=false;}}
@@ -328,17 +303,16 @@ if(!navigator.bluetooth){status('Web Bluetooth недоступний у цьо�
 $('connect').disabled=true;status('Шукаю пристрій PC-A2EE…');
 try{
 device=await navigator.bluetooth.requestDevice({filters:[{namePrefix:'PC-'}],optionalServices:[SERVICE]});
-device.addEventListener('gattserverdisconnected',()=>{if(connecting)return;server=null;rx=null;tx=null;last=null;clearInterval(refreshTimer);refreshTimer=null;uiConnected(false);setChargeIndicator('unknown');renderForecast();$('connect').disabled=false;status('З’єднання з BMS розірвано. Перевір, що PACEEX і ноутбук не підключені, і натисни «Підключитись».');});
+device.addEventListener('gattserverdisconnected',()=>{if(connecting)return;server=null;rx=null;tx=null;clearInterval(refreshTimer);refreshTimer=null;uiConnected(false);setChargeIndicator('unknown');$('connect').disabled=false;status('З’єднання з BMS розірвано. Перевір, що PACEEX і ноутбук не підключені, і натисни «Підключитись».');});
 connecting=true;await openGatt();connecting=false;
 uiConnected(true);status('Підключено. Читаю інформацію BMS…','ok');
 await readInfo();await readData();
 if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(()=>{if(!document.hidden)readData();},5000);
 }catch(e){connecting=false;uiConnected(false);$('connect').disabled=false;status('Помилка підключення: '+(e?.message||String(e))+'. Закрий PACEEX і вкладку на ноутбуці: BMS приймає лише одне з’єднання.','err');}}
-async function disconnect(){clearInterval(refreshTimer);refreshTimer=null;try{if(rx)rx.removeEventListener('characteristicvaluechanged',onNotify);if(device?.gatt?.connected)device.gatt.disconnect();}catch(e){}server=null;rx=null;tx=null;last=null;uiConnected(false);setChargeIndicator('unknown');renderForecast();$('connect').disabled=false;status('Відключено від BMS.');}
+async function disconnect(){clearInterval(refreshTimer);refreshTimer=null;try{if(rx)rx.removeEventListener('characteristicvaluechanged',onNotify);if(device?.gatt?.connected)device.gatt.disconnect();}catch(e){}server=null;rx=null;tx=null;uiConnected(false);setChargeIndicator('unknown');$('connect').disabled=false;status('Відключено від BMS.');}
 $('connect').addEventListener('click',connect);$('refresh').addEventListener('click',readData);$('disconnect').addEventListener('click',disconnect);
-$('fcCharge').addEventListener('click',()=>{fcMode='charge';renderForecast();});
-$('fcDis').addEventListener('click',()=>{fcMode='discharge';renderForecast();});
-renderForecast();setChargeIndicator('unknown');
+$('fcCharge').addEventListener('click',()=>{fcMode='charge';renderForecast();});$('fcDis').addEventListener('click',()=>{fcMode='discharge';renderForecast();});
+renderForecast();
 $('kv').innerHTML='<div class="kr"><span>Статус</span><b>Очікування підключення</b></div><div class="kr"><span>BLE сервіс</span><b>FFF0</b></div><div class="kr"><span>RX / TX</span><b>FFF1 / FFF2</b></div>';
 const HK='bms_hist_v1';let hist=[],hRange=24;
 try{hist=JSON.parse(localStorage.getItem(HK)||'[]');}catch(e){hist=[];}

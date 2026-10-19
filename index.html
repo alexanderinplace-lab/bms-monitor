@@ -30,9 +30,16 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
 .btn.secondary{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.05))}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .btn:active{transform:scale(.97)}
-.btn.icon{width:44px;padding:0;flex:0 0 auto}
-.btn.icon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.btn.icon.danger:not(:disabled){color:#ff6b61;border-color:rgba(255,69,58,.35);background:linear-gradient(180deg,rgba(255,69,58,.2),rgba(255,69,58,.07))}
+.conn{gap:10px;padding:12px 20px 12px 17px}
+.conn .dot{width:9px;height:9px;border-radius:50%;background:#8e8e93;flex:0 0 auto;transition:background .3s,box-shadow .3s}
+.conn.on{background:linear-gradient(180deg,rgba(50,213,131,.28),rgba(50,213,131,.1));border-color:rgba(50,213,131,.5)}
+.conn.on .dot{background:var(--g);box-shadow:0 0 10px var(--g)}
+.conn:disabled:not(.on){opacity:.6}
+.conn:disabled.on{opacity:1;cursor:default}
+.btn.icon{width:44px;padding:0;flex:0 0 auto;background:rgba(120,120,128,.2);border:0;box-shadow:none;color:rgba(235,240,255,.72)}
+.btn.icon:disabled{opacity:.3}
+.btn.icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn.icon:not(:disabled):active{background:rgba(120,120,128,.34)}
 .btn.icon:not(:disabled):active svg{transform:rotate(-40deg);transition:transform .2s}
 .charge-indicator{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:20px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14)}
 .charge-indicator .light{width:13px;height:13px;border-radius:50%;background:#8e8e93;flex:0 0 auto}
@@ -45,6 +52,7 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
 .charge-indicator.discharging .light{background:var(--o);box-shadow:0 0 12px rgba(255,159,10,.75)}
 .charge-indicator.mains{background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
 .charge-indicator.mains .light{background:var(--c);box-shadow:0 0 12px rgba(83,200,245,.8)}
+.charge-indicator.mains .charge-copy{display:none}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 .status{padding:10px 13px;border-radius:15px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--dim);overflow-wrap:anywhere}
 .status{white-space:pre-wrap}
@@ -126,6 +134,8 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .flow .on-o .nd{fill:rgba(255,173,85,.16);stroke:rgba(255,173,85,.7);filter:drop-shadow(0 0 10px rgba(255,173,85,.45))}
 .flow .on-o .ic{stroke:var(--o)}
 .flow .soft .nd{fill:rgba(50,213,131,.07);stroke:rgba(50,213,131,.38);filter:none}
+.gdot{fill:var(--g);stroke:var(--bg);stroke-width:2.5;opacity:0;transition:opacity .3s;filter:drop-shadow(0 0 4px rgba(50,213,131,.9))}
+.flow .ind .gdot{opacity:1}
 .charge-indicator .flow{order:-1}
 .charge-indicator strong{font-size:19px;font-weight:750}
 .charge-indicator small{font-size:14px;line-height:1.35}
@@ -172,11 +182,11 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 </style>
 </head>
 <body><div class="wrap">
-<header><span class="pill" id="mode"><i></i>Не підключено</span><div class="wx" id="wx" title="Погода у Дніпрі"><span id="wxIcon"></span><b id="wxT">—</b><small>Дніпро</small></div></header>
-<div class="actions"><button class="btn" id="connect" type="button">Підключитись</button><button class="btn secondary icon" id="refresh" type="button" disabled aria-label="Оновити" title="Оновити"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button><button class="btn secondary icon danger" id="disconnect" type="button" disabled aria-label="Відключитись" title="Відключитись"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button></div>
+<header><div class="wx" id="wx" title="Погода у Дніпрі"><span id="wxIcon"></span><b id="wxT">—</b><small>Дніпро</small></div></header>
+<div class="actions"><button class="btn secondary conn" id="connect" type="button"><i class="dot"></i><span>Підключитись</span></button><button class="btn secondary icon" id="refresh" type="button" disabled aria-label="Оновити" title="Оновити"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button><button class="btn secondary icon" id="disconnect" type="button" disabled aria-label="Відключитись" title="Відключитись"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button></div>
 <div class="status" id="status" role="status">Натисни «Підключитись» і вибери PC-A2EE. Перед цим закрий PACEEX і вкладку з цією сторінкою на ноутбуці: BMS приймає лише одне з'єднання.</div>
 <div class="charge-indicator idle" id="chargeIndicator" role="status" aria-live="polite"><span class="charge-copy"><strong id="chargeIndicatorText">Стан заряджання невідомий</strong><small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small></span>
-<svg class="flow" id="flow" viewBox="0 0 320 248" role="img" aria-label="Схема живлення: мережа, інвертор, акумулятор, дім"><path class="ln" id="ln0" fill="none" d="M160 61V79"/><path class="ln" id="ln1" fill="none" d="M133 106H72a12 12 0 0 0-12 12V151"/><path class="ln" id="ln2" fill="none" d="M187 106H248a12 12 0 0 1 12 12V151"/><g class="node" id="nGrid" transform="translate(160 34)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g><g class="node" id="nInv" transform="translate(160 106)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><rect class="ic" x="4.5" y="2.5" width="15" height="19" rx="3.5"/><circle class="ic" cx="12" cy="9.5" r="3"/><path class="ic" d="M8.5 16.2h7M8.5 18.8h4"/></g></g><g class="node" id="nBat" transform="translate(60 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><rect class="ic" x="-21" y="-12" width="38" height="24" rx="7" style="stroke-width:1.8"/><path class="ic" d="M20.3 -4v8" style="stroke-width:2.2"/><rect class="bf" id="bfill" x="-18" y="-9" width="0" height="18" rx="4.5"/><text class="pct" id="fnBat" x="-2" y="1">—</text></g><g class="node" id="nHome" transform="translate(260 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g><text class="val" id="fnCur" x="98" y="96">—</text><text class="cap" x="98" y="122">струм</text><text class="val" id="fnPow" x="222" y="96">—</text><text class="cap" id="fnPowCap" x="222" y="122">потужність</text><text x="60" y="224">Акумулятор</text><text class="volt" id="fnVolt" x="60" y="242">—</text><text x="260" y="224">Дім</text></svg></div>
+<svg class="flow" id="flow" viewBox="0 0 320 248" role="img" aria-label="Схема живлення: мережа, інвертор, акумулятор, дім"><path class="ln" id="ln0" fill="none" d="M160 61V79"/><path class="ln" id="ln1" fill="none" d="M133 106H72a12 12 0 0 0-12 12V151"/><path class="ln" id="ln2" fill="none" d="M187 106H248a12 12 0 0 1 12 12V151"/><g class="node" id="nGrid" transform="translate(160 34)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g><circle class="gdot" cx="23" cy="-23" r="5"/></g><g class="node" id="nInv" transform="translate(160 106)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><rect class="ic" x="4.5" y="2.5" width="15" height="19" rx="3.5"/><circle class="ic" cx="12" cy="9.5" r="3"/><path class="ic" d="M8.5 16.2h7M8.5 18.8h4"/></g></g><g class="node" id="nBat" transform="translate(60 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><rect class="ic" x="-21" y="-12" width="38" height="24" rx="7" style="stroke-width:1.8"/><path class="ic" d="M20.3 -4v8" style="stroke-width:2.2"/><rect class="bf" id="bfill" x="-18" y="-9" width="0" height="18" rx="4.5"/><text class="pct" id="fnBat" x="-2" y="1">—</text><circle class="gdot" cx="23" cy="-23" r="5"/></g><g class="node" id="nHome" transform="translate(260 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g><text class="val" id="fnCur" x="98" y="96">—</text><text class="cap" x="98" y="122">струм</text><text class="val" id="fnPow" x="222" y="96">—</text><text class="cap" id="fnPowCap" x="222" y="122">потужність</text><text x="60" y="224">Акумулятор</text><text class="volt" id="fnVolt" x="60" y="242">—</text><text x="260" y="224">Дім</text></svg></div>
 
 
 
@@ -234,9 +244,9 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
 function status(msg,type=''){$('status').textContent=msg;$('status').className='status'+(type?' '+type:'');}
 function pill(el,text,type=''){el.className='pill'+(type?' '+type:'');el.innerHTML='<i></i>'+text;}
-function uiConnected(yes){$('connect').disabled=yes;$('refresh').disabled=!yes;$('disconnect').disabled=!yes;pill($('mode'),yes?'Підключено':'Не підключено',yes?'ok':'');}
+function uiConnected(yes){const b=$('connect');b.disabled=yes;b.classList.toggle('on',yes);b.lastElementChild.textContent=yes?'Підключено':'Підключитись';$('refresh').disabled=!yes;$('disconnect').disabled=!yes;}
 function setFlow(state){
-const m={charging:{g:'on-g',i:'on-c',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run',chip:1},grid:{g:'on-g',i:'on-c',b:'on-g soft',h:'on-c',l0:'g run',l1:'c',l2:'c run',chip:1},discharging:{g:'',i:'on-o',b:'on-o pulse',h:'on-o',l0:'',l1:'o run rev',l2:'o run',chip:0}};
+const m={charging:{g:'on-g ind',i:'on-c',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run',chip:1},grid:{g:'on-g ind',i:'on-c',b:'on-g',h:'on-c',l0:'g run',l1:'c',l2:'c run',chip:1},discharging:{g:'',i:'on-o',b:'on-o pulse ind',h:'on-o',l0:'',l1:'o run rev',l2:'o run',chip:0}};
 const key=state==='idle'?'grid':state;const c=m[key]||{g:'',i:'',b:'',h:'',l0:'',l1:'',l2:''};
 if(!m[key]){['fnCur','fnPow','fnVolt','fnBat'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);$('fnPowCap').textContent='потужність';}
 $('nGrid').setAttribute('class','node '+c.g);$('nInv').setAttribute('class','node '+c.i);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
@@ -244,7 +254,7 @@ $('ln0').setAttribute('class','ln '+c.l0);$('ln1').setAttribute('class','ln '+c.
 function setChargeIndicator(state,current=null,power=null){const el=$('chargeIndicator');el.className='charge-indicator '+(state==='grid'?'mains':state);setFlow(state);
 if(state==='charging'){$('chargeIndicatorText').textContent='ЗАРЯДЖАННЯ';$('chargeIndicatorDetail').textContent='В акумулятор надходить енергія · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
 else if(state==='discharging'){$('chargeIndicatorText').textContent='ЖИВЛЕННЯ ВІД АКУМУЛЯТОРА';$('chargeIndicatorDetail').textContent='Акумулятор віддає енергію · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
-else if(state==='grid'){$('chargeIndicatorText').textContent='МЕРЕЖА ВІД МІСТА';$('chargeIndicatorDetail').textContent='Акумулятор в очікуванні · '+fmt(Math.abs(power),0)+' Вт · '+fmt(Math.abs(current),1)+' А';}
+else if(state==='grid'){$('chargeIndicatorText').textContent='';$('chargeIndicatorDetail').textContent='';}
 else if(state==='idle'){$('chargeIndicatorText').textContent='ЗАРЯД НЕ ВІДБУВАЄТЬСЯ';$('chargeIndicatorDetail').textContent='Струм близький до нуля';}
 else{$('chargeIndicatorText').textContent='Стан заряджання невідомий';$('chargeIndicatorDetail').textContent='Підключи BMS, щоб перевірити напрямок струму';}}
 function crcModbus(bytes){let crc=0xffff;for(const b of bytes){crc^=b;for(let i=0;i<8;i++)crc=(crc&1)?((crc>>>1)^0xa001):(crc>>>1);}return crc&0xffff;}

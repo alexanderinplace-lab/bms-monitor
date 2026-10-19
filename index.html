@@ -125,6 +125,9 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .charge-indicator strong{font-size:19px;font-weight:750}
 .charge-indicator small{font-size:14px;line-height:1.35}
 .flow text{font-size:13px}
+.flow .bf{fill:rgba(255,255,255,.28);transition:width .6s,fill .3s}.flow .on-g .bf{fill:rgba(50,213,131,.88)}.flow .on-o .bf{fill:rgba(255,173,85,.9)}.flow .on-c .bf{fill:rgba(83,200,245,.85)}.flow text.pct{font-size:11px;font-weight:800;fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.55);stroke-width:2px;stroke-linejoin:round;dominant-baseline:central;letter-spacing:-.03em}.flow text.val{font-size:13px;font-weight:750;fill:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums}.flow text.cap{font-size:10px;fill:var(--dim);letter-spacing:.02em}.flow text.volt{font-size:13px;font-weight:750;fill:var(--c);font-variant-numeric:tabular-nums}.charging .flow text.val{fill:var(--g)}.discharging .flow text.val{fill:var(--o)}.mains .flow text.val{fill:var(--c)}
+.flow text.chip{font-size:11px;font-weight:750;fill:var(--g);text-anchor:start;letter-spacing:.01em}.flow text.chip.off{fill:var(--dim);font-weight:600}
+.ln.run.rev{animation-direction:reverse}
 .ln.run{animation:lnr .9s linear infinite}
 @keyframes lnr{to{stroke-dashoffset:-8}}
 .flow .pulse .nd{animation:ndp 2s ease-in-out infinite}
@@ -167,23 +170,12 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 <header><div><h1>Батарея</h1><div class="sub">PACEEX · 8 комірок</div></div><span class="pill" id="mode"><i></i>Не підключено</span></header>
 <div class="actions"><button class="btn" id="connect" type="button">Підключитись</button><button class="btn secondary icon" id="refresh" type="button" disabled aria-label="Оновити" title="Оновити"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button><button class="btn secondary icon danger" id="disconnect" type="button" disabled aria-label="Відключитись" title="Відключитись"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button></div>
 <div class="charge-indicator idle" id="chargeIndicator" role="status" aria-live="polite"><span class="charge-copy"><strong id="chargeIndicatorText">Стан заряджання невідомий</strong><small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small></span>
-<svg class="flow" id="flow" viewBox="0 0 320 112" role="img" aria-label="Схема живлення: мережа, батарея, дім">
-<line class="ln" id="ln1" x1="88" y1="38" x2="120" y2="38"/><line class="ln" id="ln2" x1="200" y1="38" x2="232" y2="38"/>
-<g class="node" id="nGrid" transform="translate(48 38)"><rect class="nd" x="-32" y="-32" width="64" height="64" rx="20"/><g transform="translate(-19 -19) scale(1.58)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g>
-<g class="node" id="nBat" transform="translate(160 38)"><rect class="nd" x="-32" y="-32" width="64" height="64" rx="20"/><g transform="translate(-19 -19) scale(1.58)"><rect class="ic" x="2.5" y="7" width="17" height="10" rx="2.6"/><path class="ic" d="M21.5 10.4v3.2"/></g></g>
-<g class="node" id="nHome" transform="translate(272 38)"><rect class="nd" x="-32" y="-32" width="64" height="64" rx="20"/><g transform="translate(-19 -19) scale(1.58)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g>
-<text x="48" y="94">Мережа</text><text x="160" y="94">Батарея</text><text x="272" y="94">Дім</text>
-</svg></div>
+<svg class="flow" id="flow" viewBox="0 0 320 248" role="img" aria-label="Схема живлення: мережа, інвертор, батарея, дім"><path class="ln" id="ln0" fill="none" d="M160 61V79"/><path class="ln" id="ln1" fill="none" d="M133 106H72a12 12 0 0 0-12 12V151"/><path class="ln" id="ln2" fill="none" d="M187 106H248a12 12 0 0 1 12 12V151"/><g class="node" id="nGrid" transform="translate(160 34)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g><g class="node" id="nInv" transform="translate(160 106)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><rect class="ic" x="4.5" y="2.5" width="15" height="19" rx="3.5"/><circle class="ic" cx="12" cy="9.5" r="3"/><path class="ic" d="M8.5 16.2h7M8.5 18.8h4"/></g></g><g class="node" id="nBat" transform="translate(60 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><rect class="ic" x="-23" y="-12" width="40" height="24" rx="7" style="stroke-width:1.8"/><path class="ic" d="M20.5 -4v8" style="stroke-width:2.2"/><rect class="bf" id="bfill" x="-20" y="-9" width="0" height="18" rx="4.5"/><text class="pct" id="fnBat" x="-3" y="1">—</text></g><g class="node" id="nHome" transform="translate(260 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g><text x="124" y="38" style="text-anchor:end">Мережа</text><text class="chip off" id="fnGrid" x="196" y="38"></text><text class="val" id="fnCur" x="98" y="96">—</text><text class="cap" x="98" y="122">струм</text><text class="val" id="fnPow" x="222" y="96">—</text><text class="cap" id="fnPowCap" x="222" y="122">потужність</text><text x="60" y="224">Батарея</text><text class="volt" id="fnVolt" x="60" y="242">—</text><text x="260" y="224">Дім</text></svg></div>
 <div class="status" id="status" role="status">Натисни «Підключитись» і вибери PC-A2EE. Перед цим закрий PACEEX і вкладку з цією сторінкою на ноутбуці: BMS приймає лише одне з'єднання.</div>
 
-<section class="glass hero"><div class="metrics-top">
-<div class="metric-card charge-card"><em>ЗАРЯД</em><b id="l1">—</b><span class="metric-accent"></span></div>
-<div class="metric-card current-card"><em>СТРУМ</em><b id="l2">—</b><span class="metric-accent"></span></div>
-<div class="metric-card voltage-card"><em>НАПРУГА</em><b id="l3">—</b><span class="metric-accent"></span></div>
-</div></section>
 
-<h2>Потужність зараз</h2>
-<section class="glass power"><div><span id="pwLabel">Споживання інвертора</span><b id="pwBig">—</b></div><span class="pill" id="pwMode"><i></i>Немає даних</span></section>
+
+
 
 <h2>Заряд і прогноз</h2>
 <section class="glass estimate est2">
@@ -239,10 +231,12 @@ function status(msg,type=''){$('status').textContent=msg;$('status').className='
 function pill(el,text,type=''){el.className='pill'+(type?' '+type:'');el.innerHTML='<i></i>'+text;}
 function uiConnected(yes){$('connect').disabled=yes;$('refresh').disabled=!yes;$('disconnect').disabled=!yes;pill($('mode'),yes?'Підключено':'Не підключено',yes?'ok':'');}
 function setFlow(state){
-const m={charging:{g:'on-c',b:'on-g pulse',h:'on-c',l1:'c run',l2:'c run'},grid:{g:'on-c',b:'on-g soft',h:'on-c',l1:'c run',l2:'c run'},discharging:{g:'',b:'on-o pulse',h:'on-o',l1:'',l2:'o run'}};
-const c=m[state==='idle'?'grid':state]||{g:'',b:'',h:'',l1:'',l2:''};
-$('nGrid').setAttribute('class','node '+c.g);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
-$('ln1').setAttribute('class','ln '+c.l1);$('ln2').setAttribute('class','ln '+c.l2);}
+const m={charging:{g:'on-c',i:'on-c',b:'on-g pulse',h:'on-c',l0:'c run',l1:'g run',l2:'c run',chip:1},grid:{g:'on-c',i:'on-c',b:'on-g soft',h:'on-c',l0:'c run',l1:'c',l2:'c run',chip:1},discharging:{g:'',i:'on-o',b:'on-o pulse',h:'on-o',l0:'',l1:'o run rev',l2:'o run',chip:0}};
+const key=state==='idle'?'grid':state;const c=m[key]||{g:'',i:'',b:'',h:'',l0:'',l1:'',l2:''};
+if(!m[key]){['fnCur','fnPow','fnVolt','fnBat'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);$('fnPowCap').textContent='потужність';}
+$('nGrid').setAttribute('class','node '+c.g);$('nInv').setAttribute('class','node '+c.i);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
+$('ln0').setAttribute('class','ln '+c.l0);$('ln1').setAttribute('class','ln '+c.l1);$('ln2').setAttribute('class','ln '+c.l2);
+const gc=$('fnGrid');if(!m[key]){gc.textContent='';}else if(c.chip){gc.textContent='В мережі';gc.setAttribute('class','chip');}else{gc.textContent='Немає мережі';gc.setAttribute('class','chip off');}}
 function setChargeIndicator(state,current=null,power=null){const el=$('chargeIndicator');el.className='charge-indicator '+(state==='grid'?'mains':state);setFlow(state);
 if(state==='charging'){$('chargeIndicatorText').textContent='ЗАРЯДЖАННЯ';$('chargeIndicatorDetail').textContent='У батарею надходить енергія · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
 else if(state==='discharging'){$('chargeIndicatorText').textContent='ЖИВЛЕННЯ ВІД БАТАРЕЇ';$('chargeIndicatorDetail').textContent='Батарея віддає енергію · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
@@ -262,7 +256,7 @@ function str(bytes){let out='';for(const b of bytes){if(b<32||b>126)break;out+=S
 function u16(d,p){return(d[p]<<8)|d[p+1];}
 function s16(d,p){const n=u16(d,p);return n&0x8000?n-0x10000:n;}
 async function readInfo(){const s=await request([0,0,0,2,0,0]);$('serial').textContent=str(s.slice(9,9+s[8]))||'—';const v=await request([0,0,0,1,0,0]);$('sw').textContent=str(v.slice(10,10+(v[9]||0)))||'—';const hwPos=65;$('hw').textContent=str(v.slice(hwPos,hwPos+(v[hwPos-1]||0)))||'—';}
-function drawMetrics(soc,current,voltage){const fb=$('fnBat');if(fb&&Number.isFinite(soc)){fb.textContent=soc+'%';$('bfill').setAttribute('width',(12.8*Math.max(0,Math.min(100,soc))/100).toFixed(1));}$('l1').innerHTML=Number.isFinite(soc)?soc+'<small>%</small>':'—';$('l2').innerHTML=Number.isFinite(current)?fmt(current,1)+'<small> А</small>':'—';$('l3').innerHTML=Number.isFinite(voltage)?fmt(voltage)+'<small> В</small>':'—';}
+function drawMetrics(soc,current,voltage){const ok=Number.isFinite(soc);$('fnBat').textContent=ok?soc+'%':'—';$('bfill').setAttribute('width',ok?(34*Math.max(0,Math.min(100,soc))/100).toFixed(1):0);$('fnCur').textContent=Number.isFinite(current)?fmt(current,1).replace('-','−')+' А':'—';$('fnVolt').textContent=Number.isFinite(voltage)?fmt(voltage)+' В':'—';}
 function renderCells(cells,voltage){$('cg').innerHTML='';
 if(!cells.length){$('cg').textContent='Дані комірок відсутні';$('range').textContent='—';$('delta').textContent='—';return;}
 const mx=Math.max(...cells),mn=Math.min(...cells),sum=cells.reduce((a,b)=>a+b,0);
@@ -292,7 +286,7 @@ const c=await request([0,0,10,2,0,0],[1,1]);const count=c[11],cells=[];for(let i
 const temps=[];for(let i=0;i<6;i++){const pos=14+i*4;if(pos+1<c.length-3){const raw=u16(c,pos);temps.push(raw===0?null:(raw-2731)/10);}}
 await request([0,0,10,0,0,0]);
 const power=voltage*current;drawMetrics(soc,current,voltage);recordHist(soc,current);drawHist();
-{const ap=Math.abs(power);$('pwBig').innerHTML=ap>=1000?fmt(ap/1000,2)+'<small>кВт</small>':Math.round(ap)+'<small>Вт</small>';$('pwLabel').textContent=current<-1.5?'Інвертор споживає з батареї':current>.5?'Батарея заряджається':'Інвертор працює від мережі';pill($('pwMode'),current<-1.5?'Віддає батарея':current>.5?'Заряджання':'Мережа від міста',current<-1.5?'warn':current>.5?'ok':'');}$('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small> А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small> А·г</small>';$('cycles').textContent=cycles;
+{const ap=Math.abs(power);$('fnPow').textContent=ap>=1000?fmt(ap/1000,2)+' кВт':Math.round(ap)+' Вт';$('fnPowCap').textContent=current<-1.5?'з батареї':current>.5?'заряд':'від мережі';}$('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small> А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small> А·г</small>';$('cycles').textContent=cycles;
 renderCells(cells,voltage);
 ['t1','t2','t3','t4','tmos','tamb'].forEach((id,i)=>$(id).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C');
 const vt=temps.filter(v=>v!==null);$('tempAvg').innerHTML=vt.length?fmt(vt.reduce((a,b)=>a+b,0)/vt.length,1)+'<small> °C</small>':'—';

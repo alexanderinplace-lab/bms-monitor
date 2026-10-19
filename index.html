@@ -12,22 +12,19 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;min-height:100vh;color:var(--ink);background:radial-gradient(65% 40% at 10% 0%,rgba(50,213,131,.10),transparent 72%),radial-gradient(55% 40% at 100% 20%,rgba(83,200,245,.08),transparent 72%),var(--bg);font-family:-apple-system,"SF Pro Display","SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .wrap{max-width:480px;margin:0 auto;padding:18px 16px 40px;display:flex;flex-direction:column;gap:14px}
+.wrap>*{min-width:0}
 .glass{background:radial-gradient(120% 70% at 15% -15%,rgba(255,255,255,.09),transparent 55%),linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025) 50%,rgba(255,255,255,.045));-webkit-backdrop-filter:blur(10px) saturate(125%);backdrop-filter:blur(10px) saturate(125%);border:1px solid rgba(255,255,255,.12);border-radius:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 28px rgba(0,0,0,.22)}
 header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 2px 2px}
-h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
-.sub{color:var(--dim);font-size:13px;margin-top:3px}
-.hr{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .wx{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:13px}
 .wx b{color:var(--ink);font-size:18px;font-weight:700;letter-spacing:-.02em}
 .wx svg{width:28px;height:28px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .pill{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:99px;font-size:12px;font-weight:650;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.19);white-space:nowrap}
 .pill i{width:8px;height:8px;border-radius:50%;background:var(--dim);flex:0 0 auto}
 .pill.ok i{background:var(--g);box-shadow:0 0 8px var(--g)}
-.pill.warn i{background:var(--o);box-shadow:0 0 8px var(--o)}
+.pill.warn i{background:var(--c);box-shadow:0 0 8px var(--c)}
 .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 #refresh{margin-left:auto}
-.btn{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;justify-content:center;padding:12px 17px;min-height:44px;border-radius:99px;font:inherit;font-size:14px;font-weight:650;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;background:linear-gradient(180deg,rgba(50,213,131,.28),rgba(50,213,131,.11));border:1px solid rgba(255,255,255,.16);box-shadow:0 5px 14px rgba(0,0,0,.18)}
-.btn.secondary{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.05))}
+.btn{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;justify-content:center;padding:12px 17px;min-height:44px;border-radius:99px;font:inherit;font-size:14px;font-weight:650;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.16);box-shadow:0 5px 14px rgba(0,0,0,.18)}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .btn:active{transform:scale(.97)}
 .conn{gap:10px;padding:12px 20px 12px 17px}
@@ -41,30 +38,8 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
 .btn.icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .btn.icon:not(:disabled):active{background:rgba(120,120,128,.34)}
 .btn.icon:not(:disabled):active svg{transform:rotate(-40deg);transition:transform .2s}
-.charge-indicator{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:20px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14)}
-.charge-indicator .light{width:13px;height:13px;border-radius:50%;background:#8e8e93;flex:0 0 auto}
-.charge-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
-.charge-indicator strong{font-size:14px;font-weight:750}
-.charge-indicator small{font-size:12px;color:var(--dim)}
-.charge-indicator.charging{background:linear-gradient(110deg,rgba(48,209,88,.19),rgba(48,209,88,.055));border-color:rgba(48,209,88,.55)}
-.charge-indicator.charging .light{background:var(--g);box-shadow:0 0 14px rgba(48,209,88,.95);animation:pulse 1.6s ease-in-out infinite}
-.charge-indicator.discharging{background:linear-gradient(110deg,rgba(255,159,10,.17),rgba(255,159,10,.045));border-color:rgba(255,159,10,.45)}
-.charge-indicator.discharging .light{background:var(--o);box-shadow:0 0 12px rgba(255,159,10,.75)}
-.charge-indicator.mains{background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
-.charge-indicator.mains .light{background:var(--c);box-shadow:0 0 12px rgba(83,200,245,.8)}
-.charge-indicator.mains .charge-copy{display:none}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-.status{padding:10px 13px;border-radius:15px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--dim);overflow-wrap:anywhere}
-.status{white-space:pre-wrap}
+.status{padding:10px 13px;border-radius:15px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--dim);overflow-wrap:anywhere;white-space:pre-wrap}
 .status.ok{color:#a6f5b6}.status.err{color:#ffaaa5}
-.hero{padding:12px}
-.metrics-top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-.metric-card{position:relative;min-width:0;min-height:0;padding:14px 12px 15px;border-radius:17px;background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.095);overflow:hidden}
-.metric-card em{display:block;font-style:normal;font-size:10px;letter-spacing:.11em;font-weight:750;color:var(--dim)}
-.metric-card b{display:block;margin-top:12px;font-size:clamp(18px,5.2vw,25px);line-height:1.1;letter-spacing:-.045em;font-weight:740;white-space:nowrap}
-.metric-card b small{font-size:.58em;color:var(--dim);font-weight:600}
-.metric-accent{position:absolute;left:12px;right:12px;bottom:0;height:3px;border-radius:3px 3px 0 0}
-.charge-card .metric-accent{background:var(--g)}.current-card .metric-accent{background:var(--o)}.voltage-card .metric-accent{background:var(--c)}
 h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .tile{padding:15px;min-width:0}
@@ -87,11 +62,6 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .temps div{flex:1;min-width:0;background:rgba(255,255,255,.06);border-radius:15px;padding:11px 12px}
 .temps span{font-size:12px;color:var(--dim)}
 .temps b{display:block;font-size:21px;font-weight:700;margin-top:3px}
-.estimate{padding:16px}
-.estimate-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.estimate-head strong{display:block;font-size:24px;letter-spacing:-.03em;margin-top:5px}
-.estimate span,.estimate small{color:var(--dim);font-size:12px}
-.estimate .btn{margin-top:12px;width:100%}
 .note{text-align:center;color:var(--dim);font-size:11px;margin:3px 0 0}
 .tech{padding:5px 17px}
 .tech summary{padding:13px 0;font-size:14px;font-weight:650;cursor:pointer;list-style:none}
@@ -99,18 +69,6 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .kr{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(255,255,255,.1);font-size:12px}
 .kr span{color:var(--dim)}.kr b{text-align:right;word-break:break-all;font-weight:600}
 .hidden{display:none!important}
-.power{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.power span{font-size:12px;color:var(--dim)}
-.power b{display:block;font-size:40px;font-weight:740;letter-spacing:-.04em;margin-top:4px}
-.power b small{font-size:18px;color:var(--dim);margin-left:4px;font-weight:600}
-.switch-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px}
-.switch-row .lbl{font-size:13px;font-weight:650;color:var(--dim);transition:color .2s}
-.switch-row .lbl.on{color:var(--ink)}
-.switch{position:relative;width:52px;height:31px;border-radius:99px;border:0;padding:0;cursor:pointer;background:rgba(120,120,128,.4);-webkit-tap-highlight-color:transparent;transition:background .25s;flex:0 0 auto}
-.switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.4);transition:transform .25s cubic-bezier(.3,.9,.4,1)}
-.switch[aria-checked="true"]{background:var(--o)}
-.switch[aria-checked="true"]::after{transform:translateX(21px)}
-.switch:focus-visible{outline:2px solid var(--c);outline-offset:3px}
 .hist{padding:14px}
 .seg{display:flex;background:rgba(255,255,255,.08);border-radius:12px;padding:3px;gap:3px}
 .seg button{flex:1;appearance:none;-webkit-appearance:none;border:0;border-radius:9px;padding:10px 6px;font:inherit;font-size:12px;font-weight:650;color:var(--ink);background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -118,67 +76,53 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 .hsum{font-size:13px;margin:14px 2px 8px}.hsum span{color:var(--dim)}
 #hchart{width:100%;height:auto;display:block}
 .hnote{display:block;color:var(--dim);font-size:11px;margin-top:8px}
-.wrap>*{min-width:0}
-.charge-indicator{flex-direction:column;align-items:stretch;gap:12px}
-.charge-copy{width:100%}.charge-indicator small{overflow-wrap:anywhere}.charge-indicator .light{display:none}
-.flow{width:100%;height:auto;display:block}
-.nd{fill:rgba(255,255,255,.06);stroke:rgba(255,255,255,.16);stroke-width:1;transition:fill .3s,stroke .3s,filter .3s}
-.ic{fill:none;stroke:rgba(255,255,255,.55);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
-.ln{stroke:rgba(255,255,255,.28);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 7;transition:stroke .3s}
-.ln.c{stroke:var(--c)}.ln.g{stroke:var(--g)}.ln.o{stroke:var(--o)}
-.flow text{font-size:11px;fill:var(--dim);text-anchor:middle;font-family:inherit}
-.flow .on-c .nd{fill:rgba(83,200,245,.16);stroke:rgba(83,200,245,.7);filter:drop-shadow(0 0 10px rgba(83,200,245,.45))}
-.flow .on-c .ic{stroke:var(--c)}
-.flow .on-g .nd{fill:rgba(50,213,131,.16);stroke:rgba(50,213,131,.7);filter:drop-shadow(0 0 10px rgba(50,213,131,.45))}
-.flow .on-g .ic{stroke:var(--g)}
-.flow .on-o .nd{fill:rgba(255,173,85,.16);stroke:rgba(255,173,85,.7);filter:drop-shadow(0 0 10px rgba(255,173,85,.45))}
-.flow .on-o .ic{stroke:var(--o)}
-.flow .soft .nd{fill:rgba(50,213,131,.07);stroke:rgba(50,213,131,.38);filter:none}
-.gdot{fill:var(--g);stroke:var(--bg);stroke-width:2.5;opacity:0;transition:opacity .3s;filter:drop-shadow(0 0 4px rgba(50,213,131,.9))}
-.flow .ind .gdot{opacity:1}
-.charge-indicator .flow{order:-1}
-.charge-indicator strong{font-size:19px;font-weight:750}
-.charge-indicator small{font-size:14px;line-height:1.35}
-.flow text{font-size:13px}
-.flow .bf{fill:rgba(255,255,255,.28);transition:width .6s,fill .3s}.flow .on-g .bf{fill:rgba(50,213,131,.88)}.flow .on-o .bf{fill:rgba(255,173,85,.9)}.flow .on-c .bf{fill:rgba(83,200,245,.85)}.flow text.pct{font-size:11px;font-weight:800;fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.55);stroke-width:2px;stroke-linejoin:round;dominant-baseline:central;letter-spacing:-.03em}.flow text.val{font-size:13px;font-weight:750;fill:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums}.flow text.cap{font-size:10px;fill:var(--dim);letter-spacing:.02em}.flow text.volt{font-size:13px;font-weight:750;fill:var(--c);font-variant-numeric:tabular-nums}.charging .flow text.val{fill:var(--g)}.discharging .flow text.val{fill:var(--o)}.mains .flow text.val{fill:var(--c)}
-.flow text.chip{font-size:11px;font-weight:750;fill:var(--g);text-anchor:start;letter-spacing:.01em}.flow text.chip.off{fill:var(--dim);font-weight:600}
-.ln.run.rev{animation-direction:reverse}
-.ln.run{animation:lnr .9s linear infinite}
-@keyframes lnr{to{stroke-dashoffset:-8}}
-.flow .pulse .nd{animation:ndp 2s ease-in-out infinite}
-@keyframes ndp{50%{stroke-opacity:.35;fill-opacity:.55}}
-@media(prefers-reduced-motion:reduce){.ln.run,.flow .pulse .nd{animation:none}}
-.est2{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:18px 10px}
-.ec{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
-.ec .est-ring{width:104px;height:104px}
-.ec .lab{font-size:12px;color:var(--dim);margin-top:12px}
-.ec .est-time{font-size:26px;margin:4px 0 3px;white-space:nowrap}
-.ec .est-time small{font-size:13px;margin:0 4px 0 1px}
-.ec .det{font-size:11px;color:var(--dim);line-height:1.3;overflow-wrap:anywhere;padding:0 4px}
-.rbar.o{stroke:var(--o)}
 .sec{margin:0}
 .sec>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:650;color:var(--dim);padding:8px 8px;-webkit-tap-highlight-color:transparent}
 .sec>summary::-webkit-details-marker{display:none}
 .sec>summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--dim);border-bottom:2px solid var(--dim);transform:rotate(45deg);transition:transform .25s;margin:-3px 6px 0 0}
 .sec[open]>summary::after{transform:rotate(-135deg);margin-top:3px}
 .secbody{padding-top:6px}
-.segc{position:relative;display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.07);border-radius:16px;padding:4px;margin-bottom:16px}
-.segc .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:12px;background:linear-gradient(180deg,rgba(50,213,131,.75),rgba(50,213,131,.45));box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .3s cubic-bezier(.3,.9,.4,1),background .3s}
-.segc[data-mode="dis"] .thumb{transform:translateX(100%);background:linear-gradient(180deg,rgba(255,173,85,.85),rgba(255,173,85,.5))}
-.segc button{position:relative;z-index:1;appearance:none;-webkit-appearance:none;border:0;background:transparent;color:var(--ink);font:inherit;font-size:15px;font-weight:650;padding:12px 6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.est-body{display:flex;align-items:center;gap:18px}
-.est-ring{width:96px;height:96px;flex:0 0 auto}
-.rtrk{fill:none;stroke:rgba(255,255,255,.12);stroke-width:9}
-.rbar{fill:none;stroke:var(--g);stroke-width:9;stroke-linecap:round;transform:rotate(-90deg);transform-origin:40px 40px;stroke-dasharray:213.6;stroke-dashoffset:213.6;transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1),stroke .3s}
-.segc[data-mode="dis"]~.est-body .rbar{stroke:var(--o)}
-.est-ring text{fill:var(--ink);font-size:17px;font-weight:700;text-anchor:middle;font-family:inherit}
-.est-text{min-width:0}
-.est-body .est-time{font-size:36px}.est-body .est-time small{font-size:17px;margin:0 7px 0 2px}
-.est-time{font-size:44px;font-weight:740;letter-spacing:-.04em;margin:6px 0 2px}
-.est-time small{font-size:20px;color:var(--dim);font-weight:600;margin:0 9px 0 3px}
-@media(prefers-reduced-motion:reduce){.flow .fl{animation:none!important}}
-@media(max-width:360px){.wrap{padding-left:12px;padding-right:12px}h1{font-size:29px}.cg{gap:7px}.metric-card b{font-size:17px}}
-@media(prefers-reduced-motion:reduce){.charge-indicator.charging .light{animation:none}}
+
+/* Схема */
+.charge-indicator{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:14px 16px;border-radius:20px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14)}
+.charge-copy{display:flex;flex-direction:column;gap:3px;min-width:0;width:100%}
+.charge-indicator strong{font-size:19px;font-weight:750}
+.charge-indicator small{font-size:14px;line-height:1.35;color:var(--dim);overflow-wrap:anywhere}
+.charge-indicator.charging{background:linear-gradient(110deg,rgba(48,209,88,.19),rgba(48,209,88,.055));border-color:rgba(48,209,88,.55)}
+.charge-indicator.discharging{background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
+.charge-indicator.mains{background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
+.charge-indicator.charging .charge-copy,.charge-indicator.discharging .charge-copy,.charge-indicator.mains .charge-copy{display:none}
+.flow{order:-1;width:100%;height:auto;display:block}
+.nd{fill:rgba(255,255,255,.06);stroke:rgba(255,255,255,.16);stroke-width:1;transition:fill .3s,stroke .3s,filter .3s}
+.ic{fill:none;stroke:rgba(255,255,255,.55);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+.ln{stroke:rgba(255,255,255,.28);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 7;transition:stroke .3s}
+.ln.c{stroke:var(--c)}.ln.g{stroke:var(--g)}
+.flow text{font-size:13px;fill:var(--dim);text-anchor:middle;font-family:inherit}
+.flow .on-c .nd{fill:rgba(83,200,245,.16);stroke:rgba(83,200,245,.7);filter:drop-shadow(0 0 10px rgba(83,200,245,.45))}
+.flow .on-c .ic{stroke:var(--c)}
+.flow .on-g .nd{fill:rgba(50,213,131,.16);stroke:rgba(50,213,131,.7);filter:drop-shadow(0 0 10px rgba(50,213,131,.45))}
+.flow .on-g .ic{stroke:var(--g)}
+.flow .bf{fill:rgba(255,255,255,.28);transition:width .6s,fill .3s}.flow .on-g .bf{fill:rgba(50,213,131,.88)}.flow .on-c .bf{fill:rgba(83,200,245,.85)}
+.flow text.pct{font-size:11px;font-weight:800;fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.55);stroke-width:2px;stroke-linejoin:round;dominant-baseline:central;letter-spacing:-.03em}
+.flow text.val{font-size:13px;font-weight:750;fill:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.flow text.cap{font-size:10px;fill:var(--dim);letter-spacing:.02em}
+.flow text.volt{font-size:13px;font-weight:750;fill:var(--c);font-variant-numeric:tabular-nums}
+.flow text.lbl{font-size:11px}
+.charging .flow text.val{fill:var(--g)}
+.discharging .flow text.val,.mains .flow text.val{fill:var(--c)}
+.ln.run.rev{animation-direction:reverse}
+.ln.run{animation:lnr .9s linear infinite}
+@keyframes lnr{to{stroke-dashoffset:-8}}
+.flow .pulse .nd{animation:ndp 2s ease-in-out infinite}
+@keyframes ndp{50%{stroke-opacity:.35;fill-opacity:.55}}
+@media(prefers-reduced-motion:reduce){.ln.run,.flow .pulse .nd{animation:none}}
+/* Прогноз у кутках схеми */
+.flow .fcL text{text-anchor:start}.flow .fcR text{text-anchor:end}
+.flow text.fl{font-size:11px;fill:var(--dim);letter-spacing:.02em}
+.flow text.fv{font-size:22px;font-weight:750;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.flow .fcL text.fv{fill:var(--g)}.flow .fcR text.fv{fill:var(--c)}
+.flow tspan.tu{font-size:12px;font-weight:600;fill:var(--dim);letter-spacing:0}
+@media(max-width:360px){.wrap{padding-left:12px;padding-right:12px}.cg{gap:7px}}
 </style>
 </head>
 <body><div class="wrap">
@@ -186,16 +130,9 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 <div class="actions"><button class="btn secondary conn" id="connect" type="button"><i class="dot"></i><span>Підключитись</span></button><button class="btn secondary icon" id="refresh" type="button" disabled aria-label="Оновити" title="Оновити"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button><button class="btn secondary icon" id="disconnect" type="button" disabled aria-label="Відключитись" title="Відключитись"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button></div>
 <div class="status" id="status" role="status">Натисни «Підключитись» і вибери PC-A2EE. Перед цим закрий PACEEX і вкладку з цією сторінкою на ноутбуці: BMS приймає лише одне з'єднання.</div>
 <div class="charge-indicator idle" id="chargeIndicator" role="status" aria-live="polite"><span class="charge-copy"><strong id="chargeIndicatorText">Стан заряджання невідомий</strong><small id="chargeIndicatorDetail">Підключи BMS, щоб перевірити напрямок струму</small></span>
-<svg class="flow" id="flow" viewBox="0 0 320 248" role="img" aria-label="Схема живлення: мережа, інвертор, акумулятор, дім"><path class="ln" id="ln0" fill="none" d="M160 61V79"/><path class="ln" id="ln1" fill="none" d="M133 106H72a12 12 0 0 0-12 12V151"/><path class="ln" id="ln2" fill="none" d="M187 106H248a12 12 0 0 1 12 12V151"/><g class="node" id="nGrid" transform="translate(160 34)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g><circle class="gdot" cx="23" cy="-23" r="5"/></g><g class="node" id="nInv" transform="translate(160 106)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><rect class="ic" x="4.5" y="2.5" width="15" height="19" rx="3.5"/><circle class="ic" cx="12" cy="9.5" r="3"/><path class="ic" d="M8.5 16.2h7M8.5 18.8h4"/></g></g><g class="node" id="nBat" transform="translate(60 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><rect class="ic" x="-21" y="-12" width="38" height="24" rx="7" style="stroke-width:1.8"/><path class="ic" d="M20.3 -4v8" style="stroke-width:2.2"/><rect class="bf" id="bfill" x="-18" y="-9" width="0" height="18" rx="4.5"/><text class="pct" id="fnBat" x="-2" y="1">—</text><circle class="gdot" cx="23" cy="-23" r="5"/></g><g class="node" id="nHome" transform="translate(260 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g><text class="val" id="fnCur" x="98" y="96">—</text><text class="cap" x="98" y="122">струм</text><text class="val" id="fnPow" x="222" y="96">—</text><text class="cap" id="fnPowCap" x="222" y="122">потужність</text><text x="60" y="224">Акумулятор</text><text class="volt" id="fnVolt" x="60" y="242">—</text><text x="260" y="224">Дім</text></svg></div>
-
-
-
-
-
-<h2>Заряд і прогноз</h2>
-<section class="glass estimate est2">
-<div class="ec"><svg class="est-ring" viewBox="0 0 80 80" aria-hidden="true"><circle class="rtrk" cx="40" cy="40" r="34"/><circle class="rbar" id="estRing" cx="40" cy="40" r="34"/><text x="40" y="46" id="ringTxt">–</text></svg><span class="lab">До повного заряду</span><div class="est-time" id="tCharge">—</div><span class="det" id="dCharge">З’явиться після підключення BMS</span></div>
-<div class="ec"><svg class="est-ring" viewBox="0 0 80 80" aria-hidden="true"><circle class="rtrk" cx="40" cy="40" r="34"/><circle class="rbar o" id="estRing2" cx="40" cy="40" r="34"/><text x="40" y="46" id="ringTxt2">–</text></svg><span class="lab">Заряду вистачить на</span><div class="est-time" id="tRun">—</div><span class="det" id="dRun">З’явиться після підключення BMS</span></div></section>
+<svg class="flow" id="flow" viewBox="0 0 320 248" role="img" aria-label="Схема живлення: мережа, інвертор, акумулятор, дім"><path class="ln" id="ln0" fill="none" d="M160 61V79"/><path class="ln" id="ln1" fill="none" d="M133 106H72a12 12 0 0 0-12 12V151"/><path class="ln" id="ln2" fill="none" d="M187 106H248a12 12 0 0 1 12 12V151"/><g class="node" id="nGrid" transform="translate(160 34)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g><g class="node" id="nInv" transform="translate(160 106)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><rect class="ic" x="4.5" y="2.5" width="15" height="19" rx="3.5"/><circle class="ic" cx="12" cy="9.5" r="3"/><path class="ic" d="M8.5 16.2h7M8.5 18.8h4"/></g></g><g class="node" id="nBat" transform="translate(60 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><rect class="ic" x="-21" y="-12" width="38" height="24" rx="7" style="stroke-width:1.8"/><path class="ic" d="M20.3 -4v8" style="stroke-width:2.2"/><rect class="bf" id="bfill" x="-18" y="-9" width="0" height="18" rx="4.5"/><text class="pct" id="fnBat" x="-2" y="1">—</text></g><g class="node" id="nHome" transform="translate(260 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g><text class="val" id="fnCur" x="98" y="96">—</text><text class="cap" x="98" y="122">струм</text><text class="val" id="fnPow" x="222" y="96">—</text><text class="cap" id="fnPowCap" x="222" y="122">потужність</text><text class="lbl" x="60" y="224">Акумулятор</text><text class="volt" id="fnVolt" x="60" y="242">—</text><text class="lbl" x="260" y="224">Дім</text>
+<g class="fcL hidden" id="fcL"><text class="fl" x="4" y="18">До повного заряду</text><text class="fv" id="fcLv" x="4" y="44"></text></g>
+<g class="fcR hidden" id="fcR"><text class="fl" x="316" y="18">Заряду вистачить на</text><text class="fv" id="fcRv" x="316" y="44"></text></g></svg></div>
 
 <details class="sec" data-k="s0" open><summary>Вольтаж</summary><div class="secbody"><div class="grid">
 <div class="glass tile"><span>Напруга пакета</span><b id="vPack">—</b></div>
@@ -238,7 +175,7 @@ h2{font-size:14px;font-weight:650;color:var(--dim);margin:6px 8px -4px}
 (()=>{'use strict';
 const SERVICE='0000fff0-0000-1000-8000-00805f9b34fb',RX='0000fff1-0000-1000-8000-00805f9b34fb',TX='0000fff2-0000-1000-8000-00805f9b34fb';
 const $=id=>document.getElementById(id);
-let device=null,server=null,rx=null,tx=null,busy=false,expected=null,resolveReply=null,replyTimer=null,refreshTimer=null,fcMode=null,connecting=false;
+let device=null,server=null,rx=null,tx=null,busy=false,expected=null,resolveReply=null,replyTimer=null,refreshTimer=null,connecting=false;
 const FULL_CAPACITY_AH=103.9;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
@@ -246,17 +183,17 @@ function status(msg,type=''){$('status').textContent=msg;$('status').className='
 function pill(el,text,type=''){el.className='pill'+(type?' '+type:'');el.innerHTML='<i></i>'+text;}
 function uiConnected(yes){const b=$('connect');b.disabled=yes;b.classList.toggle('on',yes);b.lastElementChild.textContent=yes?'Підключено':'Підключитись';$('refresh').disabled=!yes;$('disconnect').disabled=!yes;}
 function setFlow(state){
-const m={charging:{g:'on-g ind',i:'on-c',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run',chip:1},grid:{g:'on-g ind',i:'on-c',b:'on-g',h:'on-c',l0:'g run',l1:'c',l2:'c run',chip:1},discharging:{g:'',i:'on-o',b:'on-o pulse ind',h:'on-o',l0:'',l1:'o run rev',l2:'o run',chip:0}};
+const m={charging:{g:'on-g',i:'on-c',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run'},grid:{g:'on-g',i:'on-c',b:'on-g',h:'on-c',l0:'g run',l1:'c',l2:'c run'},discharging:{g:'',i:'on-c',b:'on-c pulse',h:'on-c',l0:'',l1:'c run rev',l2:'c run'}};
 const key=state==='idle'?'grid':state;const c=m[key]||{g:'',i:'',b:'',h:'',l0:'',l1:'',l2:''};
 if(!m[key]){['fnCur','fnPow','fnVolt','fnBat'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);$('fnPowCap').textContent='потужність';}
 $('nGrid').setAttribute('class','node '+c.g);$('nInv').setAttribute('class','node '+c.i);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
-$('ln0').setAttribute('class','ln '+c.l0);$('ln1').setAttribute('class','ln '+c.l1);$('ln2').setAttribute('class','ln '+c.l2);}
-function setChargeIndicator(state,current=null,power=null){const el=$('chargeIndicator');el.className='charge-indicator '+(state==='grid'?'mains':state);setFlow(state);
-if(state==='charging'){$('chargeIndicatorText').textContent='ЗАРЯДЖАННЯ';$('chargeIndicatorDetail').textContent='В акумулятор надходить енергія · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
-else if(state==='discharging'){$('chargeIndicatorText').textContent='ЖИВЛЕННЯ ВІД АКУМУЛЯТОРА';$('chargeIndicatorDetail').textContent='Акумулятор віддає енергію · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
-else if(state==='grid'){$('chargeIndicatorText').textContent='';$('chargeIndicatorDetail').textContent='';}
-else if(state==='idle'){$('chargeIndicatorText').textContent='ЗАРЯД НЕ ВІДБУВАЄТЬСЯ';$('chargeIndicatorDetail').textContent='Струм близький до нуля';}
-else{$('chargeIndicatorText').textContent='Стан заряджання невідомий';$('chargeIndicatorDetail').textContent='Підключи BMS, щоб перевірити напрямок струму';}}
+$('ln0').setAttribute('class','ln '+c.l0);$('ln1').setAttribute('class','ln '+c.l1);$('ln2').setAttribute('class','ln '+c.l2);
+$('fcL').classList.toggle('hidden',state!=='charging');$('fcR').classList.toggle('hidden',state!=='discharging');}
+function setChargeIndicator(state){const el=$('chargeIndicator');el.className='charge-indicator '+(state==='grid'?'mains':state);setFlow(state);
+const t=$('chargeIndicatorText'),d=$('chargeIndicatorDetail');
+if(state==='idle'){t.textContent='ЗАРЯД НЕ ВІДБУВАЄТЬСЯ';d.textContent='Струм близький до нуля';}
+else if(state==='unknown'){t.textContent='Стан заряджання невідомий';d.textContent='Підключи BMS, щоб перевірити напрямок струму';}
+else{t.textContent='';d.textContent='';}}
 function crcModbus(bytes){let crc=0xffff;for(const b of bytes){crc^=b;for(let i=0;i<8;i++)crc=(crc&1)?((crc>>>1)^0xa001):(crc>>>1);}return crc&0xffff;}
 function command(cmd,payload=[]){const a=[0x9a,...cmd,payload.length,...payload];const crc=crcModbus(a);a.push((crc>>8)&255,crc&255,0x9d);return new Uint8Array(a);}
 function parseFrame(input){const d=Array.from(input);if(d[0]!==0x9a||d.length<11||d.length!==11+d[7]||d[d.length-1]!==0x9d)throw Error('Некоректна структура відповіді');const got=(d[d.length-3]<<8)|d[d.length-2],calc=crcModbus(d.slice(0,-3));if(got!==calc)throw Error('CRC не збігається');if(expected&&d.slice(1,7).join(',')!==expected.join(','))return null;return d;}
@@ -280,20 +217,21 @@ $('vPack').innerHTML=fmt(voltage)+'<small>В</small>';$('vSum').innerHTML=fmt(su
 $('vMin').innerHTML=fmt(mn,3)+'<small>В</small>';$('vMax').innerHTML=fmt(mx,3)+'<small>В</small>';$('vDelta').innerHTML=Math.round((mx-mn)*1000)+'<small>мВ</small>';
 cells.forEach((v,i)=>{const el=document.createElement('div');el.className='cell'+(v===mx?' mx':v===mn?' mn':'');const h=Math.max(8,Math.min(100,(v-3.0)/(3.5-3.0)*100));el.innerHTML='<span class="well" style="--h:'+h+'%"><i>'+(i+1)+'</i></span><b>'+fmt(v,3)+' В</b>';$('cg').appendChild(el);});}
 let last=null;
-function fmtHours(h){if(h>240)return '> 10<small>днів</small>';if(h>=48){const d=Math.floor(h/24);return d+'<small>д</small>'+Math.min(23,Math.round(h-d*24))+'<small>год</small>';}const m=Math.round(h*60);if(m<60)return m+'<small>хв</small>';return Math.floor(m/60)+'<small>год</small>'+(m%60)+'<small>хв</small>';}
-let lastLoad=NaN;
-function setRing(id,f){$(id).style.strokeDashoffset=(213.6*(1-Math.max(0,Math.min(1,f)))).toFixed(1);}
+/* Час для SVG-тексту: ~ 5 д 6 год / ~ 3 год 20 хв */
+function tsp(n,u){return '<tspan dx="6">'+n+'</tspan><tspan class="tu" dx="3">'+u+'</tspan>';}
+function fmtHoursSvg(h){let s='~';
+if(h>240)return '&gt; 10<tspan class="tu" dx="3">днів</tspan>';
+if(h>=48){const d=Math.floor(h/24);return s+tsp(d,'д')+tsp(Math.min(23,Math.round(h-d*24)),'год');}
+const m=Math.max(1,Math.round(h*60));
+if(m<60)return s+tsp(m,'хв');
+return s+tsp(Math.floor(m/60),'год')+tsp(m%60,'хв');}
 function renderForecast(){
-if(!last){setRing('estRing',0);setRing('estRing2',0);$('ringTxt').textContent='–';$('ringTxt2').textContent='–';$('tCharge').textContent='—';$('tRun').textContent='—';$('dCharge').textContent='З’явиться після підключення BMS';$('dRun').textContent='З’явиться після підключення BMS';return;}
-const {power,voltage,current,remainingAh,soc}=last,absP=Math.abs(power),charging=current>0.5;
-setRing('estRing',soc/100);$('ringTxt').textContent=soc+'%';
-if(charging&&voltage>0){const h=(FULL_CAPACITY_AH-remainingAh)*voltage/absP;$('tCharge').innerHTML=fmtHours(h);$('dCharge').textContent='При зарядці '+fmt(absP,0)+' Вт · орієнтовно';}
-else{$('tCharge').textContent='—';$('dCharge').textContent=soc>=99?'Акумулятор заряджений':'Зараз не заряджається';}
-const load=charging?lastLoad:absP;if(!charging&&absP>10)lastLoad=absP;
-const hours=(load>10&&voltage>0)?remainingAh*voltage/load:NaN,ok=Number.isFinite(hours);
-setRing('estRing2',ok?hours/24:0);$('ringTxt2').textContent=ok?fmt(load,0)+' Вт':'–';
-$('tRun').innerHTML=ok?fmtHours(hours):'—';
-$('dRun').textContent=ok?(charging?'За останнім навантаженням ':'При навантаженні ')+fmt(load,0)+' Вт · орієнтовно':(charging?'Визначиться, коли акумулятор віддаватиме':'Навантаження занадто мале');}
+if(!last)return;
+const {power,voltage,current,remainingAh}=last,absP=Math.abs(power);
+if(current>0.5&&voltage>0&&absP>10){const h=(FULL_CAPACITY_AH-remainingAh)*voltage/absP;
+if(Number.isFinite(h)&&h>=1/60)$('fcLv').innerHTML=fmtHoursSvg(h);else $('fcL').classList.add('hidden');}
+else if(current<-1.5&&voltage>0&&absP>10){const h=remainingAh*voltage/absP;
+if(Number.isFinite(h)&&h>0)$('fcRv').innerHTML=fmtHoursSvg(h);else $('fcR').classList.add('hidden');}}
 async function readData(){if(!server||!server.connected||busy)return;busy=true;$('refresh').disabled=true;try{
 const p=await request([0,0,10,1,0,0],[1,1]);const current=s16(p,9)/100,voltage=u16(p,11)/100,cycleCharge=u16(p,13)/100,capacity=Math.floor(u16(p,17)/100),soc=p[19],health=p[20],cycles=u16(p,21);
 const c=await request([0,0,10,2,0,0],[1,1]);const count=c[11],cells=[];for(let i=0;i<count&&i<32;i++){const pos=12+i*4;if(pos+1<c.length-3)cells.push(u16(c,pos)/1000);}
@@ -305,10 +243,10 @@ renderCells(cells,voltage);
 ['t1','t2','t3','t4','tmos','tamb'].forEach((id,i)=>$(id).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C');
 const vt=temps.filter(v=>v!==null);$('tempAvg').innerHTML=vt.length?fmt(vt.reduce((a,b)=>a+b,0)/vt.length,1)+'<small> °C</small>':'—';
 pill($('chargeState'),current>0.5?'Позитивний струм':current<-.5?'Негативний струм':'Малий струм',current>.5?'ok':current<-.5?'warn':'');pill($('bmsState'),'BMS відповіла','ok');
-setChargeIndicator(current>0.5?'charging':current<-1.5?'discharging':'grid',current,power);
 const remainingAh=FULL_CAPACITY_AH*Math.max(0,Math.min(100,soc))/100;
 $('remainingAh').innerHTML=fmt(remainingAh,1)+'<small>з '+fmt(FULL_CAPACITY_AH,1)+' А·г</small>';
-last={power,voltage,current,remainingAh,soc};renderForecast();
+last={power,voltage,current,remainingAh,soc};
+setChargeIndicator(current>0.5?'charging':current<-1.5?'discharging':'grid');renderForecast();
 $('updated').textContent='Останнє оновлення: '+new Date().toLocaleTimeString('uk-UA');status('Дані зчитано.','ok');
 $('kv').innerHTML=[['Назва',device?.name||'PC-A2EE'],['Серійний номер',$('serial').textContent],['Версія ПЗ',$('sw').textContent],['Версія заліза',$('hw').textContent],['Напруга пакета',fmt(voltage)+' В'],['Струм зі знаком',fmt(current)+' А'],['Заряд',soc+'%'],['Здоров’я BMS',health+'%'],['Проєктна ємність',capacity+' А·г'],['Заряд за цикл',fmt(cycleCharge,2)+' А·г'],['Цикли',cycles],['Комірок',cells.length]].map(r=>'<div class="kr"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
 }catch(e){status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');}finally{busy=false;if(server&&server.connected)$('refresh').disabled=false;}}
@@ -355,7 +293,6 @@ try{await startSession(dev);}catch(e){connecting=false;uiConnected(false);$('con
 async function disconnect(){clearInterval(refreshTimer);refreshTimer=null;try{if(rx)rx.removeEventListener('characteristicvaluechanged',onNotify);if(device?.gatt?.connected)device.gatt.disconnect();}catch(e){}server=null;rx=null;tx=null;uiConnected(false);setChargeIndicator('unknown');$('connect').disabled=false;status('Відключено від BMS.');}
 $('connect').addEventListener('click',connect);$('refresh').addEventListener('click',readData);$('disconnect').addEventListener('click',disconnect);
 
-renderForecast();
 $('kv').innerHTML='<div class="kr"><span>Статус</span><b>Очікування підключення</b></div><div class="kr"><span>BLE сервіс</span><b>FFF0</b></div><div class="kr"><span>RX / TX</span><b>FFF1 / FFF2</b></div>';
 const HK='bms_hist_v1';let hist=[],hRange=24;
 try{hist=JSON.parse(localStorage.getItem(HK)||'[]');}catch(e){hist=[];}

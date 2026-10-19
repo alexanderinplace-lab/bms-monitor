@@ -34,8 +34,8 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.03em;margin:0}
 .charge-indicator.charging .light{background:var(--g);box-shadow:0 0 14px rgba(48,209,88,.95);animation:pulse 1.6s ease-in-out infinite}
 .charge-indicator.discharging{background:linear-gradient(110deg,rgba(255,159,10,.17),rgba(255,159,10,.045));border-color:rgba(255,159,10,.45)}
 .charge-indicator.discharging .light{background:var(--o);box-shadow:0 0 12px rgba(255,159,10,.75)}
-.charge-indicator.grid{background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
-.charge-indicator.grid .light{background:var(--c);box-shadow:0 0 12px rgba(83,200,245,.8)}
+.charge-indicator.mains{background:linear-gradient(110deg,rgba(83,200,245,.17),rgba(83,200,245,.045));border-color:rgba(83,200,245,.5)}
+.charge-indicator.mains .light{background:var(--c);box-shadow:0 0 12px rgba(83,200,245,.8)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 .status{padding:10px 13px;border-radius:15px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--dim);overflow-wrap:anywhere}
 .status{white-space:pre-wrap}
@@ -232,7 +232,7 @@ const m={charging:{g:'on-c',b:'on-g pulse',h:'on-c',l1:'c run',l2:'g'},grid:{g:'
 const c=m[state==='idle'?'grid':state]||{g:'',b:'',h:'',l1:'',l2:''};
 $('nGrid').setAttribute('class','node '+c.g);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
 $('ln1').setAttribute('class','ln '+c.l1);$('ln2').setAttribute('class','ln '+c.l2);}
-function setChargeIndicator(state,current=null,power=null){const el=$('chargeIndicator');el.className='charge-indicator '+state;setFlow(state);
+function setChargeIndicator(state,current=null,power=null){const el=$('chargeIndicator');el.className='charge-indicator '+(state==='grid'?'mains':state);setFlow(state);
 if(state==='charging'){$('chargeIndicatorText').textContent='ЗАРЯДЖАННЯ';$('chargeIndicatorDetail').textContent='У батарею надходить енергія · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
 else if(state==='discharging'){$('chargeIndicatorText').textContent='ЖИВЛЕННЯ ВІД БАТАРЕЇ';$('chargeIndicatorDetail').textContent='Батарея віддає енергію · '+fmt(Math.abs(power)/1000,2)+' кВт · '+fmt(Math.abs(current),1)+' А';}
 else if(state==='grid'){$('chargeIndicatorText').textContent='МЕРЕЖА ВІД МІСТА';$('chargeIndicatorDetail').textContent='Батарея в очікуванні · '+fmt(Math.abs(power),0)+' Вт · '+fmt(Math.abs(current),1)+' А';}

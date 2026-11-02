@@ -3,113 +3,105 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#111217">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f4f4f6">
 <title>Батарея · PACEEX</title>
 <style>
-:root{color-scheme:dark;--bg:#111217;--card:#1b1c24;--ink:#f4f5f8;--dim:#8d91a0;--g:#2ee59d;--c:#4cb4ff;--o:#ffb04d;--line:rgba(255,255,255,.06);box-sizing:border-box;background:var(--bg)}
+@property --p{syntax:'<number>';inherits:true;initial-value:0}
+:root{color-scheme:light;--bg:#f4f4f6;--ink:#111114;--dim:#9a9aa2;--line:#ececef;--g:#2fd655;--c:#2f8cff;--o:#ff8a1f;--r:#ff3b30;box-sizing:border-box;background:var(--bg)}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;min-height:100vh;color:var(--ink);background:var(--bg);font-family:-apple-system,"SF Pro Display","SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
-.wrap{max-width:480px;margin:0 auto;padding:18px 14px 40px;display:flex;flex-direction:column;gap:12px}
+.wrap{max-width:480px;margin:0 auto;padding:14px 16px 44px;display:flex;flex-direction:column;gap:14px}
 .wrap>*{min-width:0}
-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:4px 4px 2px}
-h1{font-size:26px;font-weight:720;letter-spacing:-.025em;margin:0;line-height:1.15}
-.hsub{font-size:15px;margin-top:4px;color:var(--dim);font-weight:600}
-.hsub.g{color:var(--g)}.hsub.c{color:var(--c)}.hsub.o{color:var(--o)}
-.wx{display:flex;align-items:center;gap:6px;color:var(--dim);flex:0 0 auto;padding-top:4px}
-.wx b{color:var(--ink);font-size:17px;font-weight:700}
-.wx svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
-.actions{display:flex;gap:8px;align-items:center}
-.btn{appearance:none;-webkit-appearance:none;border:1px solid var(--line);color:var(--ink);font:inherit;font-size:14px;font-weight:650;min-height:44px;border-radius:99px;padding:0 18px;background:#262831;cursor:pointer;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;gap:10px}
-.btn:active{transform:scale(.97)}.btn:disabled{opacity:.4}
-.conn .dot{width:9px;height:9px;border-radius:50%;background:#7d8190}
-.conn.on{border-color:rgba(46,229,157,.5);background:rgba(46,229,157,.14);opacity:1}.conn.on .dot{background:var(--g);box-shadow:0 0 10px var(--g)}
-.ic-b{width:44px;padding:0;justify-content:center;color:#aeb2c0}.ic-b svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-#refresh{margin-left:auto}
-.status{padding:10px 13px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:12px;color:var(--dim);overflow-wrap:anywhere;white-space:pre-wrap}
-.status.ok{color:#9be8bf}.status.err{color:#ffaaa5}
-/* dial */
-.gauge{--a1:#6b7080;--a2:#454958;padding:20px 14px 16px}
-.gauge[data-st=charging]{--a1:#5df0a8;--a2:#2fb8ff}.gauge[data-st=mains]{--a1:#8ad8ff;--a2:#3a93ff}.gauge[data-st=discharging]{--a1:#ffd27a;--a2:#ff8a3d}
-.dial{position:relative;width:min(74vw,290px);aspect-ratio:1;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 30% 22%,#272a34,#15161c 72%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05),0 18px 34px rgba(0,0,0,.5),inset 7px 8px 18px rgba(255,255,255,.035),inset -9px -11px 22px rgba(0,0,0,.5)}
-.inner{position:absolute;inset:17%;border-radius:50%;background:radial-gradient(circle at 30% 25%,#202229,#14151b);box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 6px 16px rgba(0,0,0,.5)}
-.dial svg{position:absolute;inset:0;width:100%;height:100%}
-.trk{fill:none;stroke:rgba(255,255,255,.05);stroke-width:8}
-.arc{fill:none;stroke-width:8;stroke-linecap:round;stroke-dasharray:678.6;stroke-dashoffset:678.6;transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 6px var(--a2))}
-.gauge[data-st=charging] .arc,.gauge[data-st=discharging] .arc{animation:glow 2.4s ease-in-out infinite}
-@keyframes glow{50%{filter:drop-shadow(0 0 14px var(--a2))}}
-#gs1{stop-color:var(--a1)}#gs2{stop-color:var(--a2)}
-.mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-.mid span{font-size:20px;color:var(--dim);letter-spacing:.02em}
-.mid b{font-size:clamp(46px,16vw,66px);font-weight:520;letter-spacing:-.04em;line-height:1}
-.mid b small{font-size:.38em;font-weight:700;margin-left:3px}
-.more{margin-top:8px;font-size:14px;color:#cfd2dc;background:#2a2c35;border-radius:99px;padding:6px 20px;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:22px}
-.stats div{text-align:center;padding:2px 4px}.stats div+div{border-left:1px solid rgba(255,255,255,.09)}
-.stats b{display:block;font-size:20px;font-weight:700;letter-spacing:-.02em;white-space:nowrap}.stats b small{font-size:13px;color:var(--dim);margin-left:2px;font-weight:600}
-.stats span{font-size:13px;color:var(--dim)}
-.fc{display:grid;grid-template-columns:1fr 1px 1fr;gap:0;padding:16px 8px}
-.fc i{background:rgba(255,255,255,.09)}
-.fc div{text-align:center;padding:0 8px}.fc span{font-size:13px;color:var(--dim)}.fc b{display:block;font-size:21px;font-weight:700;margin-top:6px;letter-spacing:-.02em}
-#fcL{color:var(--g)}#fcR{color:var(--o)}
-/* scheme */
-.flowc{padding:10px 10px 8px}
-.flow{width:100%;height:auto;display:block}
-.nd{fill:#22242c;stroke:rgba(255,255,255,.1);stroke-width:1;transition:fill .4s,stroke .4s,filter .4s}
-.ic{fill:none;stroke:#7d8190;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
-.ln{fill:none;stroke:rgba(255,255,255,.18);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 7;transition:stroke .4s}
-.ln.c{stroke:var(--c)}.ln.g{stroke:var(--g)}.ln.o{stroke:var(--o)}
-.ln.run{animation:lnr .8s linear infinite}.ln.run.rev{animation-direction:reverse}
-@keyframes lnr{to{stroke-dashoffset:-8}}
+header{display:grid;grid-template-columns:48px 1fr 48px;align-items:center}
+h1{margin:0;text-align:center;font-size:19px;font-weight:700;letter-spacing:-.02em}
+h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
+.rb{appearance:none;-webkit-appearance:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.07);-webkit-tap-highlight-color:transparent;transition:background .3s,color .3s}
+.rb svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rb:active{transform:scale(.94)}.rb:disabled{opacity:.35}
+.rb.on{background:var(--g);border-color:var(--g);color:#fff;box-shadow:0 6px 16px rgba(47,214,85,.4)}
+.status{text-align:center;font-size:12px;line-height:1.4;color:var(--dim);white-space:pre-wrap;overflow-wrap:anywhere;padding:0 8px}
+.status.ok{color:#22a746}.status.err{color:var(--r)}
+.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:20px;box-shadow:0 14px 34px rgba(0,0,0,.06)}
+/* ---- кільце ---- */
+.hero{--c1:#d9d9de;--c2:#c4c4ca;padding:24px 20px 22px}
+.hero[data-st=charging]{--c1:#7cf59a;--c2:#2fd655}
+.hero[data-st=mains]{--c1:#8fd0ff;--c2:#2f8cff}
+.hero[data-st=discharging]{--c1:#ffd37a;--c2:#ff8a1f}
+.hero[data-st=low]{--c1:#ff9c93;--c2:#ff3b30}
+.dial{position:relative;width:min(76vw,310px);aspect-ratio:1;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 32% 24%,#fbfbfc,#ebebee 75%);box-shadow:inset 10px 12px 24px rgba(0,0,0,.08),inset -10px -12px 22px rgba(255,255,255,.95),0 0 0 1px #efeff1;transition:--p 1.3s cubic-bezier(.2,.8,.2,1)}
+.fill{position:absolute;inset:3%;border-radius:50%;background:conic-gradient(from 0deg,var(--c1),var(--c2) calc(var(--p)*1%),transparent calc(var(--p)*1%));-webkit-mask:radial-gradient(circle,transparent 62%,#000 63%);mask:radial-gradient(circle,transparent 62%,#000 63%)}
+.gw{position:absolute;inset:0;filter:blur(11px);opacity:.55}
+.ticks{position:absolute;inset:0;width:100%;height:100%}
+.inner{position:absolute;inset:20%;border-radius:50%;background:#fff;box-shadow:0 12px 30px rgba(0,0,0,.13),inset 0 2px 3px #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+#soc{font-size:clamp(46px,16vw,72px);font-weight:720;letter-spacing:-.045em;line-height:1}
+#soc small{font-size:.3em;font-weight:600;letter-spacing:0;margin-left:2px;color:#333}
+#rem{font-size:14px;color:var(--dim);font-weight:500}#rem b{color:var(--ink);font-weight:700}
+.foot{margin:20px 0 0;text-align:center;font-size:16px;color:#3a3a40}
+.foot b{font-weight:700;color:var(--ink)}
+.hero[data-st=charging] .foot b{color:#1fae44}.hero[data-st=mains] .foot b{color:var(--c)}.hero[data-st=discharging] .foot b{color:#e8710a}.hero[data-st=low] .foot b{color:var(--r)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.stats div{text-align:center}.stats div+div{border-left:1px solid var(--line)}
+.stats b{display:block;font-size:21px;font-weight:720;letter-spacing:-.03em;white-space:nowrap}
+.stats small{font-size:13px;color:var(--dim);font-weight:600;margin-left:2px}
+.stats span{font-size:12px;color:var(--dim)}
+/* ---- схема ---- */
+.flowc{padding:14px 10px 10px}
+.flow{--spd:.9s;--lw:3;width:100%;height:auto;display:block}
+.flow.h2{--o:var(--r)}
+.nd{fill:#fff;stroke:var(--line);stroke-width:1;filter:drop-shadow(0 5px 8px rgba(0,0,0,.08));transition:fill .4s,stroke .4s}
+.ic{fill:none;stroke:#b4b4bc;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.ln{fill:none;stroke:#e2e2e7;stroke-width:3;stroke-linecap:round}
+.ln.run{stroke-dasharray:2 8;stroke-width:var(--lw);animation:lnr var(--spd) linear infinite}.ln.rev{animation-direction:reverse}
+.ln.g{stroke:var(--g)}.ln.c{stroke:var(--c)}.ln.o{stroke:var(--o)}
+@keyframes lnr{to{stroke-dashoffset:-10}}
+.on-g .nd{fill:color-mix(in srgb,var(--g) 11%,#fff);stroke:var(--g)}.on-g .ic{stroke:var(--g)}
+.on-c .nd{fill:color-mix(in srgb,var(--c) 11%,#fff);stroke:var(--c)}.on-c .ic{stroke:var(--c)}
+.on-o .nd{fill:color-mix(in srgb,var(--o) 12%,#fff);stroke:var(--o)}.on-o .ic{stroke:var(--o)}
+.bf{fill:#d4d4da;transition:width .6s,fill .4s}.on-g .bf{fill:var(--g)}.on-c .bf{fill:var(--c)}.on-o .bf{fill:var(--o)}.flow.s2 .node .bf{fill:var(--r)}
+.pulse .nd{animation:ndp 1.8s ease-in-out infinite}.flow.s2 #nBat.pulse .nd{animation-duration:.8s}
+@keyframes ndp{50%{stroke-opacity:.25}}
+.flow.chg .bf{animation:bfp 1.6s ease-in-out infinite}@keyframes bfp{50%{fill-opacity:.55}}
+.off{opacity:.5}.off .ic{stroke:var(--r)}
 .flow text{font-size:12px;fill:var(--dim);text-anchor:middle;font-family:inherit}
-.flow text.val{font-size:13px;font-weight:750;fill:var(--ink);font-variant-numeric:tabular-nums}
-.flow text.cap{font-size:10px}.flow text.volt{font-size:13px;font-weight:750;fill:var(--ink)}
-.flow text.pct{font-size:11px;font-weight:800;fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.55);stroke-width:2px;dominant-baseline:central}
-.on-g .nd{fill:rgba(46,229,157,.14);stroke:rgba(46,229,157,.75);filter:drop-shadow(0 0 9px rgba(46,229,157,.45))}.on-g .ic{stroke:var(--g)}
-.on-c .nd{fill:rgba(76,180,255,.14);stroke:rgba(76,180,255,.75);filter:drop-shadow(0 0 9px rgba(76,180,255,.45))}.on-c .ic{stroke:var(--c)}
-.on-o .nd{fill:rgba(255,176,77,.14);stroke:rgba(255,176,77,.8);filter:drop-shadow(0 0 9px rgba(255,176,77,.5))}.on-o .ic{stroke:var(--o)}
-.bf{fill:#5b5f6d;transition:width .6s,fill .4s}.on-g .bf{fill:var(--g)}.on-o .bf{fill:var(--o)}.on-c .bf{fill:var(--c)}
-.pulse .nd{animation:ndp 1.8s ease-in-out infinite}
-@keyframes ndp{50%{stroke-opacity:.3}}
-.off .ic{stroke:#4a4d5a}
-/* sections */
-.sec>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:650;padding:10px 6px;-webkit-tap-highlight-color:transparent}
-.sec>summary::-webkit-details-marker{display:none}
-.sec>summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--dim);border-bottom:2px solid var(--dim);transform:rotate(45deg);transition:transform .25s;margin:-3px 6px 0 0}
-.sec[open]>summary::after{transform:rotate(-135deg);margin-top:3px}
-.rows{padding:4px 16px}
-.r{display:flex;justify-content:space-between;gap:12px;padding:12px 0;font-size:15px}.r+.r{border-top:1px solid var(--line)}
-.r span{color:var(--dim)}.r b{font-weight:650;text-align:right;font-variant-numeric:tabular-nums}.r small{color:var(--dim);margin-left:3px}
-.chead{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--dim);margin-bottom:12px}
-.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-.cell{text-align:center}.well{display:block;height:44px;border-radius:11px;background:#262831;position:relative;overflow:hidden}
-.well:after{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--h,0%);background:linear-gradient(180deg,#2ee59d,#1e9a6c)}
-.cell.mx .well:after{background:linear-gradient(180deg,#6cc6ff,#3a8fd6)}.cell.mn .well:after{background:linear-gradient(180deg,#ffc069,#e08a2c)}
-.well i{position:absolute;top:5px;left:0;right:0;font-style:normal;font-size:11px;color:#c9ccd6;z-index:1}
-.cell b{display:block;font-size:12px;font-weight:650;margin-top:6px}
-.seg{display:flex;background:#262831;border-radius:11px;padding:3px;gap:3px}
-.seg button{flex:1;border:0;border-radius:8px;padding:9px 4px;font:inherit;font-size:12px;font-weight:650;color:var(--ink);background:transparent;cursor:pointer}.seg button.on{background:#3a3d4a}
-.hsum{font-size:13px;margin:12px 2px 6px}.hsum span{color:var(--dim)}
+.flow text.val{font-size:13px;font-weight:750;fill:var(--ink)}.flow text.cap{font-size:10px}
+.flow text.pct{font-size:11px;font-weight:800;fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.35);stroke-width:2px;dominant-baseline:central}
+/* ---- списки ---- */
+.r{display:flex;justify-content:space-between;gap:12px;padding:13px 0;font-size:15px}.r+.r{border-top:1px solid var(--line)}
+.r span{color:var(--dim)}.r b{font-weight:650;font-variant-numeric:tabular-nums}.r small{color:var(--dim);margin-left:3px}
+.rows{padding:6px 20px}
+.chead{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--dim);margin-bottom:14px}
+.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cell{text-align:center}
+.well{display:block;height:48px;border-radius:13px;background:#efeff2;box-shadow:inset 2px 3px 6px rgba(0,0,0,.06);position:relative;overflow:hidden}
+.well:after{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--h,0%);background:linear-gradient(180deg,#6df08a,var(--g))}
+.cell.mx .well:after{background:linear-gradient(180deg,#8fd0ff,var(--c))}.cell.mn .well:after{background:linear-gradient(180deg,#ffd37a,var(--o))}
+.well i{position:absolute;top:5px;left:0;right:0;font-style:normal;font-size:11px;font-weight:600;color:#6c6c74;z-index:1}
+.cell b{display:block;font-size:12px;font-weight:650;margin-top:7px}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tg div{background:#f4f4f6;border-radius:16px;padding:12px 10px;text-align:center}
+.tg span{font-size:11px;color:var(--dim)}.tg b{display:block;font-size:17px;font-weight:700;margin-top:3px}
+.seg{display:flex;background:#efeff2;border-radius:13px;padding:3px;gap:3px}
+.seg button{flex:1;border:0;border-radius:10px;padding:10px 4px;font:inherit;font-size:13px;font-weight:650;color:var(--dim);background:transparent;cursor:pointer}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.hsum{font-size:13px;margin:14px 2px 6px}.hsum span{color:var(--dim)}
 #hchart{width:100%;height:auto;display:block}
-.note{text-align:center;color:var(--dim);font-size:11px;margin:2px 0 0}
-.hidden{display:none!important}
-@media(prefers-reduced-motion:reduce){.ln.run,.pulse .nd,.arc{animation:none!important}}
+.note{text-align:center;color:var(--dim);font-size:11px;margin:0}
+@media(prefers-reduced-motion:reduce){.ln.run,.pulse .nd,.flow.chg .bf{animation:none!important}.dial{transition:none}}
 </style>
 </head>
 <body><div class="wrap">
-<header><div><h1 id="hTitle">Не підключено</h1><div class="hsub" id="hSub">Підключи BMS, щоб побачити стан</div></div><div class="wx" id="wx"><span id="wxIcon"></span><b id="wxT">—</b></div></header>
-<div class="actions"><button class="btn conn" id="connect" type="button"><i class="dot"></i><span>Підключитись</span></button><button class="btn ic-b" id="refresh" type="button" disabled aria-label="Оновити"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button><button class="btn ic-b" id="disconnect" type="button" disabled aria-label="Відключитись"><svg viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button></div>
-<div class="status" id="status" role="status">Натисни «Підключитись» і вибери PC-A2EE. Закрий PACEEX і вкладку на ноутбуці: BMS приймає лише одне з'єднання.</div>
+<header><button class="rb" id="connect" type="button" aria-label="Підключитись"><svg viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button><h1>Батарея</h1><button class="rb" id="refresh" type="button" disabled aria-label="Оновити"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button></header>
+<div class="status" id="status" role="status">Натисни кнопку зліва й вибери PC-A2EE. Закрий PACEEX і вкладку на ноутбуці: BMS приймає лише одне з’єднання.</div>
 
-<section class="card gauge" id="gaugeCard" data-st="unknown">
-<div class="dial"><div class="inner"></div><svg viewBox="0 0 260 260" aria-hidden="true"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop id="gs1" offset="0"/><stop id="gs2" offset="1"/></linearGradient></defs><circle class="trk" cx="130" cy="130" r="108"/><g transform="translate(260 0) scale(-1 1) rotate(-90 130 130)"><circle class="arc" id="arc" cx="130" cy="130" r="108" stroke="url(#gr)"/></g></svg>
-<div class="mid"><span>SOC</span><b id="soc">—</b><a class="more" href="#more">Докладніше</a></div></div>
+<section class="card hero" id="hero" data-st="unknown">
+<div class="dial" id="dial"><svg class="ticks" id="ticks" viewBox="0 0 100 100" aria-hidden="true"></svg><div class="gw"><div class="fill"></div></div><div class="fill"></div>
+<div class="inner"><div id="soc">—</div><div id="rem"></div></div></div>
+<p class="foot" id="foot">Не підключено</p>
 <div class="stats"><div><b id="sV">—</b><span>Напруга</span></div><div><b id="sA">—</b><span>Струм</span></div><div><b id="sW">—</b><span>Потужність</span></div></div>
 </section>
 
-<section class="card fc"><div><span>До повного заряду</span><b id="fcL">—</b></div><i></i><div><span>Вистачить на</span><b id="fcR">—</b></div></section>
-
+<h2>Схема</h2>
 <section class="card flowc"><svg class="flow" id="flow" viewBox="0 0 320 248" role="img" aria-label="Схема живлення: мережа, інвертор, акумулятор, дім">
 <path class="ln" id="ln0" d="M160 61V79"/><path class="ln" id="ln1" d="M133 106H72a12 12 0 0 0-12 12V151"/><path class="ln" id="ln2" d="M187 106H248a12 12 0 0 1 12 12V151"/>
 <g class="node off" id="nGrid" transform="translate(160 34)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g>
@@ -118,43 +110,52 @@ h1{font-size:26px;font-weight:720;letter-spacing:-.025em;margin:0;line-height:1.
 <g class="node" id="nHome" transform="translate(260 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g>
 <text x="214" y="38">Мережа</text><text x="160" y="150">Інвертор</text>
 <text class="val" id="fnCur" x="98" y="96">—</text><text class="cap" x="98" y="122">струм</text><text class="val" id="fnPow" x="222" y="96">—</text><text class="cap" id="fnPowCap" x="222" y="122">потужність</text>
-<text x="60" y="224">Акумулятор</text><text class="volt" id="fnVolt" x="60" y="242">—</text><text x="260" y="224">Дім</text></svg></section>
+<text x="60" y="224">Акумулятор</text><text class="val" id="fnVolt" x="60" y="242">—</text><text x="260" y="224">Дім</text></svg></section>
 
-<div id="more"></div>
-<details class="sec" data-k="s0" open><summary>Вольтаж</summary><div class="card rows">
-<div class="r"><span>Напруга пакета</span><b id="vPack">—</b></div><div class="r"><span>Сума комірок</span><b id="vSum">—</b></div><div class="r"><span>Середня комірка</span><b id="vAvg">—</b></div><div class="r"><span>Різниця комірок</span><b id="vDelta">—</b></div><div class="r"><span>Найнижча комірка</span><b id="vMin">—</b></div><div class="r"><span>Найвища комірка</span><b id="vMax">—</b></div></div></details>
-<details class="sec" data-k="s1" open><summary>Основні показники</summary><div class="card rows">
-<div class="r"><span>Залишок (оцінка)</span><b id="remainingAh">—</b></div><div class="r"><span>Повна ємність</span><b>103,9<small>А·г</small></b></div><div class="r"><span>Проєктна ємність</span><b id="capacity">—</b></div><div class="r"><span>Здоров'я (SOH)</span><b id="health">—</b></div><div class="r"><span>Заряд за цикл</span><b id="cycleCharge">—</b></div><div class="r"><span>Цикли</span><b id="cycles">—</b></div></div></details>
-<details class="sec" data-k="s3" open><summary>Комірки</summary><div class="card"><div class="chead"><span id="range">Очікування даних</span><span id="delta">—</span></div><div class="cg" id="cg"></div></div></details>
-<details class="sec" data-k="s4" open><summary>Температура</summary><div class="card rows">
-<div class="r"><span>Середня</span><b id="tempAvg">—</b></div><div class="r"><span>Датчик T1</span><b id="t1">—</b></div><div class="r"><span>Датчик T2</span><b id="t2">—</b></div><div class="r"><span>Датчик T3</span><b id="t3">—</b></div><div class="r"><span>Датчик T4</span><b id="t4">—</b></div><div class="r"><span>MOSFET</span><b id="tmos">—</b></div><div class="r"><span>Навколишня</span><b id="tamb">—</b></div></div></details>
-<details class="sec" data-k="s5" open><summary>Історія заряду</summary><div class="card"><div class="seg"><button type="button" id="h24" class="on">24 години</button><button type="button" id="h10">10 днів</button></div><div class="hsum" id="hsum"><span>Дані збираються…</span></div><svg id="hchart" viewBox="0 0 340 152"></svg><div class="note">Пишеться, поки сторінка відкрита й підключена до BMS.</div></div></details>
-<details class="sec" data-k="s6"><summary>Технічна інформація</summary><div class="card rows" id="kv"></div></details>
-<div class="hidden"><span id="serial">—</span><span id="sw">—</span><span id="hw">—</span></div>
+<h2>Показники</h2>
+<section class="card rows">
+<div class="r"><span>Залишок (оцінка)</span><b id="remainingAh">—</b></div><div class="r"><span>Повна ємність</span><b>103,9<small>А·г</small></b></div><div class="r"><span>Проєктна ємність</span><b id="capacity">—</b></div><div class="r"><span>Здоров’я (SOH)</span><b id="health">—</b></div><div class="r"><span>Цикли</span><b id="cycles">—</b></div><div class="r"><span>Заряд за цикл</span><b id="cycleCharge">—</b></div></section>
+
+<h2>Комірки</h2>
+<section class="card"><div class="chead"><span id="range">Очікування даних</span><span id="delta">—</span></div><div class="cg" id="cg"></div></section>
+
+<h2>Температура</h2>
+<section class="card"><div class="tg" id="tg"></div></section>
+
+<h2>Історія заряду</h2>
+<section class="card"><div class="seg"><button type="button" id="h24" class="on">24 години</button><button type="button" id="h10">10 днів</button></div><div class="hsum" id="hsum"><span>Дані збираються…</span></div><svg id="hchart" viewBox="0 0 340 152"></svg><p class="note">Пишеться, поки сторінка відкрита й підключена до BMS.</p></section>
 <p class="note" id="updated">Реальні дані ще не зчитані.</p>
 </div>
 <script>
 (()=>{'use strict';
 const SERVICE='0000fff0-0000-1000-8000-00805f9b34fb',RX='0000fff1-0000-1000-8000-00805f9b34fb',TX='0000fff2-0000-1000-8000-00805f9b34fb';
 const $=id=>document.getElementById(id);
-let device=null,server=null,rx=null,tx=null,busy=false,expected=null,resolveReply=null,replyTimer=null,refreshTimer=null,connecting=false,last=null,lastLoad=NaN;
+let device=null,server=null,rx=null,tx=null,busy=false,expected=null,resolveReply=null,replyTimer=null,refreshTimer=null,connecting=false,lastLoad=NaN;
 const FULL=103.9,sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
 function status(m,t=''){$('status').textContent=m;$('status').className='status'+(t?' '+t:'');}
-function uiConnected(y){const b=$('connect');b.disabled=y;b.classList.toggle('on',y);b.lastElementChild.textContent=y?'Підключено':'Підключитись';$('refresh').disabled=!y;$('disconnect').disabled=!y;}
-function hm(h){if(h>240)return '> 10 днів';if(h>=48){const d=Math.floor(h/24);return d+' д '+Math.min(23,Math.round(h-d*24))+' год';}const m=Math.max(1,Math.round(h*60));if(m<60)return m+' хв';return Math.floor(m/60)+' год '+(m%60)+' хв';}
+function uiConnected(y){$('connect').classList.toggle('on',y);$('connect').disabled=false;$('refresh').disabled=!y;}
+function hm(h){if(h>240)return '> 10 днів';if(h>=48){const d=Math.floor(h/24);return d+' д '+Math.min(23,Math.round(h-d*24))+' год';}const m=Math.max(1,Math.round(h*60));return m<60?m+' хв':Math.floor(m/60)+' год '+(m%60)+' хв';}
+/* кільце: 12 крапок-міток */
+$('ticks').innerHTML=Array.from({length:12},(_,i)=>{const a=i*Math.PI/6;return '<circle cx="'+(50+39*Math.sin(a)).toFixed(1)+'" cy="'+(50-39*Math.cos(a)).toFixed(1)+'" r=".7" fill="#c3c3ca"/>';}).join('');
+$('tg').innerHTML=['T1','T2','T3','T4','MOSFET','Навколишня'].map((n,i)=>'<div><span>'+n+'</span><b id="t'+i+'">—</b></div>').join('');
+/* стани схеми */
 const FLOW={charging:{g:'on-g',i:'on-c',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run'},grid:{g:'on-g',i:'on-c',b:'on-g',h:'on-c',l0:'g run',l1:'g',l2:'c run'},discharging:{g:'off',i:'on-o',b:'on-o pulse',h:'on-o',l0:'',l1:'o run rev',l2:'o run'}};
-function setState(st,fcL,fcR,soc){
-const key=st==='idle'?'grid':st,c=FLOW[key]||{g:'off',i:'',b:'',h:'',l0:'',l1:'',l2:''};
-$('gaugeCard').dataset.st=key in FLOW?key:'unknown';
+function setState(key,o={}){
+const c=FLOW[key]||{g:'off',i:'',b:'',h:'',l0:'',l1:'',l2:''},soc=o.soc,low=Number.isFinite(soc)&&soc<=15;
+$('hero').dataset.st=!(key in FLOW)?'unknown':key==='discharging'&&low?'low':key;
+$('dial').style.setProperty('--p',key in FLOW?soc:0);
 $('nGrid').setAttribute('class','node '+c.g);$('nInv').setAttribute('class','node '+c.i);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
 ['l0','l1','l2'].forEach((k,i)=>$('ln'+i).setAttribute('class','ln '+c[k]));
-const T=$('hTitle'),S=$('hSub');let cls='';
-if(key==='charging'){T.textContent='Батарея заряджається';S.textContent=fcL?fcL+' до повного заряду':'Йде заряджання';cls='g';}
-else if(key==='grid'){T.textContent='Мережа від міста';S.textContent=soc>=99?'Батарея заряджена':'Батарея в очікуванні';cls='c';}
-else if(key==='discharging'){T.textContent='Живлення від батареї';S.textContent=fcR?'Вистачить на '+fcR:'Батарея віддає енергію';cls='o';}
-else{T.textContent='Не підключено';S.textContent='Підключи BMS, щоб побачити стан';['sV','sA','sW','fnCur','fnPow','fnVolt','fnBat','soc'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);$('arc').style.strokeDashoffset=678.6;$('fcL').textContent='—';$('fcR').textContent='—';}
-S.className='hsub '+cls;}
+const f=$('flow'),k=Math.min(Math.abs(o.current||0),60)/60;
+f.setAttribute('class','flow'+(key==='discharging'&&o.power>2500?' h2':'')+(low?' s2':'')+(key==='charging'?' chg':''));
+f.style.setProperty('--spd',(key==='grid'?1.6:Math.max(.25,1.4-k*1.15)).toFixed(2)+'s');f.style.setProperty('--lw',(key==='grid'?2.6:2.6+k*2.2).toFixed(1));
+const F=$('foot');
+if(key==='charging')F.innerHTML='<b>Заряджається</b>'+(o.tL?' · до повного '+o.tL:'');
+else if(key==='grid')F.innerHTML='<b>Мережа</b> · '+(soc>=99?'батарея заряджена':'очікування');
+else if(key==='discharging')F.innerHTML='<b>Від батареї</b>'+(o.tR?' · вистачить на '+o.tR:'');
+else{F.textContent='Не підключено';['sV','sA','sW','fnCur','fnPow','fnVolt','fnBat','soc'].forEach(i=>$(i).textContent='—');$('rem').textContent='';$('bfill').setAttribute('width',0);}}
+/* протокол BMS */
 function crc(b){let c=0xffff;for(const x of b){c^=x;for(let i=0;i<8;i++)c=(c&1)?((c>>>1)^0xa001):(c>>>1);}return c&0xffff;}
 function command(cmd,pl=[]){const a=[0x9a,...cmd,pl.length,...pl];const c=crc(a);a.push((c>>8)&255,c&255,0x9d);return new Uint8Array(a);}
 function parseFrame(inp){const d=Array.from(inp);if(d[0]!==0x9a||d.length<11||d.length!==11+d[7]||d[d.length-1]!==0x9d)throw Error('Некоректна відповідь');if(((d[d.length-3]<<8)|d[d.length-2])!==crc(d.slice(0,-3)))throw Error('CRC');if(expected&&d.slice(1,7).join(',')!==expected.join(','))return null;return d;}
@@ -164,40 +165,34 @@ async function request(cmd,pl=[],timeout=4000){const pk=command(cmd,pl);expected
 for(let a=0;a<3;a++){const p=new Promise((res,rej)=>{resolveReply=res;replyTimer=setTimeout(()=>{resolveReply=null;rej(Error('BMS не відповіла вчасно'));},timeout);});
 try{await writePacket(pk);const f=await p;expected=null;return f;}catch(e){clearTimeout(replyTimer);resolveReply=null;if(a===2){expected=null;throw e;}await sleep(300);}}
 throw Error('Немає відповіді BMS');}
-function str(b){let o='';for(const x of b){if(x<32||x>126)break;o+=String.fromCharCode(x);}return o.trim();}
 const u16=(d,p)=>(d[p]<<8)|d[p+1],s16=(d,p)=>{const n=u16(d,p);return n&0x8000?n-0x10000:n;};
-async function readInfo(){const s=await request([0,0,0,2,0,0]);$('serial').textContent=str(s.slice(9,9+s[8]))||'—';const v=await request([0,0,0,1,0,0]);$('sw').textContent=str(v.slice(10,10+(v[9]||0)))||'—';$('hw').textContent=str(v.slice(65,65+(v[64]||0)))||'—';}
-function renderCells(cells,voltage){$('cg').innerHTML='';
+function renderCells(cells){$('cg').innerHTML='';
 if(!cells.length){$('cg').textContent='Дані комірок відсутні';$('range').textContent='—';$('delta').textContent='—';return;}
-const mx=Math.max(...cells),mn=Math.min(...cells),sum=cells.reduce((a,b)=>a+b,0);
+const mx=Math.max(...cells),mn=Math.min(...cells);
 $('range').textContent='№'+(cells.indexOf(mn)+1)+' '+Math.round(mn*1000)+' мВ – №'+(cells.indexOf(mx)+1)+' '+Math.round(mx*1000)+' мВ';$('delta').textContent='різниця '+Math.round((mx-mn)*1000)+' мВ';
-$('vPack').innerHTML=fmt(voltage)+'<small>В</small>';$('vSum').innerHTML=fmt(sum)+'<small>В</small>';$('vAvg').innerHTML=fmt(sum/cells.length,3)+'<small>В</small>';$('vMin').innerHTML=fmt(mn,3)+'<small>В</small>';$('vMax').innerHTML=fmt(mx,3)+'<small>В</small>';$('vDelta').innerHTML=Math.round((mx-mn)*1000)+'<small>мВ</small>';
-cells.forEach((v,i)=>{const el=document.createElement('div');el.className='cell'+(v===mx?' mx':v===mn?' mn':'');const h=Math.max(8,Math.min(100,(v-3.0)/(3.5-3.0)*100));el.innerHTML='<span class="well" style="--h:'+h+'%"><i>'+(i+1)+'</i></span><b>'+fmt(v,3)+' В</b>';$('cg').appendChild(el);});}
+cells.forEach((v,i)=>{const el=document.createElement('div');el.className='cell'+(v===mx?' mx':v===mn?' mn':'');const h=Math.max(8,Math.min(100,(v-3.0)/0.5*100));el.innerHTML='<span class="well" style="--h:'+h+'%"><i>'+(i+1)+'</i></span><b>'+fmt(v,3)+' В</b>';$('cg').appendChild(el);});}
 async function readData(){if(!server||!server.connected||busy)return;busy=true;$('refresh').disabled=true;try{
 const p=await request([0,0,10,1,0,0],[1,1]);const current=s16(p,9)/100,voltage=u16(p,11)/100,cycleCharge=u16(p,13)/100,capacity=Math.floor(u16(p,17)/100),soc=p[19],health=p[20],cycles=u16(p,21);
 const c=await request([0,0,10,2,0,0],[1,1]);const cells=[];for(let i=0;i<c[11]&&i<32;i++){const pos=12+i*4;if(pos+1<c.length-3)cells.push(u16(c,pos)/1000);}
 const temps=[];for(let i=0;i<6;i++){const pos=14+i*4;if(pos+1<c.length-3){const r=u16(c,pos);temps.push(r===0?null:(r-2731)/10);}}
 await request([0,0,10,0,0,0]);
-const power=voltage*current,ap=Math.abs(power),remainingAh=FULL*Math.max(0,Math.min(100,soc))/100,chg=current>0.5,dis=current<-1.5;
-last={power,voltage,current,remainingAh,soc};recordHist(soc,current);drawHist();
-$('soc').innerHTML=soc+'<small>%</small>';$('arc').style.strokeDashoffset=(678.6*(1-Math.max(0,Math.min(100,soc))/100)).toFixed(1);
-$('sV').innerHTML=fmt(voltage)+'<small>В</small>';$('sA').innerHTML=fmt(current,1).replace('-','−')+'<small>А</small>';
-const pw=ap>=1000?fmt(ap/1000,2)+'<small>кВт</small>':Math.round(ap)+'<small>Вт</small>';$('sW').innerHTML=pw;
+const power=voltage*current,ap=Math.abs(power),rem=FULL*Math.max(0,Math.min(100,soc))/100,chg=current>0.5,dis=current<-1.5;
+recordHist(soc,current);drawHist();
+const cur=fmt(current,1).replace('-','−'),pw=ap>=1000?fmt(ap/1000,2)+(' кВт'):Math.round(ap)+' Вт';
+$('soc').innerHTML=soc+'<small>%</small>';$('rem').innerHTML='<b>'+fmt(rem,1)+'</b> / '+fmt(FULL,1)+' А·г';
+$('sV').innerHTML=fmt(voltage)+'<small>В</small>';$('sA').innerHTML=cur+'<small>А</small>';$('sW').innerHTML=pw.replace(' ','<small>')+'</small>';
 $('fnBat').textContent=soc+'%';$('bfill').setAttribute('width',(32*Math.max(0,Math.min(100,soc))/100).toFixed(1));
-$('fnCur').textContent=fmt(current,1).replace('-','−')+' А';$('fnVolt').textContent=fmt(voltage)+' В';$('fnPow').textContent=ap>=1000?fmt(ap/1000,2)+' кВт':Math.round(ap)+' Вт';$('fnPowCap').textContent=dis?'розряд':chg?'заряд':'від мережі';
+$('fnCur').textContent=cur+' А';$('fnVolt').textContent=fmt(voltage)+' В';$('fnPow').textContent=pw;$('fnPowCap').textContent=dis?'розряд':chg?'заряд':'від мережі';
 $('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small>А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small>А·г</small>';$('cycles').textContent=cycles;
-$('remainingAh').innerHTML=fmt(remainingAh,1)+'<small>з '+fmt(FULL,1)+' А·г</small>';
-renderCells(cells,voltage);
-['t1','t2','t3','t4','tmos','tamb'].forEach((id,i)=>$(id).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C');
-const vt=temps.filter(v=>v!==null);$('tempAvg').textContent=vt.length?fmt(vt.reduce((a,b)=>a+b,0)/vt.length,1)+' °C':'—';
-const toFull=(chg&&ap>10&&voltage>0)?(FULL-remainingAh)*voltage/ap:NaN;if(!chg&&ap>10)lastLoad=ap;const load=chg?lastLoad:ap;
-const run=(load>10&&voltage>0)?remainingAh*voltage/load:NaN;
-const tL=Number.isFinite(toFull)?'~ '+hm(toFull):'',tR=Number.isFinite(run)?'~ '+hm(run):'';
-$('fcL').textContent=tL||(soc>=99?'Заряджена':'—');$('fcR').textContent=tR||'—';
-setState(chg?'charging':dis?'discharging':'grid',tL,tR,soc);
+$('remainingAh').innerHTML=fmt(rem,1)+'<small>А·г</small>';
+renderCells(cells);
+for(let i=0;i<6;i++)$('t'+i).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C';
+const toFull=(chg&&ap>10&&voltage>0)?(FULL-rem)*voltage/ap:NaN;if(!chg&&ap>10)lastLoad=ap;const load=chg?lastLoad:ap;
+const run=(load>10&&voltage>0)?rem*voltage/load:NaN;
+setState(chg?'charging':dis?'discharging':'grid',{soc,current,power:ap,tL:Number.isFinite(toFull)?'~ '+hm(toFull):'',tR:Number.isFinite(run)?'~ '+hm(run):''});
 $('updated').textContent='Останнє оновлення: '+new Date().toLocaleTimeString('uk-UA');status('Дані зчитано.','ok');
-$('kv').innerHTML=[['Назва',device?.name||'PC-A2EE'],['Серійний номер',$('serial').textContent],['Версія ПЗ',$('sw').textContent],['Версія заліза',$('hw').textContent],['Струм зі знаком',fmt(current)+' А'],['Комірок',cells.length]].map(r=>'<div class="r"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
 }catch(e){status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');}finally{busy=false;if(server&&server.connected)$('refresh').disabled=false;}}
+/* підключення */
 const T=(p,ms)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(Error('немає відповіді '+(ms/1000)+' с')),ms))]);
 async function openGatt(){const log=[];let step='';const show=(t,ty='')=>{log.push(t);status(log.slice(-7).join('\n'),ty);};
 for(let i=1;i<=4;i++){try{const say=(t,ms,pr)=>{step=t;show('Спроба '+i+': '+t+'…');return T(pr,ms);};
@@ -209,47 +204,32 @@ await say('підписка',8000,rx.startNotifications());rx.addEventListener('
 }catch(e){show('✗ крок «'+step+'»: '+(e?.message||e),'err');try{if(device.gatt.connected)device.gatt.disconnect();}catch(_){}await sleep(1500);}}
 throw Error('\n'+log.slice(-9).join('\n'));}
 const NK='bms_name_v1';const savedName=()=>{try{return localStorage.getItem(NK)||'PC-A2EE';}catch(e){return 'PC-A2EE';}};
-function onLost(){if(connecting)return;server=null;rx=null;tx=null;clearInterval(refreshTimer);refreshTimer=null;uiConnected(false);setState('unknown');$('connect').disabled=false;status('З’єднання розірвано. Закрий PACEEX і вкладку на ноутбуці та натисни «Підключитись».');}
+function onLost(){if(connecting)return;server=null;rx=null;tx=null;clearInterval(refreshTimer);refreshTimer=null;uiConnected(false);setState('unknown');status('З’єднання розірвано. Закрий PACEEX і вкладку на ноутбуці та натисни кнопку зліва.');}
 async function startSession(dev){device=dev;dev.addEventListener('gattserverdisconnected',onLost);connecting=true;await openGatt();connecting=false;
 try{localStorage.setItem(NK,dev.name||savedName());}catch(e){}
-uiConnected(true);status('Підключено. Читаю інформацію BMS…','ok');await readInfo();await readData();
+uiConnected(true);status('Підключено. Читаю дані BMS…','ok');await request([0,0,0,2,0,0]);await request([0,0,0,1,0,0]);await readData();
 if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(()=>{if(!document.hidden)readData();},5000);}
 async function knownDevice(){if(!navigator.bluetooth||typeof navigator.bluetooth.getDevices!=='function')return null;try{const l=await navigator.bluetooth.getDevices(),n=savedName();return l.find(d=>d.name===n)||l.find(d=>(d.name||'').startsWith('PC-'))||null;}catch(e){return null;}}
 async function connect(){if(!navigator.bluetooth){status('Web Bluetooth недоступний. На iPhone відкрий сторінку в Bluefy.','err');return;}
 $('connect').disabled=true;status('Шукаю пристрій '+savedName()+'…');
 try{let d=await knownDevice();if(!d)d=await navigator.bluetooth.requestDevice({filters:[{name:savedName()}],optionalServices:[SERVICE]});await startSession(d);}
-catch(e){connecting=false;uiConnected(false);$('connect').disabled=false;status('Помилка підключення: '+(e?.message||e)+'. Закрий PACEEX і вкладку на ноутбуці.','err');}}
-async function autoConnect(){if(server&&server.connected)return;const d=await knownDevice();if(!d)return;$('connect').disabled=true;status('Знайшов збережений BMS — підключаюсь автоматично…');
-try{await startSession(d);}catch(e){connecting=false;uiConnected(false);$('connect').disabled=false;status('Автопідключення не вдалося: '+(e?.message||e)+'\nНатисни «Підключитись».','err');}}
-async function disconnect(){clearInterval(refreshTimer);refreshTimer=null;try{if(rx)rx.removeEventListener('characteristicvaluechanged',onNotify);if(device?.gatt?.connected)device.gatt.disconnect();}catch(e){}server=null;rx=null;tx=null;uiConnected(false);setState('unknown');$('connect').disabled=false;status('Відключено від BMS.');}
-$('connect').addEventListener('click',connect);$('refresh').addEventListener('click',readData);$('disconnect').addEventListener('click',disconnect);
-$('kv').innerHTML='<div class="r"><span>Статус</span><b>Очікування підключення</b></div><div class="r"><span>BLE сервіс</span><b>FFF0</b></div><div class="r"><span>RX / TX</span><b>FFF1 / FFF2</b></div>';
+catch(e){connecting=false;uiConnected(false);status('Помилка підключення: '+(e?.message||e)+'. Закрий PACEEX і вкладку на ноутбуці.','err');}}
+async function autoConnect(){if(server&&server.connected)return;const d=await knownDevice();if(!d)return;$('connect').disabled=true;status('Знайшов збережений BMS — підключаюсь…');
+try{await startSession(d);}catch(e){connecting=false;uiConnected(false);status('Автопідключення не вдалося: '+(e?.message||e)+'\nНатисни кнопку зліва.','err');}}
+function disconnect(){clearInterval(refreshTimer);refreshTimer=null;try{if(rx)rx.removeEventListener('characteristicvaluechanged',onNotify);if(device?.gatt?.connected)device.gatt.disconnect();}catch(e){}server=null;rx=null;tx=null;uiConnected(false);setState('unknown');status('Відключено від BMS.');}
+$('connect').addEventListener('click',()=>{(server&&server.connected)?disconnect():connect();});$('refresh').addEventListener('click',readData);
+/* історія */
 const HK='bms_hist_v1';let hist=[],hRange=24;try{hist=JSON.parse(localStorage.getItem(HK)||'[]');}catch(e){hist=[];}
 function recordHist(soc,cur){const now=Date.now(),l=hist[hist.length-1];if(l&&now-l[0]<60000)return;hist.push([now,soc,Math.round(cur*10)/10]);const cut=now-10*864e5;while(hist.length&&hist[0][0]<cut)hist.shift();try{localStorage.setItem(HK,JSON.stringify(hist));}catch(e){}}
 function drawHist(){const now=Date.now(),span=hRange*36e5,n=hRange===24?96:80,bw=span/n,start=now-span,W=300,H=120,Y0=10,step=W/n,sum=new Array(n).fill(0),cnt=new Array(n).fill(0);
 hist.forEach(p=>{if(p[0]<start)return;const i=Math.min(n-1,Math.floor((p[0]-start)/bw));sum[i]+=p[1];cnt[i]++;});
 let g='',bars='',lab='',vals=[];
-[100,50,0].forEach(v=>{const y=Y0+H*(1-v/100);g+='<line x1="0" x2="'+W+'" y1="'+y+'" y2="'+y+'" stroke="rgba(255,255,255,.12)" stroke-dasharray="3 3"/><text x="'+(W+6)+'" y="'+(y+3)+'" font-size="10" fill="#8d91a0">'+v+'%</text>';});
-for(let i=0;i<n;i++){if(!cnt[i])continue;const v=sum[i]/cnt[i];vals.push(v);const h=Math.max(1.5,H*v/100);bars+='<rect x="'+(i*step+.5)+'" y="'+(Y0+H-h)+'" width="'+Math.max(1,step-1.4)+'" height="'+h+'" rx="1.2" fill="#2ee59d"/>';}
-(hRange===24?[0,6,12,18]:[0,2,4,6,8]).forEach(t=>{const x=hRange===24?t/24*W:t/10*W,d=new Date(start+(hRange===24?t*36e5:t*864e5));lab+='<text x="'+x+'" y="'+(Y0+H+16)+'" font-size="10" fill="#8d91a0">'+(hRange===24?String(d.getHours()).padStart(2,'0')+':00':String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0'))+'</text>';});
+[100,50,0].forEach(v=>{const y=Y0+H*(1-v/100);g+='<line x1="0" x2="'+W+'" y1="'+y+'" y2="'+y+'" stroke="#e8e8ec" stroke-dasharray="3 3"/><text x="'+(W+6)+'" y="'+(y+3)+'" font-size="10" fill="#9a9aa2">'+v+'%</text>';});
+for(let i=0;i<n;i++){if(!cnt[i])continue;const v=sum[i]/cnt[i];vals.push(v);const h=Math.max(1.5,H*v/100);bars+='<rect x="'+(i*step+.5)+'" y="'+(Y0+H-h)+'" width="'+Math.max(1,step-1.4)+'" height="'+h+'" rx="1.4" fill="#2fd655"/>';}
+(hRange===24?[0,6,12,18]:[0,2,4,6,8]).forEach(t=>{const x=hRange===24?t/24*W:t/10*W,d=new Date(start+(hRange===24?t*36e5:t*864e5));lab+='<text x="'+x+'" y="'+(Y0+H+16)+'" font-size="10" fill="#9a9aa2">'+(hRange===24?String(d.getHours()).padStart(2,'0')+':00':String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0'))+'</text>';});
 $('hchart').innerHTML=g+bars+lab;$('hsum').innerHTML=vals.length?'<span>Мін</span> '+Math.round(Math.min(...vals))+'% · <span>макс</span> '+Math.round(Math.max(...vals))+'%':'<span>За цей період даних ще немає</span>';}
 $('h24').addEventListener('click',()=>{hRange=24;$('h24').className='on';$('h10').className='';drawHist();});
-$('h10').addEventListener('click',()=>{hRange=240;$('h10').className='on';$('h24').className='';drawHist();});drawHist();
-try{const m=JSON.parse(localStorage.getItem('bms_sec_v1')||'{}');document.querySelectorAll('.sec').forEach(d=>{if(m[d.dataset.k]===false)d.open=false;if(m[d.dataset.k]===true)d.open=true;d.addEventListener('toggle',()=>{m[d.dataset.k]=d.open;try{localStorage.setItem('bms_sec_v1',JSON.stringify(m));}catch(e){}});});}catch(e){}
-/* Погода у Дніпрі (Open-Meteo) */
-const WXK='bms_wx_v1',CL='<path d="M6.5 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.6 10a4 4 0 0 1-.1 8.5Z"/>',SUN='<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>',MOON='<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>';
-function wxSvg(c,day){let b=CL,col='#aab4c8';
-if(c<=1){b=day?SUN:MOON;col=day?'#ffc766':'#c8d3ff';}
-else if(c===2){b=(day?'<circle cx="8" cy="8" r="2.8"/>':'<path d="M11 3.5A4.6 4.6 0 1 0 14.5 11 3.7 3.7 0 0 1 11 3.5Z"/>')+'<g transform="translate(3.6 5.4) scale(.78)">'+CL+'</g>';col=day?'#ffc766':'#c8d3ff';}
-else if(c===45||c===48)b='<path d="M4 8h16M6 12h12M4 16h16"/>';
-else if((c>=51&&c<=67)||(c>=80&&c<=82)){b='<g transform="translate(0 -2.5)">'+CL+'</g><path d="M8 18.5l-1 2.6M12 18.5l-1 2.6M16 18.5l-1 2.6"/>';col='#53c8f5';}
-else if((c>=71&&c<=77)||c===85||c===86){b='<g transform="translate(0 -2.5)">'+CL+'</g><path d="M8 19.5h.01M12 19.5h.01M16 19.5h.01M10 22h.01M14 22h.01" stroke-width="2.6"/>';col='#d6e8ff';}
-else if(c>=95){b='<g transform="translate(0 -2.5)">'+CL+'</g><path d="M12.8 14.5 10.4 18.4h3.2L11.4 22" stroke="#ffc766"/>';}
-return '<svg viewBox="0 0 24 24" style="color:'+col+'" aria-hidden="true">'+b+'</svg>';}
-function showWx(w){if(!w||!Number.isFinite(w.t))return;$('wxIcon').innerHTML=wxSvg(w.c,w.d);$('wxT').textContent=Math.round(w.t)+'°C';}
-try{showWx(JSON.parse(localStorage.getItem(WXK)||'null'));}catch(e){}
-async function loadWx(){try{const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=48.4647&longitude=35.0462&current=temperature_2m,weather_code,is_day&timezone=auto',{cache:'no-store'});if(!r.ok)throw Error(r.status);const j=(await r.json()).current,w={t:j.temperature_2m,c:j.weather_code,d:j.is_day===1};showWx(w);try{localStorage.setItem(WXK,JSON.stringify(w));}catch(e){}}catch(e){}}
-loadWx();setInterval(loadWx,15*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadWx();});
-setState('unknown');autoConnect();
+$('h10').addEventListener('click',()=>{hRange=240;$('h10').className='on';$('h24').className='';drawHist();});
+drawHist();setState('unknown');autoConnect();
 })();
 </script></body></html>

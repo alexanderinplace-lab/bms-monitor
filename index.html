@@ -49,23 +49,24 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .flowc{padding:14px 10px 10px}
 .flow{--spd:.9s;--lw:3;width:100%;height:auto;display:block}
 .flow.h2{--o:var(--r)}
-.nd{fill:#fff;stroke:var(--line);stroke-width:1;filter:drop-shadow(0 5px 8px rgba(0,0,0,.08));transition:fill .4s,stroke .4s}
+.nd{fill:#fff;stroke:#e4e4e9;stroke-width:2;filter:drop-shadow(0 5px 8px rgba(0,0,0,.08));transition:fill .4s,stroke .4s}
 .ic{fill:none;stroke:#b4b4bc;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
-.ln{fill:none;stroke:#e2e2e7;stroke-width:3;stroke-linecap:round}
+.ln{fill:none;stroke:#e6e6ea;stroke-width:2;stroke-linecap:round}
 .ln.run{stroke-dasharray:2 8;stroke-width:var(--lw);animation:lnr var(--spd) linear infinite}.ln.rev{animation-direction:reverse}
 .ln.g{stroke:var(--g)}.ln.c{stroke:var(--c)}.ln.o{stroke:var(--o)}
 @keyframes lnr{to{stroke-dashoffset:-10}}
 .on-g .nd{fill:color-mix(in srgb,var(--g) 11%,#fff);stroke:var(--g)}.on-g .ic{stroke:var(--g)}
 .on-c .nd{fill:color-mix(in srgb,var(--c) 11%,#fff);stroke:var(--c)}.on-c .ic{stroke:var(--c)}
 .on-o .nd{fill:color-mix(in srgb,var(--o) 12%,#fff);stroke:var(--o)}.on-o .ic{stroke:var(--o)}
-.bf{fill:#d4d4da;transition:width .6s,fill .4s}.on-g .bf{fill:var(--g)}.on-c .bf{fill:var(--c)}.on-o .bf{fill:var(--o)}.flow.s2 .node .bf{fill:var(--r)}
+.sr{fill:none;stroke:#d8d8de;stroke-width:3.5;stroke-linecap:round;transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1),stroke .4s}.on-g .sr{stroke:var(--g)}.on-c .sr{stroke:var(--c)}.on-o .sr{stroke:var(--o)}.flow.s2 .sr{stroke:var(--r)}
+.jd{fill:#cfcfd6;transition:fill .4s}.jd.on-g{fill:var(--g);filter:drop-shadow(0 0 6px var(--g))}.jd.on-c{fill:var(--c);filter:drop-shadow(0 0 6px var(--c))}.jd.on-o{fill:var(--o);filter:drop-shadow(0 0 6px var(--o))}
 .pulse .nd{animation:ndp 1.8s ease-in-out infinite}.flow.s2 #nBat.pulse .nd{animation-duration:.8s}
 @keyframes ndp{50%{stroke-opacity:.25}}
-.flow.chg .bf{animation:bfp 1.6s ease-in-out infinite}@keyframes bfp{50%{fill-opacity:.55}}
+.flow.chg .sr{animation:bfp 1.6s ease-in-out infinite}@keyframes bfp{50%{stroke-opacity:.45}}
 .off{opacity:.5}.off .ic{stroke:var(--r)}
 .flow text{font-size:12px;fill:var(--dim);text-anchor:middle;font-family:inherit}
 .flow text.val{font-size:13px;font-weight:750;fill:var(--ink)}.flow text.cap{font-size:10px}
-.flow text.pct{font-size:11px;font-weight:800;fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.35);stroke-width:2px;dominant-baseline:central}
+.flow text.big{font-size:19px;font-weight:750;fill:var(--ink);letter-spacing:-.03em;dominant-baseline:central}
 /* ---- списки ---- */
 .r{display:flex;justify-content:space-between;gap:12px;padding:13px 0;font-size:15px}.r+.r{border-top:1px solid var(--line)}
 .r span{color:var(--dim)}.r b{font-weight:650;font-variant-numeric:tabular-nums}.r small{color:var(--dim);margin-left:3px}
@@ -87,7 +88,7 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .hsum{font-size:13px;margin:14px 2px 6px}.hsum span{color:var(--dim)}
 #hchart{width:100%;height:auto;display:block}
 .note{text-align:center;color:var(--dim);font-size:11px;margin:0}
-@media(prefers-reduced-motion:reduce){.ln.run,.pulse .nd,.flow.chg .bf{animation:none!important}.dial{transition:none}}
+@media(prefers-reduced-motion:reduce){.ln.run,.pulse .nd,.flow.chg .sr{animation:none!important}.dial{transition:none}}
 </style>
 </head>
 <body><div class="wrap">
@@ -102,15 +103,15 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 </section>
 
 <h2>Схема</h2>
-<section class="card flowc"><svg class="flow" id="flow" viewBox="0 0 320 248" role="img" aria-label="Схема живлення: мережа, інвертор, акумулятор, дім">
-<path class="ln" id="ln0" d="M160 61V79"/><path class="ln" id="ln1" d="M133 106H72a12 12 0 0 0-12 12V151"/><path class="ln" id="ln2" d="M187 106H248a12 12 0 0 1 12 12V151"/>
-<g class="node off" id="nGrid" transform="translate(160 34)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g>
-<g class="node" id="nInv" transform="translate(160 106)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><rect class="ic" x="4.5" y="2.5" width="15" height="19" rx="3.5"/><circle class="ic" cx="12" cy="9.5" r="3"/><path class="ic" d="M8.5 16.2h7M8.5 18.8h4"/></g></g>
-<g class="node" id="nBat" transform="translate(60 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><rect class="ic" x="-21" y="-12" width="38" height="24" rx="7" style="stroke-width:1.8"/><path class="ic" d="M20.3 -4v8" style="stroke-width:2.2"/><rect class="bf" id="bfill" x="-18" y="-9" width="0" height="18" rx="4.5"/><text class="pct" id="fnBat" x="-2" y="1">—</text></g>
-<g class="node" id="nHome" transform="translate(260 178)"><rect class="nd" x="-27" y="-27" width="54" height="54" rx="17"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g>
-<text x="214" y="38">Мережа</text><text x="160" y="150">Інвертор</text>
-<text class="val" id="fnCur" x="98" y="96">—</text><text class="cap" x="98" y="122">струм</text><text class="val" id="fnPow" x="222" y="96">—</text><text class="cap" id="fnPowCap" x="222" y="122">потужність</text>
-<text x="60" y="224">Акумулятор</text><text class="val" id="fnVolt" x="60" y="242">—</text><text x="260" y="224">Дім</text></svg></section>
+<section class="card flowc"><svg class="flow" id="flow" viewBox="0 0 320 266" role="img" aria-label="Схема живлення: мережа, акумулятор, дім">
+<path class="ln" id="ln0" d="M160 74V128"/><path class="ln" id="ln1" d="M160 128H74a12 12 0 0 0-12 12V156"/><path class="ln" id="ln2" d="M160 128H246a12 12 0 0 1 12 12V156"/>
+<circle class="jd" id="jdot" cx="160" cy="128" r="5"/>
+<g class="node off" id="nGrid" transform="translate(160 40)"><circle class="nd" r="34"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g>
+<g class="node" id="nBat" transform="translate(62 190)"><circle class="nd" r="34"/><circle class="sr" id="sr" r="34" transform="rotate(-90)" stroke-dasharray="213.6" stroke-dashoffset="213.6"/><text class="big" id="fnBat" y="1">—</text></g>
+<g class="node" id="nHome" transform="translate(258 190)"><circle class="nd" r="34"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g>
+<text x="222" y="46">Мережа</text>
+<text class="val" id="fnCur" x="110" y="116">—</text><text class="cap" x="110" y="148">струм</text><text class="val" id="fnPow" x="210" y="116">—</text><text class="cap" id="fnPowCap" x="210" y="148">потужність</text>
+<text x="62" y="244">Акумулятор</text><text class="val" id="fnVolt" x="62" y="261">—</text><text x="258" y="244">Дім</text></svg></section>
 
 <h2>Показники</h2>
 <section class="card rows">
@@ -145,7 +146,7 @@ function setState(key,o={}){
 const c=FLOW[key]||{g:'off',i:'',b:'',h:'',l0:'',l1:'',l2:''},soc=o.soc,low=Number.isFinite(soc)&&soc<=15;
 $('hero').dataset.st=!(key in FLOW)?'unknown':key==='discharging'&&low?'low':key;
 $('dial').style.setProperty('--p',key in FLOW?soc:0);
-$('nGrid').setAttribute('class','node '+c.g);$('nInv').setAttribute('class','node '+c.i);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
+$('nGrid').setAttribute('class','node '+c.g);$('jdot').setAttribute('class','jd '+c.i);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
 ['l0','l1','l2'].forEach((k,i)=>$('ln'+i).setAttribute('class','ln '+c[k]));
 const f=$('flow'),k=Math.min(Math.abs(o.current||0),60)/60;
 f.setAttribute('class','flow'+(key==='discharging'&&o.power>2500?' h2':'')+(low?' s2':'')+(key==='charging'?' chg':''));
@@ -154,7 +155,7 @@ const F=$('foot');
 if(key==='charging')F.innerHTML='<b>Заряджається</b>'+(o.tL?' · до повного '+o.tL:'');
 else if(key==='grid')F.innerHTML='<b>Мережа</b> · '+(soc>=99?'батарея заряджена':'очікування');
 else if(key==='discharging')F.innerHTML='<b>Від батареї</b>'+(o.tR?' · вистачить на '+o.tR:'');
-else{F.textContent='Не підключено';['sV','sA','sW','fnCur','fnPow','fnVolt','fnBat','soc'].forEach(i=>$(i).textContent='—');$('rem').textContent='';$('bfill').setAttribute('width',0);}}
+else{F.textContent='Не підключено';['sV','sA','sW','fnCur','fnPow','fnVolt','fnBat','soc'].forEach(i=>$(i).textContent='—');$('rem').textContent='';$('sr').style.strokeDashoffset=213.6;}}
 /* протокол BMS */
 function crc(b){let c=0xffff;for(const x of b){c^=x;for(let i=0;i<8;i++)c=(c&1)?((c>>>1)^0xa001):(c>>>1);}return c&0xffff;}
 function command(cmd,pl=[]){const a=[0x9a,...cmd,pl.length,...pl];const c=crc(a);a.push((c>>8)&255,c&255,0x9d);return new Uint8Array(a);}
@@ -181,7 +182,7 @@ recordHist(soc,current);drawHist();
 const cur=fmt(current,1).replace('-','−'),pw=ap>=1000?fmt(ap/1000,2)+(' кВт'):Math.round(ap)+' Вт';
 $('soc').innerHTML=soc+'<small>%</small>';$('rem').innerHTML='<b>'+fmt(rem,1)+'</b> / '+fmt(FULL,1)+' А·г';
 $('sV').innerHTML=fmt(voltage)+'<small>В</small>';$('sA').innerHTML=cur+'<small>А</small>';$('sW').innerHTML=pw.replace(' ','<small>')+'</small>';
-$('fnBat').textContent=soc+'%';$('bfill').setAttribute('width',(32*Math.max(0,Math.min(100,soc))/100).toFixed(1));
+$('fnBat').textContent=soc+'%';$('sr').style.strokeDashoffset=(213.6*(1-Math.max(0,Math.min(100,soc))/100)).toFixed(1);
 $('fnCur').textContent=cur+' А';$('fnVolt').textContent=fmt(voltage)+' В';$('fnPow').textContent=pw;$('fnPowCap').textContent=dis?'розряд':chg?'заряд':'від мережі';
 $('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small>А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small>А·г</small>';$('cycles').textContent=cycles;
 $('remainingAh').innerHTML=fmt(rem,1)+'<small>А·г</small>';

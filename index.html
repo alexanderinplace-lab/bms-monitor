@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light">
-<meta name="theme-color" content="#f4f4f6">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1c1e24">
 <title>Батарея · PACEEX</title>
 <style>
-:root{color-scheme:light;--bg:#f4f4f6;--ink:#111114;--dim:#9a9aa2;--line:#ececef;--g:#2fd655;--c:#2f8cff;--o:#ff8a1f;--r:#ff3b30;box-sizing:border-box;background:var(--bg)}
+@property --p{syntax:'<number>';inherits:true;initial-value:0}
+:root{color-scheme:dark;--bg:#1c1e24;--card:#262930;--ink:#f1f2f5;--dim:#8b8f9c;--line:#33363f;--g:#2fd655;--c:#2f8cff;--o:#ff8a1f;--r:#ff3b30;box-sizing:border-box;background:var(--bg)}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;min-height:100vh;color:var(--ink);background:var(--bg);font-family:-apple-system,"SF Pro Display","SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 .wrap{max-width:480px;margin:0 auto;padding:14px 16px 44px;display:flex;flex-direction:column;gap:14px}
@@ -15,67 +16,64 @@ body{margin:0;min-height:100vh;color:var(--ink);background:var(--bg);font-family
 header{display:grid;grid-template-columns:48px 1fr 48px;align-items:center}
 h1{margin:0;text-align:center;font-size:19px;font-weight:700;letter-spacing:-.02em}
 h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
-.rb{appearance:none;-webkit-appearance:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.07);-webkit-tap-highlight-color:transparent;transition:background .3s,color .3s}
+.rb{appearance:none;-webkit-appearance:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:#2b2e36;color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);-webkit-tap-highlight-color:transparent;transition:background .3s,color .3s}
 .rb svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .rb:active{transform:scale(.94)}.rb:disabled{opacity:.35}
 .rb.on{background:var(--g);border-color:var(--g);color:#fff;box-shadow:0 6px 16px rgba(47,214,85,.4)}
 .status{text-align:center;font-size:12px;line-height:1.4;color:var(--dim);white-space:pre-wrap;overflow-wrap:anywhere;padding:0 8px}
-.status.ok{color:#22a746}.status.err{color:var(--r)}
-.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:20px;box-shadow:0 14px 34px rgba(0,0,0,.06)}
+.status.ok{color:#4fdc7a}.status.err{color:#ff6b61}
+.card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:20px;box-shadow:0 14px 34px rgba(0,0,0,.35)}
 /* ---- коло ---- */
-.hero{--c1:#cfcfd6;--c2:#b4b4bc;padding:18px 14px 16px}
-.hero[data-st=charging]{--c1:#8bf7a4;--c2:#25c94d}
+.hero{--c1:#5a5e6b;--c2:#444854;padding:18px 14px 16px}
+.hero[data-st=charging]{--c1:#6af582;--c2:#2fdf57}
 .hero[data-st=mains]{--c1:#9bd5ff;--c2:#2f8cff}
 .hero[data-st=discharging]{--c1:#ffd37a;--c2:#ff7a14}
 .hero[data-st=low]{--c1:#ffa59d;--c2:#ff3b30}
-.dial{position:relative;width:min(82vw,330px);aspect-ratio:1;margin:0 auto}
-.dial>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-#gs1{stop-color:var(--c1)}#gs2{stop-color:var(--c2)}
-.base{fill:#f6f6f8;filter:drop-shadow(0 10px 14px rgba(0,0,0,.09))}
-.disc{fill:#fff;filter:drop-shadow(0 6px 9px rgba(0,0,0,.08))}
-.trk{fill:none;stroke:#ececf0;stroke-width:4}
-.arc,.garc{fill:none;stroke:url(#gr);stroke-linecap:round;stroke-dasharray:100 100;stroke-dashoffset:100;transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1)}
-.arc{stroke-width:4.6}
-.garc{stroke-width:8;filter:blur(5px);opacity:.55}
-.hero[data-st=charging] .garc{animation:gl 2.4s ease-in-out infinite}
+.dial{--p:0;position:relative;width:min(82vw,330px);aspect-ratio:1;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 30% 22%,#2d3038,#1b1d23 80%);box-shadow:inset 11px 13px 26px rgba(0,0,0,.62),inset -9px -11px 20px rgba(255,255,255,.05),0 0 0 1px rgba(255,255,255,.04);transition:--p 1.3s cubic-bezier(.2,.8,.2,1)}
+.tk{position:absolute;inset:0;width:100%;height:100%}
+.bl{position:absolute;inset:2%;border-radius:50%;filter:blur(9px);opacity:.5;background:conic-gradient(from -34deg,transparent 0deg,var(--c2) 34deg,var(--c2) calc(34deg + var(--p)*3.6deg),transparent calc(68deg + var(--p)*3.6deg));-webkit-mask:radial-gradient(circle,transparent 56%,#000 58%);mask:radial-gradient(circle,transparent 56%,#000 58%)}
+.hero[data-st=unknown] .bl{opacity:0}
+.hero[data-st=charging] .bl{animation:gl 2.4s ease-in-out infinite}
 @keyframes gl{50%{opacity:.28}}
-.inner{position:absolute;inset:21%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.rw{position:absolute;inset:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.65))}
+.ring{position:absolute;inset:5%;border-radius:50%;background:radial-gradient(130% 130% at 28% 6%,rgba(255,255,255,.3),transparent 52%),conic-gradient(from 0deg,var(--c1),var(--c2) calc(var(--p)*1%),transparent calc(var(--p)*1%));-webkit-mask:radial-gradient(circle,transparent 61%,#000 62%);mask:radial-gradient(circle,transparent 61%,#000 62%)}
+.inner{position:absolute;inset:20%;border-radius:50%;background:radial-gradient(circle at 30% 22%,#363941,#262930 78%);box-shadow:0 12px 28px rgba(0,0,0,.62),0 0 0 1px rgba(255,255,255,.04),inset 0 2px 3px rgba(255,255,255,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 #soc{font-size:clamp(40px,13.5vw,58px);font-weight:720;letter-spacing:-.045em;line-height:1}
-#soc small{font-size:.32em;font-weight:600;letter-spacing:0;margin-left:2px;color:#333}
+#soc small{font-size:.32em;font-weight:600;letter-spacing:0;margin-left:2px;color:#c9ccd6}
 .st{display:flex;align-items:center;gap:4px;margin-top:7px;font-size:11px;font-weight:650;letter-spacing:.04em;text-transform:uppercase;color:var(--dim)}
 .st svg{width:12px;height:12px;fill:currentColor}
 .tm{margin-top:6px;line-height:1.15}.tm span{display:block;font-size:11px;color:var(--dim)}
 .tm b{display:block;font-size:17px;font-weight:740;letter-spacing:-.02em;margin-top:1px;white-space:nowrap}
-.hero[data-st=charging] .st,.hero[data-st=charging] .tm b{color:#1fae44}
-.hero[data-st=mains] .st,.hero[data-st=mains] .tm b{color:var(--c)}
-.hero[data-st=discharging] .st,.hero[data-st=discharging] .tm b{color:#e8710a}
-.hero[data-st=low] .st,.hero[data-st=low] .tm b{color:var(--r)}
+.hero[data-st=charging] .st,.hero[data-st=charging] .tm b{color:#3ddc66}
+.hero[data-st=mains] .st,.hero[data-st=mains] .tm b{color:#5aa8ff}
+.hero[data-st=discharging] .st,.hero[data-st=discharging] .tm b{color:#ffa24d}
+.hero[data-st=low] .st,.hero[data-st=low] .tm b{color:#ff6b61}
 /* ---- картки показників ---- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.sc{background:#fff;border:1px solid var(--line);border-radius:20px;padding:13px 10px;box-shadow:0 10px 24px rgba(0,0,0,.05);min-width:0}
+.sc{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:13px 10px;box-shadow:0 10px 24px rgba(0,0,0,.3);min-width:0}
 .sh{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--dim);font-weight:600;white-space:nowrap}
-.sh svg{width:14px;height:14px;fill:none;stroke:#a4a4ac;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.sh svg{width:14px;height:14px;fill:none;stroke:#7c808d;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
 .sb{display:flex;align-items:center;gap:9px;margin-top:11px}
-.sb i{width:2px;align-self:stretch;min-height:26px;background:#dcdce2;border-radius:2px;flex:0 0 auto}
+.sb i{width:2px;align-self:stretch;min-height:26px;background:#454954;border-radius:2px;flex:0 0 auto}
 .sb b{font-size:18px;font-weight:740;letter-spacing:-.03em;white-space:nowrap}
 .sb small{font-size:11px;color:var(--dim);margin-left:2px;font-weight:600}
 /* ---- схема ---- */
 .flowc{padding:10px 8px 6px}
 .flow{--spd:.9s;--lw:2.6;width:100%;height:auto;display:block}
-.nd{fill:#fff;stroke:#e1e1e7;stroke-width:2.2;filter:drop-shadow(0 4px 7px rgba(0,0,0,.08));transition:fill .4s,stroke .4s}
-.ic{fill:none;stroke:#b4b4bc;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
-.ln{fill:none;stroke:#e3e3e8;stroke-width:2;stroke-linecap:round}
+.nd{fill:#2e3139;stroke:#454954;stroke-width:2.2;filter:drop-shadow(0 4px 7px rgba(0,0,0,.35));transition:fill .4s,stroke .4s}
+.ic{fill:none;stroke:#7c808d;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.ln{fill:none;stroke:#3a3d47;stroke-width:2;stroke-linecap:round}
 .ln.run{stroke-dasharray:2 7;stroke-width:var(--lw);animation:lnr var(--spd) linear infinite}.ln.rev{animation-direction:reverse}
 .ln.g{stroke:var(--g)}.ln.c{stroke:var(--c)}.ln.o{stroke:var(--o)}
 @keyframes lnr{to{stroke-dashoffset:-9}}
-.on-g .nd{fill:color-mix(in srgb,var(--g) 11%,#fff);stroke:var(--g)}.on-g .ic{stroke:var(--g)}
-.on-c .nd{fill:color-mix(in srgb,var(--c) 11%,#fff);stroke:var(--c)}.on-c .ic{stroke:var(--c)}
-.on-o .nd{fill:color-mix(in srgb,var(--o) 12%,#fff);stroke:var(--o)}.on-o .ic{stroke:var(--o)}
-.sr{fill:none;stroke:#d8d8de;stroke-width:3.4;stroke-linecap:round;stroke-dasharray:175.9;stroke-dashoffset:175.9;transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1),stroke .4s}.on-g .sr{stroke:var(--g)}.on-c .sr{stroke:var(--c)}.on-o .sr{stroke:var(--o)}.flow.s2 .sr{stroke:var(--r)}
-.jd{fill:#cfcfd6;transition:fill .4s}.jd.on-g{fill:var(--g)}.jd.on-c{fill:var(--c)}.jd.on-o{fill:var(--o)}
+.on-g .nd{fill:color-mix(in srgb,var(--g) 16%,#2e3139);stroke:var(--g)}.on-g .ic{stroke:var(--g)}
+.on-c .nd{fill:color-mix(in srgb,var(--c) 16%,#2e3139);stroke:var(--c)}.on-c .ic{stroke:var(--c)}
+.on-o .nd{fill:color-mix(in srgb,var(--o) 16%,#2e3139);stroke:var(--o)}.on-o .ic{stroke:var(--o)}
+.sr{fill:none;stroke:#454954;stroke-width:3.4;stroke-linecap:round;stroke-dasharray:175.9;stroke-dashoffset:175.9;transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1),stroke .4s}.on-g .sr{stroke:var(--g)}.on-c .sr{stroke:var(--c)}.on-o .sr{stroke:var(--o)}.flow.s2 .sr{stroke:var(--r)}
+.jd{fill:#5a5e6b;transition:fill .4s}.jd.on-g{fill:var(--g)}.jd.on-c{fill:var(--c)}.jd.on-o{fill:var(--o)}
 .pulse .nd{animation:ndp 1.8s ease-in-out infinite}.flow.s2 #nBat.pulse .nd{animation-duration:.8s}
 @keyframes ndp{50%{stroke-opacity:.3}}
-.off{opacity:.5}.off .ic{stroke:#c1c1c8}
+.off{opacity:.5}.off .ic{stroke:#5a5e6b}
 .flow text{font-size:11.5px;fill:var(--dim);text-anchor:middle;font-family:inherit}
 .flow text.big{font-size:15px;font-weight:760;fill:var(--ink);letter-spacing:-.03em}
 .flow text.sm{font-size:9.5px;font-weight:650;fill:var(--dim)}
@@ -86,21 +84,21 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .chead{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--dim);margin-bottom:14px}
 .cg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .cell{text-align:center}
-.well{display:block;height:48px;border-radius:13px;background:#efeff2;box-shadow:inset 2px 3px 6px rgba(0,0,0,.06);position:relative;overflow:hidden}
+.well{display:block;height:48px;border-radius:13px;background:#30333c;box-shadow:inset 2px 3px 6px rgba(0,0,0,.3);position:relative;overflow:hidden}
 .well:after{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--h,0%);background:linear-gradient(180deg,#6df08a,var(--g))}
 .cell.mx .well:after{background:linear-gradient(180deg,#8fd0ff,var(--c))}.cell.mn .well:after{background:linear-gradient(180deg,#ffd37a,var(--o))}
-.well i{position:absolute;top:5px;left:0;right:0;font-style:normal;font-size:11px;font-weight:600;color:#6c6c74;z-index:1}
+.well i{position:absolute;top:5px;left:0;right:0;font-style:normal;font-size:11px;font-weight:600;color:#aeb3c0;z-index:1}
 .cell b{display:block;font-size:12px;font-weight:650;margin-top:7px}
 .tg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.tg div{background:#f4f4f6;border-radius:16px;padding:12px 10px;text-align:center}
+.tg div{background:#2e3139;border-radius:16px;padding:12px 10px;text-align:center}
 .tg span{font-size:11px;color:var(--dim)}.tg b{display:block;font-size:17px;font-weight:700;margin-top:3px}
-.seg{display:flex;background:#efeff2;border-radius:13px;padding:3px;gap:3px}
+.seg{display:flex;background:#30333c;border-radius:13px;padding:3px;gap:3px}
 .seg button{flex:1;border:0;border-radius:10px;padding:10px 4px;font:inherit;font-size:13px;font-weight:650;color:var(--dim);background:transparent;cursor:pointer}
-.seg button.on{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.seg button.on{background:#454954;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .hsum{font-size:13px;margin:14px 2px 6px}.hsum span{color:var(--dim)}
 #hchart{width:100%;height:auto;display:block}
 .note{text-align:center;color:var(--dim);font-size:11px;margin:0}
-@media(prefers-reduced-motion:reduce){.ln.run,.pulse .nd,.garc{animation:none!important}.arc,.garc{transition:none}}
+@media(prefers-reduced-motion:reduce){.ln.run,.pulse .nd,.bl{animation:none!important}.dial{transition:none}}
 </style>
 </head>
 <body><div class="wrap">
@@ -108,11 +106,7 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 <div class="status" id="status" role="status">Натисни кнопку зліва й вибери PC-A2EE. Закрий PACEEX і вкладку на ноутбуці: BMS приймає лише одне з’єднання.</div>
 
 <section class="card hero" id="hero" data-st="unknown">
-<div class="dial"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop id="gs1" offset="0"/><stop id="gs2" offset="1"/></linearGradient></defs>
-<circle cx="100" cy="100" r="98" fill="none" stroke="#ececf0" stroke-width=".6"/><g id="halo"></g>
-<circle class="base" cx="100" cy="100" r="77"/><circle class="trk" cx="100" cy="100" r="69"/>
-<g transform="rotate(-90 100 100)"><circle class="garc" id="garc" cx="100" cy="100" r="69" pathLength="100"/><circle class="arc" id="arc" cx="100" cy="100" r="69" pathLength="100"/></g>
-<circle class="disc" cx="100" cy="100" r="60"/></svg>
+<div class="dial" id="dial"><svg class="tk" id="tk" viewBox="0 0 100 100" aria-hidden="true"></svg><div class="bl"></div><div class="rw"><div class="ring"></div></div>
 <div class="inner"><div id="soc">—</div><div class="st"><svg viewBox="0 0 24 24"><path d="M13.5 2 5 13.5h6L10 22l9-12h-6z"/></svg><span id="stl">Не підключено</span></div><div class="tm"><span id="tmc"></span><b id="tmv"></b></div></div></div>
 </section>
 
@@ -155,10 +149,10 @@ const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
 function status(m,t=''){$('status').textContent=m;$('status').className='status'+(t?' '+t:'');}
 function uiConnected(y){$('connect').classList.toggle('on',y);$('connect').disabled=false;$('refresh').disabled=!y;}
 function hm(h){if(h>240)return '> 10 днів';if(h>=48){const d=Math.floor(h/24);return d+' д '+Math.min(23,Math.round(h-d*24))+' год';}const m=Math.max(1,Math.round(h*60));return m<60?m+' хв':Math.floor(m/60)+' год '+(m%60)+' хв';}
-/* ореол з крапок навколо кільця */
-$('halo').innerHTML=[[84,72,.5,.9],[89,60,.34,.75],[94,48,.2,.6]].map(([r,n,o,s])=>Array.from({length:n},(_,i)=>{const a=i*2*Math.PI/n;return '<circle cx="'+(100+r*Math.sin(a)).toFixed(1)+'" cy="'+(100-r*Math.cos(a)).toFixed(1)+'" r="'+s*.5+'" fill="#b9b9c2" opacity="'+o+'"/>';}).join('')).join('');
+/* мітки в доріжці кільця */
+$('tk').innerHTML=Array.from({length:12},(_,i)=>'<rect x="49.2" y="9.4" width="1.6" height="1.6" rx=".2" fill="#6a6e7b" transform="rotate('+i*30+' 50 50)"/>').join('');
 $('tg').innerHTML=['T1','T2','T3','T4','MOSFET','Навколишня'].map((n,i)=>'<div><span>'+n+'</span><b id="t'+i+'">—</b></div>').join('');
-const setArc=p=>{const v=(100-Math.max(0,Math.min(100,p))).toFixed(1);$('arc').style.strokeDashoffset=v;$('garc').style.strokeDashoffset=v;};
+const setArc=p=>$('dial').style.setProperty('--p',Math.max(0,Math.min(100,p)));
 /* стани */
 const FLOW={charging:{g:'on-g',i:'on-g',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run'},grid:{g:'on-g',i:'on-c',b:'on-g',h:'on-c',l0:'g run',l1:'g',l2:'c run'},discharging:{g:'off',i:'on-o',b:'on-o pulse',h:'on-o',l0:'',l1:'o run rev',l2:'o run'}};
 function setState(key,o={}){
@@ -243,9 +237,9 @@ function recordHist(soc,cur){const now=Date.now(),l=hist[hist.length-1];if(l&&no
 function drawHist(){const now=Date.now(),span=hRange*36e5,n=hRange===24?96:80,bw=span/n,start=now-span,W=300,H=120,Y0=10,step=W/n,sum=new Array(n).fill(0),cnt=new Array(n).fill(0);
 hist.forEach(p=>{if(p[0]<start)return;const i=Math.min(n-1,Math.floor((p[0]-start)/bw));sum[i]+=p[1];cnt[i]++;});
 let g='',bars='',lab='',vals=[];
-[100,50,0].forEach(v=>{const y=Y0+H*(1-v/100);g+='<line x1="0" x2="'+W+'" y1="'+y+'" y2="'+y+'" stroke="#e8e8ec" stroke-dasharray="3 3"/><text x="'+(W+6)+'" y="'+(y+3)+'" font-size="10" fill="#9a9aa2">'+v+'%</text>';});
+[100,50,0].forEach(v=>{const y=Y0+H*(1-v/100);g+='<line x1="0" x2="'+W+'" y1="'+y+'" y2="'+y+'" stroke="#3a3d47" stroke-dasharray="3 3"/><text x="'+(W+6)+'" y="'+(y+3)+'" font-size="10" fill="#8b8f9c">'+v+'%</text>';});
 for(let i=0;i<n;i++){if(!cnt[i])continue;const v=sum[i]/cnt[i];vals.push(v);const h=Math.max(1.5,H*v/100);bars+='<rect x="'+(i*step+.5)+'" y="'+(Y0+H-h)+'" width="'+Math.max(1,step-1.4)+'" height="'+h+'" rx="1.4" fill="#2fd655"/>';}
-(hRange===24?[0,6,12,18]:[0,2,4,6,8]).forEach(t=>{const x=hRange===24?t/24*W:t/10*W,d=new Date(start+(hRange===24?t*36e5:t*864e5));lab+='<text x="'+x+'" y="'+(Y0+H+16)+'" font-size="10" fill="#9a9aa2">'+(hRange===24?String(d.getHours()).padStart(2,'0')+':00':String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0'))+'</text>';});
+(hRange===24?[0,6,12,18]:[0,2,4,6,8]).forEach(t=>{const x=hRange===24?t/24*W:t/10*W,d=new Date(start+(hRange===24?t*36e5:t*864e5));lab+='<text x="'+x+'" y="'+(Y0+H+16)+'" font-size="10" fill="#8b8f9c">'+(hRange===24?String(d.getHours()).padStart(2,'0')+':00':String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0'))+'</text>';});
 $('hchart').innerHTML=g+bars+lab;$('hsum').innerHTML=vals.length?'<span>Мін</span> '+Math.round(Math.min(...vals))+'% · <span>макс</span> '+Math.round(Math.max(...vals))+'%':'<span>За цей період даних ще немає</span>';}
 $('h24').addEventListener('click',()=>{hRange=24;$('h24').className='on';$('h10').className='';drawHist();});
 $('h10').addEventListener('click',()=>{hRange=240;$('h10').className='on';$('h24').className='';drawHist();});

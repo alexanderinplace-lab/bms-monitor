@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#f4f4f6">
 <title>Батарея · PACEEX</title>
 <style>
+@property --p{syntax:'<number>';inherits:true;initial-value:0}
 :root{color-scheme:light;--bg:#f4f4f6;--ink:#111114;--dim:#9a9aa2;--line:#ececef;--g:#2fd655;--c:#2f8cff;--o:#ff8a1f;--r:#ff3b30;box-sizing:border-box;background:var(--bg)}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;min-height:100vh;color:var(--ink);background:var(--bg);font-family:-apple-system,"SF Pro Display","SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
@@ -22,63 +23,50 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .status{text-align:center;font-size:12px;line-height:1.4;color:var(--dim);white-space:pre-wrap;overflow-wrap:anywhere;padding:0 8px}
 .status.ok{color:#22a746}.status.err{color:var(--r)}
 .card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:20px;box-shadow:0 14px 34px rgba(0,0,0,.06)}
-/* ---- коло ---- */
-.hero{--c1:#cfcfd6;--c2:#b4b4bc;padding:18px 14px 16px}
-.hero[data-st=charging]{--c1:#8bf7a4;--c2:#25c94d}
-.hero[data-st=mains]{--c1:#9bd5ff;--c2:#2f8cff}
-.hero[data-st=discharging]{--c1:#ffd37a;--c2:#ff7a14}
-.hero[data-st=low]{--c1:#ffa59d;--c2:#ff3b30}
-.dial{position:relative;width:min(82vw,330px);aspect-ratio:1;margin:0 auto}
-.dial>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-#gs1{stop-color:var(--c1)}#gs2{stop-color:var(--c2)}
-.base{fill:#f6f6f8;filter:drop-shadow(0 10px 14px rgba(0,0,0,.09))}
-.disc{fill:#fff;filter:drop-shadow(0 6px 9px rgba(0,0,0,.08))}
-.trk{fill:none;stroke:#ececf0;stroke-width:4}
-.arc,.garc{fill:none;stroke:url(#gr);stroke-linecap:round;stroke-dasharray:100 100;stroke-dashoffset:100;transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1)}
-.arc{stroke-width:4.6}
-.garc{stroke-width:8;filter:blur(5px);opacity:.55}
-.hero[data-st=charging] .garc{animation:gl 2.4s ease-in-out infinite}
-@keyframes gl{50%{opacity:.28}}
-.inner{position:absolute;inset:21%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-#soc{font-size:clamp(40px,13.5vw,58px);font-weight:720;letter-spacing:-.045em;line-height:1}
-#soc small{font-size:.32em;font-weight:600;letter-spacing:0;margin-left:2px;color:#333}
-.st{display:flex;align-items:center;gap:4px;margin-top:7px;font-size:11px;font-weight:650;letter-spacing:.04em;text-transform:uppercase;color:var(--dim)}
-.st svg{width:12px;height:12px;fill:currentColor}
-.tm{margin-top:6px;line-height:1.15}.tm span{display:block;font-size:11px;color:var(--dim)}
-.tm b{display:block;font-size:17px;font-weight:740;letter-spacing:-.02em;margin-top:1px;white-space:nowrap}
-.hero[data-st=charging] .st,.hero[data-st=charging] .tm b{color:#1fae44}
-.hero[data-st=mains] .st,.hero[data-st=mains] .tm b{color:var(--c)}
-.hero[data-st=discharging] .st,.hero[data-st=discharging] .tm b{color:#e8710a}
-.hero[data-st=low] .st,.hero[data-st=low] .tm b{color:var(--r)}
-/* ---- картки показників ---- */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.sc{background:#fff;border:1px solid var(--line);border-radius:20px;padding:13px 10px;box-shadow:0 10px 24px rgba(0,0,0,.05);min-width:0}
-.sh{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--dim);font-weight:600;white-space:nowrap}
-.sh svg{width:14px;height:14px;fill:none;stroke:#a4a4ac;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
-.sb{display:flex;align-items:center;gap:9px;margin-top:11px}
-.sb i{width:2px;align-self:stretch;min-height:26px;background:#dcdce2;border-radius:2px;flex:0 0 auto}
-.sb b{font-size:18px;font-weight:740;letter-spacing:-.03em;white-space:nowrap}
-.sb small{font-size:11px;color:var(--dim);margin-left:2px;font-weight:600}
+/* ---- кільце ---- */
+.hero{--c1:#d9d9de;--c2:#c4c4ca;padding:24px 20px 22px}
+.hero[data-st=charging]{--c1:#7cf59a;--c2:#2fd655}
+.hero[data-st=mains]{--c1:#8fd0ff;--c2:#2f8cff}
+.hero[data-st=discharging]{--c1:#ffd37a;--c2:#ff8a1f}
+.hero[data-st=low]{--c1:#ff9c93;--c2:#ff3b30}
+.dial{position:relative;width:min(76vw,310px);aspect-ratio:1;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 32% 24%,#fbfbfc,#ebebee 75%);box-shadow:inset 10px 12px 24px rgba(0,0,0,.08),inset -10px -12px 22px rgba(255,255,255,.95),0 0 0 1px #efeff1;transition:--p 1.3s cubic-bezier(.2,.8,.2,1)}
+.fill{position:absolute;inset:3%;border-radius:50%;background:conic-gradient(from 0deg,var(--c1),var(--c2) calc(var(--p)*1%),transparent calc(var(--p)*1%));-webkit-mask:radial-gradient(circle,transparent 62%,#000 63%);mask:radial-gradient(circle,transparent 62%,#000 63%)}
+.gw{position:absolute;inset:0;filter:blur(11px);opacity:.55}
+.ticks{position:absolute;inset:0;width:100%;height:100%}
+.inner{position:absolute;inset:20%;border-radius:50%;background:#fff;box-shadow:0 12px 30px rgba(0,0,0,.13),inset 0 2px 3px #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+#soc{font-size:clamp(46px,16vw,72px);font-weight:720;letter-spacing:-.045em;line-height:1}
+#soc small{font-size:.3em;font-weight:600;letter-spacing:0;margin-left:2px;color:#333}
+#rem{font-size:14px;color:var(--dim);font-weight:500}#rem b{color:var(--ink);font-weight:700}
+.foot{margin:20px 0 0;text-align:center;font-size:16px;color:#3a3a40}
+.foot b{font-weight:700;color:var(--ink)}
+.hero[data-st=charging] .foot b{color:#1fae44}.hero[data-st=mains] .foot b{color:var(--c)}.hero[data-st=discharging] .foot b{color:#e8710a}.hero[data-st=low] .foot b{color:var(--r)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.stats div{text-align:center}.stats div+div{border-left:1px solid var(--line)}
+.stats b{display:block;font-size:21px;font-weight:720;letter-spacing:-.03em;white-space:nowrap}
+.stats small{font-size:13px;color:var(--dim);font-weight:600;margin-left:2px}
+.stats span{font-size:12px;color:var(--dim)}
 /* ---- схема ---- */
-.flowc{padding:10px 8px 6px}
-.flow{--spd:.9s;--lw:2.6;width:100%;height:auto;display:block}
-.nd{fill:#fff;stroke:#e1e1e7;stroke-width:2.2;filter:drop-shadow(0 4px 7px rgba(0,0,0,.08));transition:fill .4s,stroke .4s}
+.flowc{padding:14px 10px 10px}
+.flow{--spd:.9s;--lw:3;width:100%;height:auto;display:block}
+.flow.h2{--o:var(--r)}
+.nd{fill:#fff;stroke:#e4e4e9;stroke-width:2;filter:drop-shadow(0 5px 8px rgba(0,0,0,.08));transition:fill .4s,stroke .4s}
 .ic{fill:none;stroke:#b4b4bc;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
-.ln{fill:none;stroke:#e3e3e8;stroke-width:2;stroke-linecap:round}
-.ln.run{stroke-dasharray:2 7;stroke-width:var(--lw);animation:lnr var(--spd) linear infinite}.ln.rev{animation-direction:reverse}
+.ln{fill:none;stroke:#e6e6ea;stroke-width:2;stroke-linecap:round}
+.ln.run{stroke-dasharray:2 8;stroke-width:var(--lw);animation:lnr var(--spd) linear infinite}.ln.rev{animation-direction:reverse}
 .ln.g{stroke:var(--g)}.ln.c{stroke:var(--c)}.ln.o{stroke:var(--o)}
-@keyframes lnr{to{stroke-dashoffset:-9}}
+@keyframes lnr{to{stroke-dashoffset:-10}}
 .on-g .nd{fill:color-mix(in srgb,var(--g) 11%,#fff);stroke:var(--g)}.on-g .ic{stroke:var(--g)}
 .on-c .nd{fill:color-mix(in srgb,var(--c) 11%,#fff);stroke:var(--c)}.on-c .ic{stroke:var(--c)}
 .on-o .nd{fill:color-mix(in srgb,var(--o) 12%,#fff);stroke:var(--o)}.on-o .ic{stroke:var(--o)}
-.sr{fill:none;stroke:#d8d8de;stroke-width:3.4;stroke-linecap:round;stroke-dasharray:175.9;stroke-dashoffset:175.9;transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1),stroke .4s}.on-g .sr{stroke:var(--g)}.on-c .sr{stroke:var(--c)}.on-o .sr{stroke:var(--o)}.flow.s2 .sr{stroke:var(--r)}
-.jd{fill:#cfcfd6;transition:fill .4s}.jd.on-g{fill:var(--g)}.jd.on-c{fill:var(--c)}.jd.on-o{fill:var(--o)}
+.sr{fill:none;stroke:#d8d8de;stroke-width:3.5;stroke-linecap:round;transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1),stroke .4s}.on-g .sr{stroke:var(--g)}.on-c .sr{stroke:var(--c)}.on-o .sr{stroke:var(--o)}.flow.s2 .sr{stroke:var(--r)}
+.jd{fill:#cfcfd6;transition:fill .4s}.jd.on-g{fill:var(--g);filter:drop-shadow(0 0 6px var(--g))}.jd.on-c{fill:var(--c);filter:drop-shadow(0 0 6px var(--c))}.jd.on-o{fill:var(--o);filter:drop-shadow(0 0 6px var(--o))}
 .pulse .nd{animation:ndp 1.8s ease-in-out infinite}.flow.s2 #nBat.pulse .nd{animation-duration:.8s}
-@keyframes ndp{50%{stroke-opacity:.3}}
-.off{opacity:.5}.off .ic{stroke:#c1c1c8}
-.flow text{font-size:11.5px;fill:var(--dim);text-anchor:middle;font-family:inherit}
-.flow text.big{font-size:15px;font-weight:760;fill:var(--ink);letter-spacing:-.03em}
-.flow text.sm{font-size:9.5px;font-weight:650;fill:var(--dim)}
+@keyframes ndp{50%{stroke-opacity:.25}}
+.flow.chg .sr{animation:bfp 1.6s ease-in-out infinite}@keyframes bfp{50%{stroke-opacity:.45}}
+.off{opacity:.5}.off .ic{stroke:var(--r)}
+.flow text{font-size:12px;fill:var(--dim);text-anchor:middle;font-family:inherit}
+.flow text.val{font-size:13px;font-weight:750;fill:var(--ink)}.flow text.cap{font-size:10px}
+.flow text.big{font-size:19px;font-weight:750;fill:var(--ink);letter-spacing:-.03em;dominant-baseline:central}
 /* ---- списки ---- */
 .r{display:flex;justify-content:space-between;gap:12px;padding:13px 0;font-size:15px}.r+.r{border-top:1px solid var(--line)}
 .r span{color:var(--dim)}.r b{font-weight:650;font-variant-numeric:tabular-nums}.r small{color:var(--dim);margin-left:3px}
@@ -100,47 +88,41 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .hsum{font-size:13px;margin:14px 2px 6px}.hsum span{color:var(--dim)}
 #hchart{width:100%;height:auto;display:block}
 .note{text-align:center;color:var(--dim);font-size:11px;margin:0}
-@media(prefers-reduced-motion:reduce){.ln.run,.pulse .nd,.garc{animation:none!important}.arc,.garc{transition:none}}
+@media(prefers-reduced-motion:reduce){.ln.run,.pulse .nd,.flow.chg .sr{animation:none!important}.dial{transition:none}}
 </style>
 </head>
 <body><div class="wrap">
 <header><button class="rb" id="connect" type="button" aria-label="Підключитись"><svg viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button><h1>Батарея</h1><button class="rb" id="refresh" type="button" disabled aria-label="Оновити"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4.5V11h-6.5"/></svg></button></header>
 <div class="status" id="status" role="status">Натисни кнопку зліва й вибери PC-A2EE. Закрий PACEEX і вкладку на ноутбуці: BMS приймає лише одне з’єднання.</div>
- 
+
 <section class="card hero" id="hero" data-st="unknown">
-<div class="dial"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop id="gs1" offset="0"/><stop id="gs2" offset="1"/></linearGradient></defs>
-<circle cx="100" cy="100" r="98" fill="none" stroke="#ececf0" stroke-width=".6"/><g id="halo"></g>
-<circle class="base" cx="100" cy="100" r="77"/><circle class="trk" cx="100" cy="100" r="69"/>
-<g transform="rotate(-90 100 100)"><circle class="garc" id="garc" cx="100" cy="100" r="69" pathLength="100"/><circle class="arc" id="arc" cx="100" cy="100" r="69" pathLength="100"/></g>
-<circle class="disc" cx="100" cy="100" r="60"/></svg>
-<div class="inner"><div id="soc">—</div><div class="st"><svg viewBox="0 0 24 24"><path d="M13.5 2 5 13.5h6L10 22l9-12h-6z"/></svg><span id="stl">Не підключено</span></div><div class="tm"><span id="tmc"></span><b id="tmv"></b></div></div></div>
+<div class="dial" id="dial"><svg class="ticks" id="ticks" viewBox="0 0 100 100" aria-hidden="true"></svg><div class="gw"><div class="fill"></div></div><div class="fill"></div>
+<div class="inner"><div id="soc">—</div><div id="rem"></div></div></div>
+<p class="foot" id="foot">Не підключено</p>
+<div class="stats"><div><b id="sV">—</b><span>Напруга</span></div><div><b id="sA">—</b><span>Струм</span></div><div><b id="sW">—</b><span>Потужність</span></div></div>
 </section>
- 
-<div class="stats">
-<div class="sc"><div class="sh"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Напруга</div><div class="sb"><i></i><b id="sV">—</b></div></div>
-<div class="sc"><div class="sh"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>Струм</div><div class="sb"><i></i><b id="sA">—</b></div></div>
-<div class="sc"><div class="sh"><svg viewBox="0 0 24 24"><path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0zM12 17v5"/></svg>Потужність</div><div class="sb"><i></i><b id="sW">—</b></div></div>
-</div>
- 
+
 <h2>Схема</h2>
-<section class="card flowc"><svg class="flow" id="flow" viewBox="0 0 320 176" role="img" aria-label="Схема живлення: мережа, дім, акумулятор">
-<path class="ln" id="ln0" d="M80 58H160"/><path class="ln" id="ln2" d="M160 58H240"/><path class="ln" id="ln1" d="M160 58V90"/>
-<circle class="jd" id="jdot" cx="160" cy="58" r="4.5"/>
-<g class="node off" id="nGrid" transform="translate(50 58)"><circle class="nd" r="30"/><g transform="translate(-13.2 -13.2) scale(1.1)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g>
-<g class="node" id="nHome" transform="translate(270 58)"><circle class="nd" r="30"/><g transform="translate(-13.2 -13.2) scale(1.1)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g>
-<g class="node" id="nBat" transform="translate(160 118)"><circle class="nd" r="28"/><circle class="sr" id="sr" r="28" transform="rotate(-90)"/><text class="big" id="fnBat" y="-1">—</text><text class="sm" id="fnPow" y="12">—</text></g>
-<text x="50" y="104">Мережа</text><text x="270" y="104">Дім</text><text x="160" y="166">Акумулятор</text></svg></section>
- 
+<section class="card flowc"><svg class="flow" id="flow" viewBox="0 0 320 266" role="img" aria-label="Схема живлення: мережа, акумулятор, дім">
+<path class="ln" id="ln0" d="M160 74V128"/><path class="ln" id="ln1" d="M160 128H74a12 12 0 0 0-12 12V156"/><path class="ln" id="ln2" d="M160 128H246a12 12 0 0 1 12 12V156"/>
+<circle class="jd" id="jdot" cx="160" cy="128" r="5"/>
+<g class="node off" id="nGrid" transform="translate(160 40)"><circle class="nd" r="34"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g>
+<g class="node" id="nBat" transform="translate(62 190)"><circle class="nd" r="34"/><circle class="sr" id="sr" r="34" transform="rotate(-90)" stroke-dasharray="213.6" stroke-dashoffset="213.6"/><text class="big" id="fnBat" y="1">—</text></g>
+<g class="node" id="nHome" transform="translate(258 190)"><circle class="nd" r="34"/><g transform="translate(-13.8 -13.8) scale(1.15)"><path class="ic" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g>
+<text x="222" y="46">Мережа</text>
+<text class="val" id="fnCur" x="110" y="116">—</text><text class="cap" x="110" y="148">струм</text><text class="val" id="fnPow" x="210" y="116">—</text><text class="cap" id="fnPowCap" x="210" y="148">потужність</text>
+<text x="62" y="244">Акумулятор</text><text class="val" id="fnVolt" x="62" y="261">—</text><text x="258" y="244">Дім</text></svg></section>
+
 <h2>Показники</h2>
 <section class="card rows">
 <div class="r"><span>Залишок (оцінка)</span><b id="remainingAh">—</b></div><div class="r"><span>Повна ємність</span><b>103,9<small>А·г</small></b></div><div class="r"><span>Проєктна ємність</span><b id="capacity">—</b></div><div class="r"><span>Здоров’я (SOH)</span><b id="health">—</b></div><div class="r"><span>Цикли</span><b id="cycles">—</b></div><div class="r"><span>Заряд за цикл</span><b id="cycleCharge">—</b></div></section>
- 
+
 <h2>Комірки</h2>
 <section class="card"><div class="chead"><span id="range">Очікування даних</span><span id="delta">—</span></div><div class="cg" id="cg"></div></section>
- 
+
 <h2>Температура</h2>
 <section class="card"><div class="tg" id="tg"></div></section>
- 
+
 <h2>Історія заряду</h2>
 <section class="card"><div class="seg"><button type="button" id="h24" class="on">24 години</button><button type="button" id="h10">10 днів</button></div><div class="hsum" id="hsum"><span>Дані збираються…</span></div><svg id="hchart" viewBox="0 0 340 152"></svg><p class="note">Пишеться, поки сторінка відкрита й підключена до BMS.</p></section>
 <p class="note" id="updated">Реальні дані ще не зчитані.</p>
@@ -155,26 +137,25 @@ const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
 function status(m,t=''){$('status').textContent=m;$('status').className='status'+(t?' '+t:'');}
 function uiConnected(y){$('connect').classList.toggle('on',y);$('connect').disabled=false;$('refresh').disabled=!y;}
 function hm(h){if(h>240)return '> 10 днів';if(h>=48){const d=Math.floor(h/24);return d+' д '+Math.min(23,Math.round(h-d*24))+' год';}const m=Math.max(1,Math.round(h*60));return m<60?m+' хв':Math.floor(m/60)+' год '+(m%60)+' хв';}
-/* ореол з крапок навколо кільця */
-$('halo').innerHTML=[[84,72,.5,.9],[89,60,.34,.75],[94,48,.2,.6]].map(([r,n,o,s])=>Array.from({length:n},(_,i)=>{const a=i*2*Math.PI/n;return '<circle cx="'+(100+r*Math.sin(a)).toFixed(1)+'" cy="'+(100-r*Math.cos(a)).toFixed(1)+'" r="'+s*.5+'" fill="#b9b9c2" opacity="'+o+'"/>';}).join('')).join('');
+/* кільце: 12 крапок-міток */
+$('ticks').innerHTML=Array.from({length:12},(_,i)=>{const a=i*Math.PI/6;return '<circle cx="'+(50+39*Math.sin(a)).toFixed(1)+'" cy="'+(50-39*Math.cos(a)).toFixed(1)+'" r=".7" fill="#c3c3ca"/>';}).join('');
 $('tg').innerHTML=['T1','T2','T3','T4','MOSFET','Навколишня'].map((n,i)=>'<div><span>'+n+'</span><b id="t'+i+'">—</b></div>').join('');
-const setArc=p=>{const v=(100-Math.max(0,Math.min(100,p))).toFixed(1);$('arc').style.strokeDashoffset=v;$('garc').style.strokeDashoffset=v;};
-/* стани */
-const FLOW={charging:{g:'on-g',i:'on-g',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run'},grid:{g:'on-g',i:'on-c',b:'on-g',h:'on-c',l0:'g run',l1:'g',l2:'c run'},discharging:{g:'off',i:'on-o',b:'on-o pulse',h:'on-o',l0:'',l1:'o run rev',l2:'o run'}};
+/* стани схеми */
+const FLOW={charging:{g:'on-g',i:'on-c',b:'on-g pulse',h:'on-c',l0:'g run',l1:'g run',l2:'c run'},grid:{g:'on-g',i:'on-c',b:'on-g',h:'on-c',l0:'g run',l1:'g',l2:'c run'},discharging:{g:'off',i:'on-o',b:'on-o pulse',h:'on-o',l0:'',l1:'o run rev',l2:'o run'}};
 function setState(key,o={}){
-const c=FLOW[key]||{g:'off',i:'',b:'',h:'',l0:'',l1:'',l2:''},soc=o.soc,low=Number.isFinite(soc)&&soc<=15,known=key in FLOW;
-$('hero').dataset.st=!known?'unknown':key==='discharging'&&low?'low':key==='grid'?'mains':key;
-setArc(known?soc:0);
+const c=FLOW[key]||{g:'off',i:'',b:'',h:'',l0:'',l1:'',l2:''},soc=o.soc,low=Number.isFinite(soc)&&soc<=15;
+$('hero').dataset.st=!(key in FLOW)?'unknown':key==='discharging'&&low?'low':key;
+$('dial').style.setProperty('--p',key in FLOW?soc:0);
 $('nGrid').setAttribute('class','node '+c.g);$('jdot').setAttribute('class','jd '+c.i);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
 ['l0','l1','l2'].forEach((k,i)=>$('ln'+i).setAttribute('class','ln '+c[k]));
 const f=$('flow'),k=Math.min(Math.abs(o.current||0),60)/60;
-f.setAttribute('class','flow'+(low?' s2':''));
-f.style.setProperty('--spd',(key==='grid'?1.6:Math.max(.25,1.4-k*1.15)).toFixed(2)+'s');f.style.setProperty('--lw',(key==='grid'?2.4:2.4+k*2).toFixed(1));
-const S=$('stl'),C=$('tmc'),V=$('tmv');
-if(key==='charging'){S.textContent='Заряджається';C.textContent='до повного';V.textContent=o.tL||'—';}
-else if(key==='grid'){S.textContent=soc>=99?'Мережа · заряджено':'Мережа';C.textContent='вистачить на';V.textContent=o.tR||'—';}
-else if(key==='discharging'){S.textContent='Від батареї';C.textContent='вистачить на';V.textContent=o.tR||'—';}
-else{S.textContent='Не підключено';C.textContent='';V.textContent='';['sV','sA','sW','fnPow','fnBat','soc'].forEach(i=>$(i).textContent='—');$('sr').style.strokeDashoffset=175.9;}}
+f.setAttribute('class','flow'+(key==='discharging'&&o.power>2500?' h2':'')+(low?' s2':'')+(key==='charging'?' chg':''));
+f.style.setProperty('--spd',(key==='grid'?1.6:Math.max(.25,1.4-k*1.15)).toFixed(2)+'s');f.style.setProperty('--lw',(key==='grid'?2.6:2.6+k*2.2).toFixed(1));
+const F=$('foot');
+if(key==='charging')F.innerHTML='<b>Заряджається</b>'+(o.tL?' · до повного '+o.tL:'');
+else if(key==='grid')F.innerHTML='<b>Мережа</b> · '+(soc>=99?'батарея заряджена':'очікування');
+else if(key==='discharging')F.innerHTML='<b>Від батареї</b>'+(o.tR?' · вистачить на '+o.tR:'');
+else{F.textContent='Не підключено';['sV','sA','sW','fnCur','fnPow','fnVolt','fnBat','soc'].forEach(i=>$(i).textContent='—');$('rem').textContent='';$('sr').style.strokeDashoffset=213.6;}}
 /* протокол BMS */
 function crc(b){let c=0xffff;for(const x of b){c^=x;for(let i=0;i<8;i++)c=(c&1)?((c>>>1)^0xa001):(c>>>1);}return c&0xffff;}
 function command(cmd,pl=[]){const a=[0x9a,...cmd,pl.length,...pl];const c=crc(a);a.push((c>>8)&255,c&255,0x9d);return new Uint8Array(a);}
@@ -198,17 +179,18 @@ const temps=[];for(let i=0;i<6;i++){const pos=14+i*4;if(pos+1<c.length-3){const 
 await request([0,0,10,0,0,0]);
 const power=voltage*current,ap=Math.abs(power),rem=FULL*Math.max(0,Math.min(100,soc))/100,chg=current>0.5,dis=current<-1.5;
 recordHist(soc,current);drawHist();
-const cur=fmt(current,1).replace('-','−'),kw=ap>=1000,pv=kw?fmt(ap/1000,2):String(Math.round(ap)),pu=kw?'кВт':'Вт';
-$('soc').innerHTML=soc+'<small>%</small>';
-$('sV').innerHTML=fmt(voltage)+'<small>В</small>';$('sA').innerHTML=cur+'<small>А</small>';$('sW').innerHTML=pv+'<small>'+pu+'</small>';
-$('fnBat').textContent=soc+'%';$('sr').style.strokeDashoffset=(175.9*(1-Math.max(0,Math.min(100,soc))/100)).toFixed(1);$('fnPow').textContent=(chg?'+':dis?'−':'')+pv+' '+pu;
+const cur=fmt(current,1).replace('-','−'),pw=ap>=1000?fmt(ap/1000,2)+(' кВт'):Math.round(ap)+' Вт';
+$('soc').innerHTML=soc+'<small>%</small>';$('rem').innerHTML='<b>'+fmt(rem,1)+'</b> / '+fmt(FULL,1)+' А·г';
+$('sV').innerHTML=fmt(voltage)+'<small>В</small>';$('sA').innerHTML=cur+'<small>А</small>';$('sW').innerHTML=pw.replace(' ','<small>')+'</small>';
+$('fnBat').textContent=soc+'%';$('sr').style.strokeDashoffset=(213.6*(1-Math.max(0,Math.min(100,soc))/100)).toFixed(1);
+$('fnCur').textContent=cur+' А';$('fnVolt').textContent=fmt(voltage)+' В';$('fnPow').textContent=pw;$('fnPowCap').textContent=dis?'розряд':chg?'заряд':'від мережі';
 $('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small>А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small>А·г</small>';$('cycles').textContent=cycles;
 $('remainingAh').innerHTML=fmt(rem,1)+'<small>А·г</small>';
 renderCells(cells);
 for(let i=0;i<6;i++)$('t'+i).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C';
 const toFull=(chg&&ap>10&&voltage>0)?(FULL-rem)*voltage/ap:NaN;if(!chg&&ap>10)lastLoad=ap;const load=chg?lastLoad:ap;
 const run=(load>10&&voltage>0)?rem*voltage/load:NaN;
-setState(chg?'charging':dis?'discharging':'grid',{soc,current,tL:Number.isFinite(toFull)?'~ '+hm(toFull):'',tR:Number.isFinite(run)?'~ '+hm(run):''});
+setState(chg?'charging':dis?'discharging':'grid',{soc,current,power:ap,tL:Number.isFinite(toFull)?'~ '+hm(toFull):'',tR:Number.isFinite(run)?'~ '+hm(run):''});
 $('updated').textContent='Останнє оновлення: '+new Date().toLocaleTimeString('uk-UA');status('Дані зчитано.','ok');
 }catch(e){status('Не вдалося зчитати дані: '+(e?.message||String(e)),'err');}finally{busy=false;if(server&&server.connected)$('refresh').disabled=false;}}
 /* підключення */
@@ -252,4 +234,3 @@ $('h10').addEventListener('click',()=>{hRange=240;$('h10').className='on';$('h24
 drawHist();setState('unknown');autoConnect();
 })();
 </script></body></html>
- 

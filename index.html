@@ -90,6 +90,9 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .tg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .tg div{background:var(--tgbg);border-radius:16px;padding:12px 10px;text-align:center}
 .tg span{font-size:11px;color:var(--dim)}.tg b{display:block;font-size:17px;font-weight:700;margin-top:3px}
+.r b.mono{font-size:12px;font-family:ui-monospace,Menlo,monospace;text-align:right;overflow-wrap:anywhere;word-break:break-all;max-width:62%}
+.kh{font-size:13px;font-weight:700;color:var(--dim);padding:14px 0 4px}
+.fl{font-weight:650;color:var(--dim)}.fl.on{color:var(--okt)}
 .note{text-align:center;color:var(--dim);font-size:11px;margin:0}
 @media(prefers-reduced-motion:reduce){.pl.run,.pulse .bfl{animation:none!important}.arc,.tech>summary svg{transition:none}}
 </style>
@@ -128,6 +131,14 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 
 <h2>Температура</h2>
 <section class="card"><div class="tg" id="tg"></div></section>
+
+<div id="kv" class="tbody"></div>
+
+<h2>Балансування</h2>
+<section class="card"><div class="cg" id="bal"></div></section>
+
+<h2>Сирі дані BMS</h2>
+<section class="card rows"><div class="r"><span>Bluetooth</span><b id="iName">—</b></div><div class="r"><span>Дані BMS 1</span><b class="mono" id="iA">—</b></div><div class="r"><span>Дані BMS 2</span><b class="mono" id="iB">—</b></div><div class="r"><span>Дані BMS 3</span><b class="mono" id="iC">—</b></div></section>
 </div>
 </details>
 
@@ -170,6 +181,7 @@ async function request(cmd,pl=[],timeout=4000){const pk=command(cmd,pl);expected
 for(let a=0;a<3;a++){const p=new Promise((res,rej)=>{resolveReply=res;replyTimer=setTimeout(()=>{resolveReply=null;rej(Error('BMS не відповіла вчасно'));},timeout);});
 try{await writePacket(pk);const f=await p;expected=null;return f;}catch(e){clearTimeout(replyTimer);resolveReply=null;if(a===2){expected=null;throw e;}await sleep(300);}}
 throw Error('Немає відповіді BMS');}
+function payloadView(d){const a=Array.from(d.slice(8,8+d[7]));if(!a.length)return '—';const pr=a.filter(x=>x>=32&&x<127).length;if(pr/a.length>=.6)return String.fromCharCode(...a.map(x=>x>=32&&x<127?x:46)).trim();return a.map(x=>x.toString(16).padStart(2,'0')).join(' ');}
 const u16=(d,p)=>(d[p]<<8)|d[p+1],s16=(d,p)=>{const n=u16(d,p);return n&0x8000?n-0x10000:n;};
 function renderCells(cells){$('cg').innerHTML='';
 if(!cells.length){$('cg').textContent='Дані комірок відсутні';$('range').textContent='—';$('delta').textContent='—';return;}
@@ -180,7 +192,7 @@ async function readData(){if(!server||!server.connected||busy)return;busy=true;$
 const p=await request([0,0,10,1,0,0],[1,1]);const current=s16(p,9)/100,voltage=u16(p,11)/100,cycleCharge=u16(p,13)/100,capacity=Math.floor(u16(p,17)/100),soc=p[19],health=p[20],cycles=u16(p,21);
 const c=await request([0,0,10,2,0,0],[1,1]);const cells=[];for(let i=0;i<c[11]&&i<32;i++){const pos=12+i*4;if(pos+1<c.length-3)cells.push(u16(c,pos)/1000);}
 const temps=[];for(let i=0;i<6;i++){const pos=14+i*4;if(pos+1<c.length-3){const r=u16(c,pos);temps.push(r===0?null:(r-2731)/10);}}
-await request([0,0,10,0,0,0]);
+const i3=await request([0,0,10,0,0,0]);$('iC').textContent=payloadView(i3);
 const power=voltage*current,ap=Math.abs(power),rem=FULL*Math.max(0,Math.min(100,soc))/100,chg=current>0.5,dis=current<-1.5;
 const cur=fmt(current,1).replace('-','−'),kw=ap>=1000,pv=kw?fmt(ap/1000,2):String(Math.round(ap)),pu=kw?'кВт':'Вт';
 $('soc').innerHTML=soc+'<small>%</small>';
@@ -210,7 +222,7 @@ const NK='bms_name_v1';const savedName=()=>{try{return localStorage.getItem(NK)|
 function onLost(){if(connecting)return;server=null;rx=null;tx=null;clearInterval(refreshTimer);refreshTimer=null;uiConnected(false);setState('unknown');status('З’єднання розірвано. Закрий PACEEX і вкладку на ноутбуці та натисни кнопку зліва.');}
 async function startSession(dev){device=dev;dev.addEventListener('gattserverdisconnected',onLost);connecting=true;await openGatt();connecting=false;
 try{localStorage.setItem(NK,dev.name||savedName());}catch(e){}
-uiConnected(true);status('Підключено. Читаю дані BMS…','ok');await request([0,0,0,2,0,0]);await request([0,0,0,1,0,0]);await readData();
+uiConnected(true);status('Підключено. Читаю дані BMS…','ok');$('iName').textContent=dev.name||'—';const i1=await request([0,0,0,2,0,0]);$('iA').textContent=payloadView(i1);const i2=await request([0,0,0,1,0,0]);$('iB').textContent=payloadView(i2);await readData();
 if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(()=>{if(!document.hidden)readData();},5000);}
 async function knownDevice(){if(!navigator.bluetooth||typeof navigator.bluetooth.getDevices!=='function')return null;try{const l=await navigator.bluetooth.getDevices(),n=savedName();return l.find(d=>d.name===n)||l.find(d=>(d.name||'').startsWith('PC-'))||null;}catch(e){return null;}}
 async function connect(){if(!navigator.bluetooth){status('Web Bluetooth недоступний. На iPhone відкрий сторінку в Bluefy.','err');return;}
@@ -225,6 +237,10 @@ const TK='bms_theme_v1',tcm=document.getElementById('tc');
 function applyTheme(t){document.documentElement.dataset.theme=t;if(tcm)tcm.setAttribute('content',t==='dark'?'#1c1e24':'#f4f4f6');}
 applyTheme(document.documentElement.dataset.theme||'light');
 $('theme').addEventListener('click',()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme(t);try{localStorage.setItem(TK,t);}catch(e){}});
+const TECH=[['Загальний стан',['Захист','Аварія','Несправність','Збій сертифікації']],['Індикація',['Обігрів','Живлення від мережі (ACin)','Живлення від паку','Індикація CFET','Вимкнення','Пояснення зарядного','Індикація DFET','Індикація обмеження струму']],['Керування',['Тестовий режим','Обмеження струму заряду','Ключ розряду (DFET)','Звуковий сигнал','Світлова аварія (LED)','Вища ступінь обмеження','Ключ заряду (CFET)']],['Пристрій',['Версія ПЗ','Версія заліза','Виробництво BMS','Виробництво паку','Час BMS','CAN-протокол','RS485-протокол','Незалежна напруга','Незалежний струм','Паралельних паків']]];
+$('kv').innerHTML=TECH.map(g=>'<section class="card rows"><div class="kh">'+g[0]+'</div>'+g[1].map(n=>'<div class="r"><span>'+n+'</span><b class="fl" data-k="'+n+'">—</b></div>').join('')+'</section>').join('');
+function setTech(name,val){const el=document.querySelector('[data-k="'+name+'"]');if(!el)return;el.textContent=val===true?'увімк':val===false?'вимк':val;el.classList.toggle('on',val===true);}
+$('bal').innerHTML=[1,2,3,4,5,6,7,8].map(n=>'<div class="cell"><span class="well" style="--h:0%"><i>'+n+'</i></span><b>—</b></div>').join('');
 setState('unknown');autoConnect();
 })();
 </script></body></html>

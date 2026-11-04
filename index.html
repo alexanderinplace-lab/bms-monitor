@@ -182,6 +182,7 @@ for(let a=0;a<3;a++){const p=new Promise((res,rej)=>{resolveReply=res;replyTimer
 try{await writePacket(pk);const f=await p;expected=null;return f;}catch(e){clearTimeout(replyTimer);resolveReply=null;if(a===2){expected=null;throw e;}await sleep(300);}}
 throw Error('Немає відповіді BMS');}
 function payloadView(d){const a=Array.from(d.slice(8,8+d[7]));if(!a.length)return '—';const pr=a.filter(x=>x>=32&&x<127).length;if(pr/a.length>=.6)return String.fromCharCode(...a.map(x=>x>=32&&x<127?x:46)).trim();return a.map(x=>x.toString(16).padStart(2,'0')).join(' ');}
+function strs(d){const a=Array.from(d.slice(8,8+d[7]));return String.fromCharCode(...a.map(x=>x>=32&&x<127?x:0)).split('\0').filter(x=>x.length>=3);}
 const u16=(d,p)=>(d[p]<<8)|d[p+1],s16=(d,p)=>{const n=u16(d,p);return n&0x8000?n-0x10000:n;};
 function renderCells(cells){$('cg').innerHTML='';
 if(!cells.length){$('cg').textContent='Дані комірок відсутні';$('range').textContent='—';$('delta').textContent='—';return;}
@@ -222,7 +223,7 @@ const NK='bms_name_v1';const savedName=()=>{try{return localStorage.getItem(NK)|
 function onLost(){if(connecting)return;server=null;rx=null;tx=null;clearInterval(refreshTimer);refreshTimer=null;uiConnected(false);setState('unknown');status('З’єднання розірвано. Закрий PACEEX і вкладку на ноутбуці та натисни кнопку зліва.');}
 async function startSession(dev){device=dev;dev.addEventListener('gattserverdisconnected',onLost);connecting=true;await openGatt();connecting=false;
 try{localStorage.setItem(NK,dev.name||savedName());}catch(e){}
-uiConnected(true);status('Підключено. Читаю дані BMS…','ok');$('iName').textContent=dev.name||'—';const i1=await request([0,0,0,2,0,0]);$('iA').textContent=payloadView(i1);const i2=await request([0,0,0,1,0,0]);$('iB').textContent=payloadView(i2);await readData();
+uiConnected(true);status('Підключено. Читаю дані BMS…','ok');$('iName').textContent=dev.name||'—';const i1=await request([0,0,0,2,0,0]);$('iA').textContent=payloadView(i1);{const a=strs(i1);if(a[0])setTech('Виробництво BMS',a[0]);}const i2=await request([0,0,0,1,0,0]);$('iB').textContent=payloadView(i2);{const b=strs(i2);if(b.length){setTech('Версія ПЗ',b[0]);setTech('Версія заліза',b[b.length-1]);}}await readData();
 if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(()=>{if(!document.hidden)readData();},5000);}
 async function knownDevice(){if(!navigator.bluetooth||typeof navigator.bluetooth.getDevices!=='function')return null;try{const l=await navigator.bluetooth.getDevices(),n=savedName();return l.find(d=>d.name===n)||l.find(d=>(d.name||'').startsWith('PC-'))||null;}catch(e){return null;}}
 async function connect(){if(!navigator.bluetooth){status('Web Bluetooth недоступний. На iPhone відкрий сторінку в Bluefy.','err');return;}

@@ -6,26 +6,29 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" id="tc" content="#f4f4f6">
 <script>(function(){try{var t=localStorage.getItem("bms_theme_v1");if(!t)t="dark";document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme="light";}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300..700&display=swap" rel="stylesheet">
 <title>Батарея · PACEEX</title>
 <style>
-:root{color-scheme:light;--bg:#f4f4f6;--ink:#111114;--dim:#9a9aa2;--line:#ececef;--g:#2fd655;--c:#2f8cff;--o:#ff8a1f;--r:#ff3b30;--card:#fff;--ink2:#333;--base:#f6f6f8;--disc:#fff;--trk:#ececf0;--ndf:#fff;--nds:#e1e1e7;--icn:#b4b4bc;--icoff:#c1c1c8;--lnb:#e3e3e8;--srb:#d8d8de;--jdb:#cfcfd6;--well:#efeff2;--welli:#6c6c74;--tgbg:#f4f4f6;--segbg:#efeff2;--segon:#fff;--halo:#b9b9c2;--hgrid:#e8e8ec;--htxt:#9a9aa2;--sh:rgba(0,0,0,.06);--shd:rgba(0,0,0,.09);--gt:#1fae44;--ot:#e8710a;--okt:#22a746;--aura:0;--gl:.55;--sca:#a4a4ac;--sbl:#dcdce2;box-sizing:border-box;background:var(--bg)}
-:root[data-theme=dark]{color-scheme:dark;--bg:#1c1e24;--ink:#f1f2f5;--dim:#8b8f9c;--line:#33363f;--card:#262930;--ink2:#c9ccd6;--base:#262930;--disc:#262930;--trk:#3a3d47;--ndf:#2e3139;--nds:#454954;--icn:#7c808d;--icoff:#5a5e6b;--lnb:#3a3d47;--srb:#454954;--jdb:#5a5e6b;--well:#30333c;--welli:#aeb3c0;--tgbg:#2e3139;--segbg:#30333c;--segon:#454954;--halo:#454856;--hgrid:#3a3d47;--htxt:#8b8f9c;--sh:rgba(0,0,0,.35);--shd:rgba(0,0,0,.35);--gt:#3ddc66;--ot:#ffa24d;--okt:#4fdc7a;--aura:0;--gl:0;--sca:#7c808d;--sbl:#454954}
+:root{color-scheme:light;--bg:#f4f4f6;--ink:#111114;--dim:#9a9aa2;--line:#ececef;--g:#2fd655;--c:#2f8cff;--o:#ff8a1f;--r:#ff3b30;--card:#fff;--ink2:#333;--trk:#ececf0;--icn:#b4b4bc;--icoff:#c1c1c8;--lnb:#e3e3e8;--well:#efeff2;--welli:#6c6c74;--tgbg:#f4f4f6;--sh:rgba(0,0,0,.06);--gt:#1fae44;--ot:#e8710a;--okt:#22a746;--sca:#a4a4ac;--sbl:#dcdce2;box-sizing:border-box;background:var(--bg)}
+:root[data-theme=dark]{color-scheme:dark;--bg:#1c1e24;--ink:#f1f2f5;--dim:#8b8f9c;--line:#33363f;--card:#262930;--ink2:#c9ccd6;--trk:#3a3d47;--icn:#7c808d;--icoff:#5a5e6b;--lnb:#3a3d47;--well:#30333c;--welli:#aeb3c0;--tgbg:#2e3139;--sh:rgba(0,0,0,.35);--gt:#3ddc66;--ot:#ffa24d;--okt:#4fdc7a;--sca:#7c808d;--sbl:#454954}
 *,*::before,*::after{box-sizing:inherit}
-body{margin:0;min-height:100vh;color:var(--ink);background:var(--bg);font-family:-apple-system,"SF Pro Display","SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;padding:max(env(safe-area-inset-top,0px),58px) 0 max(env(safe-area-inset-bottom,0px),96px)}
+body{margin:0;min-height:100vh;color:var(--ink);background:var(--bg);font-family:"Rubik",-apple-system,"SF Pro Display","SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;padding:max(env(safe-area-inset-top,0px),58px) 0 max(env(safe-area-inset-bottom,0px),96px)}
+button,summary{font-family:inherit}
 .wrap{max-width:480px;margin:0 auto;padding:14px 16px 44px;display:flex;flex-direction:column;gap:14px}
 .wrap>*{min-width:0}
 header{display:grid;grid-template-columns:104px 1fr 104px;align-items:center}.hr{display:flex;gap:8px;justify-content:flex-end}.rb .sun{display:none}:root[data-theme=dark] .rb .moon{display:none}:root[data-theme=dark] .rb .sun{display:block}
-h1{margin:0;text-align:center;font-size:19px;font-weight:700;letter-spacing:-.02em}
-h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
+h1{margin:0;text-align:center;font-size:18px;font-weight:600;letter-spacing:-.005em}
+h2{margin:10px 6px -4px;font-size:22px;font-weight:500;letter-spacing:-.01em}
 .rb{appearance:none;-webkit-appearance:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.07);-webkit-tap-highlight-color:transparent;transition:background .3s,color .3s}
 .rb svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .rb:active{transform:scale(.94)}.rb:disabled{opacity:.35}
 .rb.on{background:var(--g);border-color:var(--g);color:#fff;box-shadow:0 6px 16px rgba(47,214,85,.4)}
-.status{text-align:center;font-size:12px;line-height:1.4;color:var(--dim);white-space:pre-wrap;overflow-wrap:anywhere;padding:0 8px}
+.status{text-align:center;font-size:12px;line-height:1.45;font-weight:400;color:var(--dim);white-space:pre-wrap;overflow-wrap:anywhere;padding:0 8px}
 .status.ok{color:var(--okt)}.status.err{color:var(--r)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:20px;box-shadow:0 14px 34px var(--sh)}
 /* ---- коло ---- */
-.hero{--c1:#cfcfd6;--c2:#b4b4bc;padding:14px 14px 16px}
+.hero{--c1:#cfcfd6;--c2:#b4b4bc;position:relative;padding:14px 14px 16px}
 .hero[data-st=charging]{--c1:#8bf7a4;--c2:#25c94d}
 .hero[data-st=mains]{--c1:#9bd5ff;--c2:#2f8cff}
 .hero[data-st=discharging]{--c1:#ffd37a;--c2:#ff7a14}
@@ -36,26 +39,32 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .trk{fill:none;stroke:var(--trk);stroke-width:2.6}
 .arc{fill:none;stroke:url(#gr);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:100 100;stroke-dashoffset:100;transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 3px 5px rgba(0,0,0,.28))}
 .inner{position:absolute;inset:16%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-#soc{font-size:clamp(44px,15vw,62px);font-weight:300;letter-spacing:-.04em;line-height:1}
+#soc{font-size:clamp(44px,15vw,60px);font-weight:300;letter-spacing:-.03em;line-height:1}
 #soc small{font-size:.34em;font-weight:400;letter-spacing:0;margin-left:2px;color:var(--ink2)}
-.st{display:flex;align-items:center;gap:4px;margin-top:7px;font-size:11px;font-weight:650;letter-spacing:.04em;text-transform:uppercase;color:var(--dim)}
+.st{display:flex;align-items:center;gap:4px;margin-top:8px;font-size:10.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
 .st svg{width:12px;height:12px;fill:currentColor}
-.tm{margin-top:6px;line-height:1.15}.tm span{display:block;font-size:11px;color:var(--dim)}
-.tm b{display:block;font-size:17px;font-weight:740;letter-spacing:-.02em;margin-top:1px;white-space:nowrap}
+.tm{margin-top:6px;line-height:1.2}.tm span{display:block;font-size:11px;font-weight:400;color:var(--dim)}
+.tm b{display:block;font-size:16px;font-weight:500;letter-spacing:-.01em;margin-top:2px;white-space:nowrap}
 .hero[data-st=charging] .st,.hero[data-st=charging] .tm b{color:var(--gt)}
 .hero[data-st=mains] .st,.hero[data-st=mains] .tm b{color:var(--c)}
 .hero[data-st=discharging] .st,.hero[data-st=discharging] .tm b{color:var(--ot)}
 .hero[data-st=low] .st,.hero[data-st=low] .tm b{color:var(--r)}
+/* температури T1 / T2 по кутах кола */
+.tc{position:absolute;top:14px;min-width:54px;padding:8px 10px;border-radius:15px;background:var(--tgbg);border:1px solid var(--line)}
+.tc.l{left:14px}.tc.r{right:14px}
+.tc span{display:flex;align-items:center;gap:4px;font-size:10.5px;font-weight:500;color:var(--dim);letter-spacing:.04em}
+.tc span svg{width:11px;height:11px;fill:none;stroke:var(--sca);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tc b{display:block;margin-top:5px;font-size:15px;font-weight:500;letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* ---- картки показників ---- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .sc{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:13px 10px;box-shadow:0 10px 24px var(--sh);min-width:0}
-.sh{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--dim);font-weight:600;white-space:nowrap}
+.sh{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--dim);font-weight:500;white-space:nowrap}
 .sh svg{width:14px;height:14px;fill:none;stroke:var(--sca);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
 .sb{display:flex;align-items:center;gap:9px;margin-top:11px}
 .sb i{width:2px;align-self:stretch;min-height:26px;background:var(--sbl);border-radius:2px;flex:0 0 auto}
-.sb b{font-size:18px;font-weight:740;letter-spacing:-.03em;white-space:nowrap}
-.sb small{font-size:11px;color:var(--dim);margin-left:2px;font-weight:600}
-/* ---- схема під колом: лише анімація ---- */
+.sb b{font-size:17px;font-weight:500;letter-spacing:-.01em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sb small{font-size:11px;font-weight:400;color:var(--dim);margin-left:2px}
+/* ---- потік під колом ---- */
 .flowrow{margin:14px auto 0;max-width:340px}
 .flow{--spd:1.8s;width:100%;height:auto;display:block}
 .fi{fill:none;stroke:var(--icn);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
@@ -69,15 +78,15 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .pl.run{animation:pls var(--spd) linear infinite;filter:drop-shadow(0 0 4px currentColor)}
 @keyframes pls{from{stroke-dashoffset:22}to{stroke-dashoffset:-78}}
 /* ---- технічні показники (спадне меню) ---- */
-.tech>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 20px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 24px var(--sh);font-size:16px;font-weight:680;letter-spacing:-.01em;-webkit-tap-highlight-color:transparent;user-select:none}
+.tech>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 20px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 24px var(--sh);font-size:16px;font-weight:500;letter-spacing:-.005em;-webkit-tap-highlight-color:transparent;user-select:none}
 .tech>summary::-webkit-details-marker{display:none}
 .tech>summary svg{width:20px;height:20px;fill:none;stroke:var(--dim);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
 .tech[open]>summary svg{transform:rotate(180deg)}
 .tech>summary:focus-visible{outline:2px solid var(--c);outline-offset:2px}
 .tbody{display:flex;flex-direction:column;gap:14px;margin-top:14px}
-.tbody h2{font-size:17px;margin:6px 6px -6px}
-.r{display:flex;justify-content:space-between;gap:12px;padding:13px 0;font-size:15px}.r+.r{border-top:1px solid var(--line)}
-.r span{color:var(--dim)}.r b{font-weight:650;font-variant-numeric:tabular-nums}.r small{color:var(--dim);margin-left:3px}
+.tbody h2{font-size:16px;margin:6px 6px -6px}
+.r{display:flex;justify-content:space-between;gap:12px;padding:13px 0;font-size:14.5px}.r+.r{border-top:1px solid var(--line)}
+.r span{color:var(--dim)}.r b{font-weight:500;font-variant-numeric:tabular-nums;text-align:right}.r small{font-weight:400;color:var(--dim);margin-left:3px}
 .rows{padding:6px 20px}
 .chead{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--dim);margin-bottom:14px}
 .cg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -85,14 +94,11 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .well{display:block;height:48px;border-radius:13px;background:var(--well);box-shadow:inset 2px 3px 6px rgba(0,0,0,.06);position:relative;overflow:hidden}
 .well:after{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--h,0%);background:linear-gradient(180deg,#6df08a,var(--g))}
 .cell.mx .well:after{background:linear-gradient(180deg,#8fd0ff,var(--c))}.cell.mn .well:after{background:linear-gradient(180deg,#ffd37a,var(--o))}
-.well i{position:absolute;top:5px;left:0;right:0;font-style:normal;font-size:11px;font-weight:600;color:var(--welli);z-index:1}
-.cell b{display:block;font-size:12px;font-weight:650;margin-top:7px}
-.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.tg div{background:var(--tgbg);border-radius:16px;padding:12px 10px;text-align:center}
-.tg span{font-size:11px;color:var(--dim)}.tg b{display:block;font-size:17px;font-weight:700;margin-top:3px}
-.r b.mono{font-size:12px;font-family:ui-monospace,Menlo,monospace;text-align:right;overflow-wrap:anywhere;word-break:break-all;max-width:62%}
-.kh{font-size:13px;font-weight:700;color:var(--dim);padding:14px 0 4px}
-.fl{font-weight:650;color:var(--dim)}.fl.on{color:var(--okt)}
+.well i{position:absolute;top:5px;left:0;right:0;font-style:normal;font-size:11px;font-weight:500;color:var(--welli);z-index:1}
+.cell b{display:block;font-size:12px;font-weight:500;margin-top:7px;font-variant-numeric:tabular-nums}
+.r b.mono{font-size:12px;font-weight:400;font-family:ui-monospace,Menlo,monospace;overflow-wrap:anywhere;word-break:break-all;max-width:62%}
+.kh{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);padding:14px 0 4px}
+.fl{font-weight:500;color:var(--dim)}.fl.on{color:var(--okt)}
 .note{text-align:center;color:var(--dim);font-size:11px;margin:0}
 @media(prefers-reduced-motion:reduce){.pl.run,.pulse .bfl{animation:none!important}.arc,.tech>summary svg{transition:none}}
 </style>
@@ -102,6 +108,8 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 <div class="status" id="status" role="status">Натисни кнопку зліва й вибери PC-A2EE. Закрий PACEEX і вкладку на ноутбуці: BMS приймає лише одне з’єднання.</div>
 
 <section class="card hero" id="hero" data-st="unknown">
+<div class="tc l"><span><svg viewBox="0 0 24 24"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0Z"/></svg>T1</span><b id="t0">—</b></div>
+<div class="tc r"><span><svg viewBox="0 0 24 24"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0Z"/></svg>T2</span><b id="t1">—</b></div>
 <div class="dial"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop id="gs1" offset="0"/><stop id="gs2" offset="1"/></linearGradient></defs><circle class="trk" cx="100" cy="100" r="94"/><g transform="rotate(-90 100 100)"><circle class="arc" id="arc" cx="100" cy="100" r="94" pathLength="100"/></g></svg>
 <div class="inner"><div id="soc">—</div><div class="st"><svg viewBox="0 0 24 24"><path d="M13.5 2 5 13.5h6L10 22l9-12h-6z"/></svg><span id="stl">Не підключено</span></div><div class="tm"><span id="tmc"></span><b id="tmv"></b></div></div></div>
 <div class="flowrow"><svg class="flow" id="flow" viewBox="0 0 320 52" role="img" aria-label="Потік живлення: мережа, акумулятор, дім">
@@ -129,9 +137,6 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 <h2>Комірки</h2>
 <section class="card"><div class="chead"><span id="range">Очікування даних</span><span id="delta">—</span></div><div class="cg" id="cg"></div></section>
 
-<h2>Температура</h2>
-<section class="card"><div class="tg" id="tg"></div></section>
-
 <div id="kv" class="tbody"></div>
 
 <h2>Балансування</h2>
@@ -154,12 +159,11 @@ const fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n).replace('.',','):'—';
 function status(m,t=''){$('status').textContent=m;$('status').className='status'+(t?' '+t:'');}
 function uiConnected(y){$('connect').classList.toggle('on',y);$('connect').disabled=false;$('refresh').disabled=!y;}
 function hm(h){if(h>240)return '> 10 днів';if(h>=48){const d=Math.floor(h/24);return d+' д '+Math.min(23,Math.round(h-d*24))+' год';}const m=Math.max(1,Math.round(h*60));return m<60?m+' хв':Math.floor(m/60)+' год '+(m%60)+' хв';}
-$('tg').innerHTML=['T1','T2','T3','T4','MOSFET','Навколишня'].map((n,i)=>'<div><span>'+n+'</span><b id="t'+i+'">—</b></div>').join('');
 const setArc=p=>{const v=(100-Math.max(0,Math.min(100,p))).toFixed(1);$('arc').style.strokeDashoffset=v;};
 /* стани */
 const FLOW={charging:{g:'on-g',b:'on-g pulse',h:'on-c',l0:'g run',l1:'c run'},grid:{g:'on-g',b:'on-g',h:'on-c',l0:'g run',l1:'c run'},discharging:{g:'off',b:'on-o pulse',h:'on-o',l0:'',l1:'o run'}};
 function setState(key,o={}){
-const c=FLOW[key]||{g:'off',i:'',b:'',h:'',l0:'',l1:'',l2:''},soc=o.soc,low=Number.isFinite(soc)&&soc<=15,known=key in FLOW;
+const c=FLOW[key]||{g:'off',b:'',h:'',l0:'',l1:''},soc=o.soc,low=Number.isFinite(soc)&&soc<=15,known=key in FLOW;
 $('hero').dataset.st=!known?'unknown':key==='discharging'&&low?'low':key==='grid'?'mains':key;
 setArc(known?soc:0);
 $('nGrid').setAttribute('class','node '+c.g);$('nBat').setAttribute('class','node '+c.b);$('nHome').setAttribute('class','node '+c.h);
@@ -170,7 +174,7 @@ const S=$('stl'),C=$('tmc'),V=$('tmv');
 if(key==='charging'){S.textContent='Заряджається';C.textContent='до повного';V.textContent=o.tL||'—';}
 else if(key==='grid'){S.textContent=soc>=99?'Мережа · заряджено':'Мережа';C.textContent='вистачить на';V.textContent=o.tR||'—';}
 else if(key==='discharging'){S.textContent='Від батареї';C.textContent='вистачить на';V.textContent=o.tR||'—';}
-else{S.textContent='Не підключено';C.textContent='';V.textContent='';['sV','sA','sW','soc'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);}}
+else{S.textContent='Не підключено';C.textContent='';V.textContent='';['sV','sA','sW','soc','t0','t1'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);}}
 /* протокол BMS */
 function crc(b){let c=0xffff;for(const x of b){c^=x;for(let i=0;i<8;i++)c=(c&1)?((c>>>1)^0xa001):(c>>>1);}return c&0xffff;}
 function command(cmd,pl=[]){const a=[0x9a,...cmd,pl.length,...pl];const c=crc(a);a.push((c>>8)&255,c&255,0x9d);return new Uint8Array(a);}
@@ -202,7 +206,8 @@ $('bfill').setAttribute('width',(29.6*Math.max(0,Math.min(100,soc))/100).toFixed
 $('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small>А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small>А·г</small>';$('cycles').textContent=cycles;
 $('remainingAh').innerHTML=fmt(rem,1)+'<small>А·г</small>';
 renderCells(cells);
-for(let i=0;i<6;i++)$('t'+i).textContent=temps[i]==null?'—':fmt(temps[i],1)+' °C';
+for(let i=0;i<2;i++)$('t'+i).textContent=temps[i]==null?'—':fmt(temps[i],1)+'°';
+setTech('Назва пристрою',device?.name||'PC-A2EE');setTech('Напруга пакета',fmt(voltage)+' В');setTech('Струм (зі знаком)',fmt(current)+' А');setTech('Заряд',soc+'%');setTech('Здоров’я BMS',health+'%');setTech('Проєктна ємність',capacity+' А·г');setTech('Заряд за цикл',fmt(cycleCharge,2)+' А·г');setTech('Кількість циклів',cycles);setTech('Комірок',cells.length);
 const toFull=(chg&&ap>10&&voltage>0)?(FULL-rem)*voltage/ap:NaN;if(!chg&&ap>10)lastLoad=ap;const load=chg?lastLoad:ap;
 const run=(load>10&&voltage>0)?rem*voltage/load:NaN;
 setState(chg?'charging':dis?'discharging':'grid',{soc,current,tL:Number.isFinite(toFull)?'~ '+hm(toFull):'',tR:Number.isFinite(run)?'~ '+hm(run):''});
@@ -223,7 +228,7 @@ const NK='bms_name_v1';const savedName=()=>{try{return localStorage.getItem(NK)|
 function onLost(){if(connecting)return;server=null;rx=null;tx=null;clearInterval(refreshTimer);refreshTimer=null;uiConnected(false);setState('unknown');status('З’єднання розірвано. Закрий PACEEX і вкладку на ноутбуці та натисни кнопку зліва.');}
 async function startSession(dev){device=dev;dev.addEventListener('gattserverdisconnected',onLost);connecting=true;await openGatt();connecting=false;
 try{localStorage.setItem(NK,dev.name||savedName());}catch(e){}
-uiConnected(true);status('Підключено. Читаю дані BMS…','ok');$('iName').textContent=dev.name||'—';const i1=await request([0,0,0,2,0,0]);$('iA').textContent=payloadView(i1);{const a=strs(i1);if(a[0])setTech('Виробництво BMS',a[0]);}const i2=await request([0,0,0,1,0,0]);$('iB').textContent=payloadView(i2);{const b=strs(i2);if(b.length){setTech('Версія ПЗ',b[0]);setTech('Версія заліза',b[b.length-1]);}}await readData();
+uiConnected(true);status('Підключено. Читаю дані BMS…','ok');$('iName').textContent=dev.name||'—';const i1=await request([0,0,0,2,0,0]);$('iA').textContent=payloadView(i1);{const a=strs(i1);if(a[0]){setTech('Виробництво BMS',a[0]);setTech('Серійний номер',a[0]);}}const i2=await request([0,0,0,1,0,0]);$('iB').textContent=payloadView(i2);{const b=strs(i2);if(b.length){setTech('Версія ПЗ',b[0]);setTech('Версія заліза',b[b.length-1]);}}await readData();
 if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(()=>{if(!document.hidden)readData();},5000);}
 async function knownDevice(){if(!navigator.bluetooth||typeof navigator.bluetooth.getDevices!=='function')return null;try{const l=await navigator.bluetooth.getDevices(),n=savedName();return l.find(d=>d.name===n)||l.find(d=>(d.name||'').startsWith('PC-'))||null;}catch(e){return null;}}
 async function connect(){if(!navigator.bluetooth){status('Web Bluetooth недоступний. На iPhone відкрий сторінку в Bluefy.','err');return;}
@@ -238,7 +243,7 @@ const TK='bms_theme_v1',tcm=document.getElementById('tc');
 function applyTheme(t){document.documentElement.dataset.theme=t;if(tcm)tcm.setAttribute('content',t==='dark'?'#1c1e24':'#f4f4f6');}
 applyTheme(document.documentElement.dataset.theme||'light');
 $('theme').addEventListener('click',()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme(t);try{localStorage.setItem(TK,t);}catch(e){}});
-const TECH=[['Загальний стан',['Захист','Аварія','Несправність','Збій сертифікації']],['Індикація',['Обігрів','Живлення від мережі (ACin)','Живлення від паку','Індикація CFET','Вимкнення','Пояснення зарядного','Індикація DFET','Індикація обмеження струму']],['Керування',['Тестовий режим','Обмеження струму заряду','Ключ розряду (DFET)','Звуковий сигнал','Світлова аварія (LED)','Вища ступінь обмеження','Ключ заряду (CFET)']],['Пристрій',['Версія ПЗ','Версія заліза','Виробництво BMS','Виробництво паку','Час BMS','CAN-протокол','RS485-протокол','Незалежна напруга','Незалежний струм','Паралельних паків']]];
+const TECH=[['Дані BMS',['Назва пристрою','Серійний номер','Версія ПЗ','Версія заліза','Напруга пакета','Струм (зі знаком)','Заряд','Здоров’я BMS','Проєктна ємність','Заряд за цикл','Кількість циклів','Комірок']],['Загальний стан',['Захист','Аварія','Несправність','Збій сертифікації']],['Індикація',['Обігрів','Живлення від мережі (ACin)','Живлення від паку','Індикація CFET','Вимкнення','Пояснення зарядного','Індикація DFET','Індикація обмеження струму']],['Керування',['Тестовий режим','Обмеження струму заряду','Ключ розряду (DFET)','Звуковий сигнал','Світлова аварія (LED)','Вища ступінь обмеження','Ключ заряду (CFET)']],['Пристрій',['Виробництво BMS','Виробництво паку','Час BMS','CAN-протокол','RS485-протокол','Незалежна напруга','Незалежний струм','Паралельних паків']]];
 $('kv').innerHTML=TECH.map(g=>'<section class="card rows"><div class="kh">'+g[0]+'</div>'+g[1].map(n=>'<div class="r"><span>'+n+'</span><b class="fl" data-k="'+n+'">—</b></div>').join('')+'</section>').join('');
 function setTech(name,val){const el=document.querySelector('[data-k="'+name+'"]');if(!el)return;el.textContent=val===true?'увімк':val===false?'вимк':val;el.classList.toggle('on',val===true);}
 $('bal').innerHTML=[1,2,3,4,5,6,7,8].map(n=>'<div class="cell"><span class="well" style="--h:0%"><i>'+n+'</i></span><b>—</b></div>').join('');

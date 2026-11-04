@@ -25,7 +25,7 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .status.ok{color:var(--okt)}.status.err{color:var(--r)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:20px;box-shadow:0 14px 34px var(--sh)}
 /* ---- коло ---- */
-.hero{--c1:#cfcfd6;--c2:#b4b4bc;padding:14px 14px 18px}
+.hero{--c1:#cfcfd6;--c2:#b4b4bc;padding:14px 14px 16px}
 .hero[data-st=charging]{--c1:#8bf7a4;--c2:#25c94d}
 .hero[data-st=mains]{--c1:#9bd5ff;--c2:#2f8cff}
 .hero[data-st=discharging]{--c1:#ffd37a;--c2:#ff7a14}
@@ -35,7 +35,6 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 #gs1{stop-color:var(--c1)}#gs2{stop-color:var(--c2)}
 .trk{fill:none;stroke:var(--trk);stroke-width:2.6}
 .arc{fill:none;stroke:url(#gr);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:100 100;stroke-dashoffset:100;transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 3px 5px rgba(0,0,0,.28))}
-.hg{stroke:var(--hgrid)}.ht{fill:var(--htxt)}
 .inner{position:absolute;inset:16%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 #soc{font-size:clamp(44px,15vw,62px);font-weight:300;letter-spacing:-.04em;line-height:1}
 #soc small{font-size:.34em;font-weight:400;letter-spacing:0;margin-left:2px;color:var(--ink2)}
@@ -56,8 +55,8 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .sb i{width:2px;align-self:stretch;min-height:26px;background:var(--sbl);border-radius:2px;flex:0 0 auto}
 .sb b{font-size:18px;font-weight:740;letter-spacing:-.03em;white-space:nowrap}
 .sb small{font-size:11px;color:var(--dim);margin-left:2px;font-weight:600}
-/* ---- схема ---- */
-.flowc{padding:16px 10px 12px}
+/* ---- схема під колом: лише анімація ---- */
+.flowrow{margin:14px auto 0;max-width:340px}
 .flow{--spd:1.8s;width:100%;height:auto;display:block}
 .fi{fill:none;stroke:var(--icn);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
 .on-g .fi{stroke:var(--g)}.on-c .fi{stroke:var(--c)}.on-o .fi{stroke:var(--o)}
@@ -69,9 +68,14 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .pl.g{stroke:var(--g);color:var(--g);opacity:1}.pl.c{stroke:var(--c);color:var(--c);opacity:1}.pl.o{stroke:var(--o);color:var(--o);opacity:1}
 .pl.run{animation:pls var(--spd) linear infinite;filter:drop-shadow(0 0 4px currentColor)}
 @keyframes pls{from{stroke-dashoffset:22}to{stroke-dashoffset:-78}}
-.flow text{font-size:12px;fill:var(--dim);text-anchor:middle;font-family:inherit}
-.flow text.inf{font-size:11.5px;font-weight:650;fill:var(--ink2)}
-/* ---- списки ---- */
+/* ---- технічні показники (спадне меню) ---- */
+.tech>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 20px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 24px var(--sh);font-size:16px;font-weight:680;letter-spacing:-.01em;-webkit-tap-highlight-color:transparent;user-select:none}
+.tech>summary::-webkit-details-marker{display:none}
+.tech>summary svg{width:20px;height:20px;fill:none;stroke:var(--dim);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.tech[open]>summary svg{transform:rotate(180deg)}
+.tech>summary:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+.tbody{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.tbody h2{font-size:17px;margin:6px 6px -6px}
 .r{display:flex;justify-content:space-between;gap:12px;padding:13px 0;font-size:15px}.r+.r{border-top:1px solid var(--line)}
 .r span{color:var(--dim)}.r b{font-weight:650;font-variant-numeric:tabular-nums}.r small{color:var(--dim);margin-left:3px}
 .rows{padding:6px 20px}
@@ -86,13 +90,8 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 .tg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .tg div{background:var(--tgbg);border-radius:16px;padding:12px 10px;text-align:center}
 .tg span{font-size:11px;color:var(--dim)}.tg b{display:block;font-size:17px;font-weight:700;margin-top:3px}
-.seg{display:flex;background:var(--segbg);border-radius:13px;padding:3px;gap:3px}
-.seg button{flex:1;border:0;border-radius:10px;padding:10px 4px;font:inherit;font-size:13px;font-weight:650;color:var(--dim);background:transparent;cursor:pointer}
-.seg button.on{background:var(--segon);color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.hsum{font-size:13px;margin:14px 2px 6px}.hsum span{color:var(--dim)}
-#hchart{width:100%;height:auto;display:block}
 .note{text-align:center;color:var(--dim);font-size:11px;margin:0}
-@media(prefers-reduced-motion:reduce){.pl.run,.pulse .bfl{animation:none!important}.arc{transition:none}}
+@media(prefers-reduced-motion:reduce){.pl.run,.pulse .bfl{animation:none!important}.arc,.tech>summary svg{transition:none}}
 </style>
 </head>
 <body><div class="wrap">
@@ -102,6 +101,13 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 <section class="card hero" id="hero" data-st="unknown">
 <div class="dial"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop id="gs1" offset="0"/><stop id="gs2" offset="1"/></linearGradient></defs><circle class="trk" cx="100" cy="100" r="94"/><g transform="rotate(-90 100 100)"><circle class="arc" id="arc" cx="100" cy="100" r="94" pathLength="100"/></g></svg>
 <div class="inner"><div id="soc">—</div><div class="st"><svg viewBox="0 0 24 24"><path d="M13.5 2 5 13.5h6L10 22l9-12h-6z"/></svg><span id="stl">Не підключено</span></div><div class="tm"><span id="tmc"></span><b id="tmv"></b></div></div></div>
+<div class="flowrow"><svg class="flow" id="flow" viewBox="0 0 320 52" role="img" aria-label="Потік живлення: мережа, акумулятор, дім">
+<path class="lb" d="M82 26H128"/><path class="lb" d="M192 26H238"/>
+<path class="pl" id="ln0" d="M82 26H128" pathLength="100"/><path class="pl" id="ln1" d="M192 26H238" pathLength="100"/>
+<g class="node off" id="nGrid" transform="translate(50 26)"><g transform="translate(-18.6 -18.6) scale(1.55)"><path class="fi" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g>
+<g class="node" id="nBat" transform="translate(160 26)"><rect class="fi" x="-20" y="-13" width="36" height="26" rx="6.5"/><path class="fi" d="M19.5 -4.5v9"/><rect class="bfl" id="bfill" x="-16.8" y="-9.8" width="0" height="19.6" rx="3.5"/></g>
+<g class="node" id="nHome" transform="translate(270 26)"><g transform="translate(-18.6 -18.6) scale(1.55)"><path class="fi" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g>
+</svg></div>
 </section>
 
 <div class="stats">
@@ -110,15 +116,9 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 <div class="sc"><div class="sh"><svg viewBox="0 0 24 24"><path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0zM12 17v5"/></svg>Потужність</div><div class="sb"><i></i><b id="sW">—</b></div></div>
 </div>
 
-<h2>Схема</h2>
-<section class="card flowc"><svg class="flow" id="flow" viewBox="0 0 320 118" role="img" aria-label="Схема живлення: мережа, акумулятор, дім">
-<path class="lb" d="M82 40H128"/><path class="lb" d="M192 40H238"/>
-<path class="pl" id="ln0" d="M82 40H128" pathLength="100"/><path class="pl" id="ln1" d="M192 40H238" pathLength="100"/>
-<g class="node off" id="nGrid" transform="translate(50 40)"><g transform="translate(-18.6 -18.6) scale(1.55)"><path class="fi" d="M12 2.5v3M7 7h10M5 11.5h14M12 5.5 8 21.5M12 5.5l4 16M9.6 16h4.8M7 7v2M17 7v2M5 11.5v2M19 11.5v2"/></g></g>
-<g class="node" id="nBat" transform="translate(160 40)"><rect class="fi" x="-20" y="-13" width="36" height="26" rx="6.5"/><path class="fi" d="M19.5 -4.5v9"/><rect class="bfl" id="bfill" x="-16.8" y="-9.8" width="0" height="19.6" rx="3.5"/></g>
-<g class="node" id="nHome" transform="translate(270 40)"><g transform="translate(-18.6 -18.6) scale(1.55)"><path class="fi" d="M3.5 11.2 12 4l8.5 7.2M5.8 9.8V20h12.4V9.8M10 20v-5.5h4V20"/></g></g>
-<text x="50" y="92">Мережа</text><text x="160" y="92">Акумулятор</text><text x="270" y="92">Дім</text><text class="inf" id="fnInfo" x="160" y="110">—</text></svg></section>
-
+<details class="tech">
+<summary>Технічні показники<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+<div class="tbody">
 <h2>Показники</h2>
 <section class="card rows">
 <div class="r"><span>Залишок (оцінка)</span><b id="remainingAh">—</b></div><div class="r"><span>Повна ємність</span><b>103,9<small>А·г</small></b></div><div class="r"><span>Проєктна ємність</span><b id="capacity">—</b></div><div class="r"><span>Здоров’я (SOH)</span><b id="health">—</b></div><div class="r"><span>Цикли</span><b id="cycles">—</b></div><div class="r"><span>Заряд за цикл</span><b id="cycleCharge">—</b></div></section>
@@ -128,9 +128,9 @@ h2{margin:10px 6px -4px;font-size:24px;font-weight:720;letter-spacing:-.03em}
 
 <h2>Температура</h2>
 <section class="card"><div class="tg" id="tg"></div></section>
+</div>
+</details>
 
-<h2>Історія заряду</h2>
-<section class="card"><div class="seg"><button type="button" id="h24" class="on">24 години</button><button type="button" id="h10">10 днів</button></div><div class="hsum" id="hsum"><span>Дані збираються…</span></div><svg id="hchart" viewBox="0 0 340 152"></svg><p class="note">Пишеться, поки сторінка відкрита й підключена до BMS.</p></section>
 <p class="note" id="updated">Реальні дані ще не зчитані.</p>
 </div>
 <script>
@@ -159,7 +159,7 @@ const S=$('stl'),C=$('tmc'),V=$('tmv');
 if(key==='charging'){S.textContent='Заряджається';C.textContent='до повного';V.textContent=o.tL||'—';}
 else if(key==='grid'){S.textContent=soc>=99?'Мережа · заряджено':'Мережа';C.textContent='вистачить на';V.textContent=o.tR||'—';}
 else if(key==='discharging'){S.textContent='Від батареї';C.textContent='вистачить на';V.textContent=o.tR||'—';}
-else{S.textContent='Не підключено';C.textContent='';V.textContent='';['sV','sA','sW','soc'].forEach(i=>$(i).textContent='—');$('fnInfo').textContent='—';$('bfill').setAttribute('width',0);}}
+else{S.textContent='Не підключено';C.textContent='';V.textContent='';['sV','sA','sW','soc'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);}}
 /* протокол BMS */
 function crc(b){let c=0xffff;for(const x of b){c^=x;for(let i=0;i<8;i++)c=(c&1)?((c>>>1)^0xa001):(c>>>1);}return c&0xffff;}
 function command(cmd,pl=[]){const a=[0x9a,...cmd,pl.length,...pl];const c=crc(a);a.push((c>>8)&255,c&255,0x9d);return new Uint8Array(a);}
@@ -182,11 +182,10 @@ const c=await request([0,0,10,2,0,0],[1,1]);const cells=[];for(let i=0;i<c[11]&&
 const temps=[];for(let i=0;i<6;i++){const pos=14+i*4;if(pos+1<c.length-3){const r=u16(c,pos);temps.push(r===0?null:(r-2731)/10);}}
 await request([0,0,10,0,0,0]);
 const power=voltage*current,ap=Math.abs(power),rem=FULL*Math.max(0,Math.min(100,soc))/100,chg=current>0.5,dis=current<-1.5;
-recordHist(soc,current);drawHist();
 const cur=fmt(current,1).replace('-','−'),kw=ap>=1000,pv=kw?fmt(ap/1000,2):String(Math.round(ap)),pu=kw?'кВт':'Вт';
 $('soc').innerHTML=soc+'<small>%</small>';
 $('sV').innerHTML=fmt(voltage)+'<small>В</small>';$('sA').innerHTML=cur+'<small>А</small>';$('sW').innerHTML=pv+'<small>'+pu+'</small>';
-$('bfill').setAttribute('width',(29.6*Math.max(0,Math.min(100,soc))/100).toFixed(1));$('fnInfo').textContent=soc+'% · '+(chg?'+':dis?'−':'')+pv+' '+pu;
+$('bfill').setAttribute('width',(29.6*Math.max(0,Math.min(100,soc))/100).toFixed(1));
 $('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small>А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small>А·г</small>';$('cycles').textContent=cycles;
 $('remainingAh').innerHTML=fmt(rem,1)+'<small>А·г</small>';
 renderCells(cells);
@@ -222,22 +221,10 @@ async function autoConnect(){if(server&&server.connected)return;const d=await kn
 try{await startSession(d);}catch(e){connecting=false;uiConnected(false);status('Автопідключення не вдалося: '+(e?.message||e)+'\nНатисни кнопку зліва.','err');}}
 function disconnect(){clearInterval(refreshTimer);refreshTimer=null;try{if(rx)rx.removeEventListener('characteristicvaluechanged',onNotify);if(device?.gatt?.connected)device.gatt.disconnect();}catch(e){}server=null;rx=null;tx=null;uiConnected(false);setState('unknown');status('Відключено від BMS.');}
 $('connect').addEventListener('click',()=>{(server&&server.connected)?disconnect():connect();});$('refresh').addEventListener('click',readData);
-/* історія */
-const HK='bms_hist_v1';let hist=[],hRange=24;try{hist=JSON.parse(localStorage.getItem(HK)||'[]');}catch(e){hist=[];}
-function recordHist(soc,cur){const now=Date.now(),l=hist[hist.length-1];if(l&&now-l[0]<60000)return;hist.push([now,soc,Math.round(cur*10)/10]);const cut=now-10*864e5;while(hist.length&&hist[0][0]<cut)hist.shift();try{localStorage.setItem(HK,JSON.stringify(hist));}catch(e){}}
-function drawHist(){const now=Date.now(),span=hRange*36e5,n=hRange===24?96:80,bw=span/n,start=now-span,W=300,H=120,Y0=10,step=W/n,sum=new Array(n).fill(0),cnt=new Array(n).fill(0);
-hist.forEach(p=>{if(p[0]<start)return;const i=Math.min(n-1,Math.floor((p[0]-start)/bw));sum[i]+=p[1];cnt[i]++;});
-let g='',bars='',lab='',vals=[];
-[100,50,0].forEach(v=>{const y=Y0+H*(1-v/100);g+='<line x1="0" x2="'+W+'" y1="'+y+'" y2="'+y+'" class="hg" stroke-dasharray="3 3"/><text x="'+(W+6)+'" y="'+(y+3)+'" font-size="10" class="ht">'+v+'%</text>';});
-for(let i=0;i<n;i++){if(!cnt[i])continue;const v=sum[i]/cnt[i];vals.push(v);const h=Math.max(1.5,H*v/100);bars+='<rect x="'+(i*step+.5)+'" y="'+(Y0+H-h)+'" width="'+Math.max(1,step-1.4)+'" height="'+h+'" rx="1.4" fill="#2fd655"/>';}
-(hRange===24?[0,6,12,18]:[0,2,4,6,8]).forEach(t=>{const x=hRange===24?t/24*W:t/10*W,d=new Date(start+(hRange===24?t*36e5:t*864e5));lab+='<text x="'+x+'" y="'+(Y0+H+16)+'" font-size="10" class="ht">'+(hRange===24?String(d.getHours()).padStart(2,'0')+':00':String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0'))+'</text>';});
-$('hchart').innerHTML=g+bars+lab;$('hsum').innerHTML=vals.length?'<span>Мін</span> '+Math.round(Math.min(...vals))+'% · <span>макс</span> '+Math.round(Math.max(...vals))+'%':'<span>За цей період даних ще немає</span>';}
-$('h24').addEventListener('click',()=>{hRange=24;$('h24').className='on';$('h10').className='';drawHist();});
-$('h10').addEventListener('click',()=>{hRange=240;$('h10').className='on';$('h24').className='';drawHist();});
 const TK='bms_theme_v1',tcm=document.getElementById('tc');
 function applyTheme(t){document.documentElement.dataset.theme=t;if(tcm)tcm.setAttribute('content',t==='dark'?'#1c1e24':'#f4f4f6');}
 applyTheme(document.documentElement.dataset.theme||'light');
 $('theme').addEventListener('click',()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme(t);try{localStorage.setItem(TK,t);}catch(e){}});
-drawHist();setState('unknown');autoConnect();
+setState('unknown');autoConnect();
 })();
 </script></body></html>

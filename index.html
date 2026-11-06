@@ -49,6 +49,12 @@ h2{margin:10px 6px -4px;font-size:22px;font-weight:500;letter-spacing:-.01em}
 .hero[data-st=mains] .st,.hero[data-st=mains] .tm b{color:var(--c)}
 .hero[data-st=discharging] .st,.hero[data-st=discharging] .tm b{color:var(--ot)}
 .hero[data-st=low] .st,.hero[data-st=low] .tm b{color:var(--r)}
+/* середня температура: внизу зліва біля кола */
+.tmp{position:absolute;left:-40px;bottom:2px;display:flex;flex-direction:column;align-items:flex-start;gap:5px;color:var(--sca);transition:color .4s}
+.tmp svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tmp b{font-size:16px;font-weight:500;letter-spacing:-.01em;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tmp b small{font-size:11px;font-weight:400;color:var(--dim);margin-left:1px}
+.tmp[data-lv=hot]{color:var(--o)}.tmp[data-lv=hot2]{color:var(--r)}.tmp[data-lv=cold]{color:var(--c)}
 /* ---- картки показників ---- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .sc{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:13px 10px;box-shadow:0 10px 24px var(--sh);min-width:0}
@@ -103,7 +109,7 @@ h2{margin:10px 6px -4px;font-size:22px;font-weight:500;letter-spacing:-.01em}
 
 <section class="card hero" id="hero" data-st="unknown">
 <div class="dial"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop id="gs1" offset="0"/><stop id="gs2" offset="1"/></linearGradient></defs><circle class="trk" cx="100" cy="100" r="94"/><g transform="rotate(-90 100 100)"><circle class="arc" id="arc" cx="100" cy="100" r="94" pathLength="100"/></g></svg>
-<div class="inner"><div id="soc">—</div><div class="st"><svg viewBox="0 0 24 24"><path d="M13.5 2 5 13.5h6L10 22l9-12h-6z"/></svg><span id="stl">Не підключено</span></div><div class="tm"><span id="tmc"></span><b id="tmv"></b></div></div></div>
+<div class="inner"><div id="soc">—</div><div class="st"><svg viewBox="0 0 24 24"><path d="M13.5 2 5 13.5h6L10 22l9-12h-6z"/></svg><span id="stl">Не підключено</span></div><div class="tm"><span id="tmc"></span><b id="tmv"></b></div></div><div class="tmp" id="tmp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0Z"/><path d="M12 9.5v6.5"/></svg><b id="tAvg">—</b></div></div>
 <div class="flowrow"><svg class="flow" id="flow" viewBox="0 0 320 52" role="img" aria-label="Потік живлення: мережа, акумулятор, дім">
 <path class="lb" d="M82 26H128"/><path class="lb" d="M192 26H238"/>
 <path class="pl" id="ln0" d="M82 26H128" pathLength="100"/><path class="pl" id="ln1" d="M192 26H238" pathLength="100"/>
@@ -166,7 +172,7 @@ const S=$('stl'),C=$('tmc'),V=$('tmv');
 if(key==='charging'){S.textContent='Заряджається';C.textContent='до повного';V.textContent=o.tL||'—';}
 else if(key==='grid'){S.textContent=soc>=99?'Мережа · заряджено':'Мережа';C.textContent='вистачить на';V.textContent=o.tR||'—';}
 else if(key==='discharging'){S.textContent='Від батареї';C.textContent='вистачить на';V.textContent=o.tR||'—';}
-else{S.textContent='Не підключено';C.textContent='';V.textContent='';['sV','sA','sW','soc'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);}}
+else{S.textContent='Не підключено';C.textContent='';V.textContent='';['sV','sA','sW','soc','tAvg'].forEach(i=>$(i).textContent='—');$('bfill').setAttribute('width',0);}}
 /* протокол BMS */
 function crc(b){let c=0xffff;for(const x of b){c^=x;for(let i=0;i<8;i++)c=(c&1)?((c>>>1)^0xa001):(c>>>1);}return c&0xffff;}
 function command(cmd,pl=[]){const a=[0x9a,...cmd,pl.length,...pl];const c=crc(a);a.push((c>>8)&255,c&255,0x9d);return new Uint8Array(a);}
@@ -199,6 +205,7 @@ $('bfill').setAttribute('width',(29.6*Math.max(0,Math.min(100,soc))/100).toFixed
 $('cycleCharge').innerHTML=fmt(cycleCharge,2)+'<small>А·г</small>';$('health').innerHTML=health+'<small>%</small>';$('capacity').innerHTML=capacity+'<small>А·г</small>';$('cycles').textContent=cycles;
 $('remainingAh').innerHTML=fmt(rem,1)+'<small>А·г</small>';
 renderCells(cells);
+{const tv=temps.slice(0,2).filter(v=>v!=null);if(tv.length){const a=tv.reduce((x,y)=>x+y,0)/tv.length;$('tAvg').innerHTML=fmt(a,1)+'<small>°C</small>';$('tmp').dataset.lv=a>=55?'hot2':a>=45?'hot':a<=5?'cold':'';}else $('tAvg').textContent='—';}
 setTech('Назва',device?.name||'PC-A2EE');setTech('Напруга пакета',fmt(voltage)+' В');setTech('Струм зі знаком',fmt(current)+' А');setTech('Заряд',soc+'%');setTech('Здоров’я BMS',health+'%');setTech('Проєктна ємність',capacity+' А·г');setTech('Заряд за цикл',fmt(cycleCharge,2)+' А·г');setTech('Цикли',cycles);setTech('Комірок',cells.length);
 const toFull=(chg&&ap>10&&voltage>0)?(FULL-rem)*voltage/ap:NaN;if(!chg&&ap>10)lastLoad=ap;const load=chg?lastLoad:ap;
 const run=(load>10&&voltage>0)?rem*voltage/load:NaN;
